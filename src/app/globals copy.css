@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #fff !important;
+}
+
+@layer base {
+  :root {
+    --background: 109 100% 95%;
+    --foreground: 109 5% 0%;
+    --card: 109 50% 90%;
+    --card-foreground: 109 5% 10%;
+    --popover: 109 100% 95%;
+    --popover-foreground: 109 100% 0%;
+    --primary: 109 87% 31%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 217 24% 27%;
+    --primary-dark-foreground: 0 0% 100%;
+    --secondary: 109 30% 70%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 71 30% 85%;
+    --muted-foreground: 109 5% 35%;
+    --accent: 71 30% 80%;
+    --accent-foreground: 109 5% 10%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 109 5% 90%;
+    --border: 109 30% 50%;
+    --input: 109 30% 18%;
+    --ring: 109 87.2% 30.6%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 109 50% 5%;
+    --foreground: 109 5% 90%;
+    --card: 109 50% 0%;
+    --card-foreground: 109 5% 90%;
+    --popover: 109 50% 5%;
+    --popover-foreground: 109 5% 90%;
+    --primary: 109 87% 31%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 109 87% 25%;
+    --primary-dark-foreground: 0 0% 100%;
+    --secondary: 109 30% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 216 24% 96%;
+    --muted-foreground: 109 5% 60%;
+    --accent: 71 30% 15%;
+    --accent-foreground: 109 5% 90%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 109 5% 90%;
+    --border: 109 30% 18%;
+    --input: 109 30% 18%;
+    --ring: 109 87.2% 30.6%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-white font-display text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background font-display text-foreground;
+  }
+}
+
+.container-xl {
+  @apply mx-auto max-w-[1744px];
+}
+.container-lg {
+  @apply mx-auto max-w-[1590px] px-4;
+}
+
+.container-md {
+  @apply mx-auto max-w-[1280px] px-4;
+}
+
+.container-sm {
+  @apply mx-auto max-w-[960px] px-4;
+}
+.page-wrapper {
+  @apply max-w-[1920px] py-8 lg:py-12 xl:py-16;
+}
+
+.swiper-pagination {
+}
+.swiper-pagination-bullet {
+  @apply border-[2px] !bg-green-950 p-[6px] !opacity-100;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  @apply !bg-white;
+}

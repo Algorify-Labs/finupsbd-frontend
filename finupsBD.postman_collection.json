@@ -1,0 +1,557 @@
+{
+	"info": {
+		"_postman_id": "d27e17a7-c73f-438b-a878-982daf847592",
+		"name": "finupsBD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30513777"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "profile",
+					"item": [
+						{
+							"name": "create profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJTVVBFUl9BRE1JTiIsImVtYWlsIjoic2hhbWltcmV6YTk2OTZAZ21haWwuY29tIiwiaWF0IjoxNzM2Mjg3NTQyLCJleHAiOjE3MzYzNzM5NDJ9.dX91A6qaxT3y9EvfDWfbhhqMuYMDELvVGl4fLUsQvY0"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nameAsNid\": \"Super Admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{finUpsBD}}/profiles"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJVU0VSIiwiZW1haWwiOiJzaGFtaW1yZXphOTY5NkBnbWFpbC5jb20iLCJpYXQiOjE3MzU5ODQ4MTAsImV4cCI6MTczNjA3MTIxMH0.ZkVam-2p9SEAlN_6TeAcu0q-kXwSallIZDORQ6i7qzg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{finUpsBD}}/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "me Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2hhbWltIFJlemEiLCJ1c2VySWQiOiI3YzM1MmE2YS0xNGJlLTQ1NWEtYTA4ZS1mZDRiYThhOTUxODkiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoic2hhbWltcmV6YWJkNjdAZ21haWwuY29tIiwiaWF0IjoxNzQwNjg0NzY1LCJleHAiOjE3NDA3NzExNjV9.RjzMgnVFkwywWyV5ed2I8cOO92M5g-aetUEfegBwhNA"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2hhbWltIFJlemEiLCJ1c2VySWQiOiI3YzM1MmE2YS0xNGJlLTQ1NWEtYTA4ZS1mZDRiYThhOTUxODkiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoic2hhbWltcmV6YWJkNjdAZ21haWwuY29tIiwiaWF0IjoxNzQwNjg0NzY1LCJleHAiOjE3NDA3NzExNjV9.RjzMgnVFkwywWyV5ed2I8cOO92M5g-aetUEfegBwhNA",
+								"type": "text"
+							}
+						],
+						"url": "{{finUpsBD}}/users/my-profile"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shamimrezabd67@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"shamim Reza\",\r\n    \"email\": \"shamimrezabd67@gmail.com\",\r\n    \"phone\": \"01531297879\",\r\n    \"password\": \"123456\"   \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/auth/signUp"
+					},
+					"response": []
+				},
+				{
+					"name": "validate Pin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shamimrezabd67@gmail.com\",\r\n    \"pin\": \"639801\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/auth/validate-pin"
+					},
+					"response": []
+				},
+				{
+					"name": "forget-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shamimrezabd67@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/auth/forget-password"
+					},
+					"response": []
+				},
+				{
+					"name": "reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shamimrezabd67@gmail.com\",\r\n    \"newPassword\": \"112233\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/auth/reset-password"
+					},
+					"response": []
+				},
+				{
+					"name": "refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{finUpsBD}}/auth/refresh-token"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{finUpsBD}}/auth/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Emi Calculator",
+			"item": [
+				{
+					"name": "Emi calculator",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"disbursementDate\": \"2025-01-02\",\r\n    \"loanAmount\": \"300000\",\r\n    \"numberOfMonths\": 12,\r\n    \"interestRate\": \"10.05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/public/emi-calculator"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "news letter",
+			"item": [
+				{
+					"name": "create news letter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"reza\",\r\n    \"email\": \"reza@gmail.com\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/news-letter/"
+					},
+					"response": []
+				},
+				{
+					"name": "get All Email",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blogs",
+			"item": [
+				{
+					"name": "create blog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Shamim/OneDrive/Desktop/sdsdsdsd.jpg"
+								},
+								{
+									"key": "data",
+									"value": "{\n    \"title\": \"My First Blog Post\",\n    \"slug\": \"my-first-blog-post5\",\n    \"content\": \"This is the content of my first blog post.\",\n    \"category\": \"Technology\",\n    \"tags\": [\n        \"programming\",\n        \"web development\"\n    ],\n    \"userId\": \"95ba6503-5fc1-4965-9012-62d90a263310\"\n}",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{finUpsBD}}/blogs/"
+					},
+					"response": []
+				},
+				{
+					"name": "update blog",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My all new bloge post\",\r\n    \"slug\": \"my-\",\r\n    \"content\": \"This is the content of my first blog post.\",\r\n    \"coverImage\": \"https://example.com/cover-image.jpg\",\r\n    \"category\": \"Technology\",\r\n    \"tags\": [\r\n        \"programing Hero\",\r\n        \"web development\"\r\n    ],\r\n    \"userId\": \"95ba6503-5fc1-4965-9012-62d90a263310\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/blogs/54bb25e6-ae30-48da-acc8-254cbfd4c862"
+					},
+					"response": []
+				},
+				{
+					"name": "get all blog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{finUpsBD}}/blogs/"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Application From",
+			"item": [
+				{
+					"name": "create application form",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ODQxMmFhNy01Mzk4LTQxMjEtOTI5YS0yMTFlZDVlNjBjMTAiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoic2hhbWltcmV6YWJkNjdAZ21haWwuY29tIiwiaWF0IjoxNzM4NDc4NzA1LCJleHAiOjE3Mzg1NjUxMDV9.FngiBw-NaKqTejIGtbyPsotPf834BhD1B-sEyWeW1mY"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiNWM3M2JmMC1mOTZiLTQzMjAtOTE2NC1kMmYwZDMzM2EwM2UiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoic2hhbWltcmV6YWJkNjdAZ21haWwuY29tIiwiaWF0IjoxNzM2ODgzNTQ2LCJleHAiOjE3MzY5Njk5NDZ9.EDxMCoZ9N-R2g-Sy6Fgfitsurx0UXe9Eo76R7WPysjU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"personalLoanId\": \"loan123\",\r\n  \"userInfo\": {\r\n    \"fullName\": \"John Doe\",\r\n    \"fatherName\": \"Richard Doe\",\r\n    \"motherName\": \"Jane Doe\",\r\n    \"spouseName\": \"Mary Doe\",\r\n    \"dateOfBirth\": \"1985-06-15\",\r\n    \"placeOfBirth\": \"Dhaka, Bangladesh\",\r\n    \"gender\": \"MALE\",\r\n    \"maritalStatus\": \"MARRIED\",\r\n    \"nid\": \"1234567898\",\r\n    \"birthRegistration\": \"BR12345\",\r\n    \"mobileNumber\": \"01777777777\",\r\n    \"alternateNumber\": \"01777777777\",\r\n    \"emailAddress\": \"john.doe@example.com\",\r\n    \"socialMediaLinks\": [\"https://facebook.com/johndoe\", \"https://twitter.com/johndoe\"],\r\n    \"propertyType\": \"RESIDENTIAL\",\r\n    \"approximateValue\": 1500000.00\r\n  },\r\n  \"address\": {\r\n    \"houseFlatNo\": \"10/A\",\r\n    \"streetRoad\": \"Mirpur Road\",\r\n    \"areaLocality\": \"Shyamoli\",\r\n    \"city\": \"Dhaka\",\r\n    \"district\": \"Dhaka\",\r\n    \"postalCode\": \"1207\",\r\n    \"lengthOfStayYears\": 5,\r\n    \"ownershipStatus\": \"OWNED\"\r\n  },\r\n  \"employmentFinancialInfo\": {\r\n    \"employmentStatus\": \"SALARIED\",\r\n    \"jobTitle\": \"Software Engineer\",\r\n    \"employerName\": \"Tech Solutions Ltd.\",\r\n    \"officeAddress\": \"Tech Park, Dhaka\",\r\n    \"department\": \"Engineering\",\r\n    \"contactDetails\": \"01777777777\",\r\n    \"businessName\": \"Freelancing\",\r\n    \"businessRegistrationNumber\": \"1254698745\",\r\n    \"employmentTenureYears\": 3,\r\n    \"monthlyGrossIncome\": 80000.00,\r\n    \"otherSourcesOfIncome\": \"Freelancing (approx. 20000/month)\",\r\n    \"totalMonthlyExpenses\": 40000.00,\r\n    \"profession\": \"Technology\",\r\n    \"taxIdentificationNumber\": \"TIN123456789\",\r\n    \"currentCreditScore\": 750\r\n  },\r\n  \"loanSpecifications\": {\r\n    \"loanType\": \"PERSONAL\",\r\n    \"loanAmountRequested\": 500000.00,\r\n    \"purposeOfLoan\": \"Home Renovation\",\r\n    \"preferredLoanTenure\": 12,\r\n     \"proposedEMIStartDate\": \"2025-03-01T00:00:00Z\",\r\n    \"repaymentPreferences\": \"Monthly installments\"\r\n  },\r\n  \"financialObligations\": [\r\n    {\r\n      \"lenderName\": \"ABC Bank\",\r\n      \"loanBalance\": 200000.00,\r\n      \"monthlyEMI\": 10000.00,\r\n      \"remainingTenure\": 12,\r\n      \"cardIssuer\": \"XYZ Card Co.\",\r\n      \"currentBalance\": 50000.00,\r\n      \"minimumMonthlyPayment\": 5000.00,\r\n      \"obligationType\": \"Credit Card\",\r\n      \"balance\": 50000.00,\r\n      \"emi\": 5000.00\r\n    }\r\n  ],\r\n  \"uploadedDocuments\": [\r\n    {\r\n      \"type\": \"NATIONAL_ID\",\r\n      \"filePath\": \"/documents/national_id.jpg\",\r\n      \"fileSizeMB\": 0.5,\r\n      \"fileType\": \"image/jpeg\"\r\n    },\r\n    {\r\n      \"type\": \"INCOME_PROOF\",\r\n      \"filePath\": \"/documents/income_proof.pdf\",\r\n      \"fileSizeMB\": 1.2,\r\n      \"fileType\": \"application/pdf\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/application/"
+					},
+					"response": []
+				},
+				{
+					"name": "get all application",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{finUpsBD}}/application/"
+					},
+					"response": []
+				},
+				{
+					"name": "application tracking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"applicationId\": \"325012400001\", \r\n    \"phone\": \"01531297879\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/application/application-tracking"
+					},
+					"response": []
+				},
+				{
+					"name": "forget application id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shamimrezabd67@gmail.com\",\r\n    \"phone\": \"01531297879\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/application/application-forget"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "openai",
+			"item": [
+				{
+					"name": "assistant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{finUpsBD}}/openai/assistant"
+					},
+					"response": []
+				},
+				{
+					"name": "chat with assistant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"message\": \"who are you\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{finUpsBD}}/openai/assistant/asst_nCEjZcJT1EovyWnaENUmGYD4/message"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lonas",
+			"item": [
+				{
+					"name": "Personal Loans",
+					"item": [
+						{
+							"name": "Create Personal Loan",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Shamim/OneDrive/Desktop/sdsdsdsd.jpg"
+										},
+										{
+											"key": "data",
+											"value": "{\n  \"bankName\": \"Example National Bank\",\n  \"amount\": \"75000\",\n  \"periodMonths\": \"24\",\n  \"processingFee\": \"200\",\n  \"interestRate\": \"4.5\",\n  \"monthlyEmi\": \"3500\",\n  \"totalAmount\": \"84000\",\n  \"eligibleLoan\": \"75000\",\n  \"features\": {\n    \"loanAmount\": \"75000\",\n    \"minimumAmount\": \"15000\",\n    \"maximumAmount\": \"1000000\",\n    \"loanTenure\": \"24\",\n    \"minimumYear\": \"2\",\n    \"maximumYear\": \"15\"\n  },\n  \"eligibility\": {\n    \"condition\": \"Good credit score required\",\n    \"offer\": \"Limited time offer\",\n    \"minimumIncome\": \"40000\",\n    \"minimumExperience\": \"3\",\n    \"ageRequirement\": \"25\"\n  },\n  \"feesCharges\": {\n    \"processingFee\": \"200\",\n    \"earlySettlementFee\": \"300\",\n    \"prepaymentFee\": \"250\",\n    \"LoanReSchedulingFee\": \"75\",\n    \"penalCharge\": \"150\"\n  }\n}",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{finUpsBD}}/personal-loan"
+							},
+							"response": []
+						},
+						{
+							"name": "get all personal loan",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": "{{finUpsBD}}/personal-loan"
+							},
+							"response": []
+						},
+						{
+							"name": "update personal loan",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Shamim/OneDrive/Desktop/admin.jpg"
+										},
+										{
+											"key": "data",
+											"value": "{\n  \"bankName\": \"city Bank\",\n  \"amount\": \"75000\",\n  \"periodMonths\": \"24\",\n  \"processingFee\": \"200\",\n  \"interestRate\": \"4.5\",\n  \"monthlyEmi\": \"3500\",\n  \"totalAmount\": \"84000\",\n  \"eligibleLoan\": \"75000\",\n  \"features\": {\n    \"loanAmount\": \"0000\",\n    \"minimumAmount\": \"15000\",\n    \"maximumAmount\": \"1000000\",\n    \"loanTenure\": \"24\",\n    \"minimumYear\": \"2\",\n    \"maximumYear\": \"15\"\n  },\n  \"eligibility\": {\n    \"condition\": \"Good credit score required\",\n    \"offer\": \"Limited time offer\",\n    \"minimumIncome\": \"40000\",\n    \"minimumExperience\": \"89\",\n    \"ageRequirement\": \"25\"\n  },\n  \"feesCharges\": {\n    \"processingFee\": \"bangladesh bak\",\n    \"earlySettlementFee\": \"300\",\n    \"prepaymentFee\": \"250\",\n    \"LoanReSchedulingFee\": \"75\",\n    \"penalCharge\": \"150\"\n  }\n}",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{finUpsBD}}/personal-loan/"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "eligibility check",
+			"item": [
+				{
+					"name": "check eligiblity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"LoanType\": \"PERSONAL_LOAN\",\r\n  \"gender\": \"MALE\",\r\n  \"dateOfBirth\": \"1895-01-01\",\r\n  \"yourProfession\": \"SALARIED\",\r\n  \"Salaried\": {\r\n    \"companyName\": \"Tech Solutions Ltd\",\r\n    \"companyType\": \"PRIVATE_LTD\",\r\n    \"yourJobStatus\": \"Software Engineer\",\r\n    \"currentJobExperience\": 3,\r\n    \"TotalJobExperienceCurrent\": 7,\r\n    \"yourSalaryType\": \"BANK_ACCOUNT\",\r\n    \"bankAccount\": {\r\n      \"YourSalaryType\": \"BANK_TRANSFER\",\r\n      \"BankName\": \"ABC Bank\",\r\n      \"YourSalaryAmountBDT\": 40000,\r\n      \"SalaryDepositToBankInLast7Months\": 7\r\n    }\r\n  },\r\n  \"rentalIncome\": true,\r\n  \"RentalIncomeDetails\": {\r\n    \"HouseType\": {\r\n      \"tinShedHouse\": false,\r\n      \"SemiPaka\": false,\r\n      \"BuildingWithPlan\": true,\r\n      \"BuildingWithoutPlan\": false\r\n    }\r\n  },\r\n  \"haveAnyLoan\": false,\r\n  \"LoanDetails\": {\r\n    \"NumberOfLoan\": 2,\r\n    \"LoanType\": \"HOME_LOAN\",\r\n    \"BankName\": \"XYZ Bank\",\r\n    \"EMIAmountBDT\": 15000,\r\n    \"InterestRate\": true\r\n  },\r\n  \"haveAnyCreditCard\": true,\r\n  \"CreditCardDetails\": {\r\n    \"numberOfCard\": 2,\r\n    \"cardType\": \"CREDIT_CARD\",\r\n    \"bankName\": \"DEF Bank\",\r\n    \"cardLimitBDT\": 200000\r\n  },\r\n  \"lastOneYearBankTransactionBDT\": 1200000,\r\n  \"TradeLicenseAge\": 5,\r\n  \"AreTradeLicenseAndOfficeAddressSame\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{finUpsBD}}/eligibility-check?",
+							"host": [
+								"{{finUpsBD}}"
+							],
+							"path": [
+								"eligibility-check"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testing App with - server url",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5000/"
+			},
+			"response": []
+		}
+	]
+}

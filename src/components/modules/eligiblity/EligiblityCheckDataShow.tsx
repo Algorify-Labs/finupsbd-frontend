@@ -1,0 +1,418 @@
+// /components/EligiblityCheckDataShow.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import { Heart } from "lucide-react";
+import Image from "next/image";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { banks } from "./eligiblityConostant";
+import { EligiblityData, TEligiblityCheckDataShow } from "./eligiblityTypes";
+import { toast } from "sonner";
+import { useCompare } from "@/context/CompareContext";
+import CompareModal from "@/components/modules/compare/CompareModal"
+import { formatBDT } from "@/utils";
+
+// Format number to BDT format
+
+
+type PageProps = {
+  submissionData: TEligiblityCheckDataShow;
+  onSendData: (data: any) => void;
+};
+
+export default function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
+  const [showDetails, setShowDetails] = useState(false);
+  const [sortKey, setSortKey] = useState("");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [amount, setLoanAmount] = useState(100000);
+  const [interestRate, setProfitRate] = useState(12);
+  const [searchTerm, setSelectedBanks] = useState<string[]>([]);
+  const [wishlist, setWishlist] = useState<number[]>([]);
+  const [compareList, setCompareList] = useState<number[]>([]);
+  const router = useRouter();
+  const { data: eligibilityData, pagination } = submissionData;
+  const [page, setPage] = useState(pagination.page || 1);
+  const { setCompareData, compareData } = useCompare();
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+
+
+
+
+
+  // Send filter/query data to parent
+  useEffect(() => {
+    const queryData = {
+      amount,
+      interestRate,
+      searchTerm,
+      sortOrder,
+      page,
+      sortKey
+    };
+
+    onSendData(queryData);
+  }, [amount, interestRate, searchTerm, sortOrder,sortKey, page]);
+
+
+
+  // Toggle wishlist
+  const handleWishlist = (id: number) => {
+    setWishlist((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
+  };
+
+  // Toggle compare selection (limit to 3 items)
+  const handleCompare = (id: number) => {
+    setCompareList((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      } else {
+        if (prev.length < 3) {
+          return [...prev, id];
+        } else {
+          toast.warning("You can only compare up to 3 items.");
+          return prev;
+        }
+      }
+    });
+  };
+
+  // Open compare modal if at least 2 items are selected
+  const navigateToCompare = () => {
+    if (compareList.length < 2) {
+      toast.info("Please select at least two items to compare.");
+      return;
+    }
+    // Prepare dynamic data for comparison.
+    const selectedData = eligibilityData.filter((data: EligiblityData, index: number) =>
+      compareList.includes(index)
+    );
+    // Save compare data in context
+    setCompareData({
+      ids: compareList,
+      dynamicData: selectedData,
+    });
+    // Open the modal
+    setIsCompareModalOpen(true);
+  };
+
+  const handleSort = (key: string, order: string) => {
+    setSortKey(key);
+    setSortOrder(order);
+  };
+
+  const handelApplication = (data: EligiblityData) => {
+    console.log(data)
+
+    router.push(`/user/loan-application?applicationId=${data}`);
+  };
+
+  const totalPages = Math.ceil(pagination.totalLoans / pagination.pageSize);
+
+  return (
+    <div className="bg-[#F8F9FA]">
+      <div className="flex flex-col container mx-auto md:flex-row gap-6 p-4 md:p-6 bg-[#F8F9FA]">
+        {/* Filter Sidebar */}
+        <div className="w-full md:w-64 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Filter</h2>
+            <button
+              className="text-sm text-muted-foreground hover:text-primary"
+              onClick={() => {
+                setLoanAmount(500000);
+                setProfitRate(12);
+                setSelectedBanks([]);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="space-y-4">
+            {/* Loan Amount Slider */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Loan Amount</label>
+              <Slider
+                value={[amount]}
+                onValueChange={(value) => setLoanAmount(value[0])}
+                max={200000}
+                step={1000}
+                className="w-full"
+              />
+              <input
+                type="number"
+                className="w-full rounded-md border px-3 py-2"
+                value={amount}
+                onChange={(e) => setLoanAmount(Number(e.target.value))}
+              />
+            </div>
+            {/* Profit Rate Slider */}
+            {/* <div className="space-y-2">
+              <label className="text-sm font-medium">Profit Rate</label>
+              <Slider
+                value={[interestRate]}
+                onValueChange={(value) => setProfitRate(parseFloat(value[0].toFixed(1)))}
+                max={30}
+                min={1}
+                step={0.1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-sm">
+                <span>1%</span>
+                <span className="bg-primary text-primary-foreground px-2 py-1 rounded">
+                  {interestRate.toFixed(1)}%
+                </span>
+                <span>30%</span>
+              </div>
+            </div> */}
+            {/* Bank Checkbox Filter */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Bank</label>
+              <div className="space-y-2">
+                {banks.slice(0, 6).map((bank) => (
+                  <div key={bank} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={bank}
+                      checked={searchTerm.includes(bank)}
+                      onCheckedChange={(checked) => {
+                        setSelectedBanks((prev) =>
+                          checked ? [...prev, bank] : prev.filter((item) => item !== bank)
+                        );
+                      }}
+                    />
+                    <label htmlFor={bank} className="text-sm leading-none">
+                      {bank}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <button className="text-sm text-primary hover:underline">View More</button>
+            </div>
+          </div>
+        </div>
+        {/* Main Content */}
+        <div className="flex-1 space-y-6">
+          <div className="flex flex-wrap gap-2">
+            <Badge
+              variant="outline"
+              className={`cursor-pointer ${
+                sortKey === "interestRate" && sortOrder === "asc"
+                  ? "bg-[#E8F8F0] text-primary border-transparent"
+                  : "hover:bg-[#E8F8F0] hover:text-primary"
+              }`}
+              onClick={() => handleSort("interestRate", "asc")}
+            >
+              Lowest Interest Rate
+            </Badge>
+            <Badge
+              variant="outline"
+              className={`cursor-pointer ${
+                sortKey === "interestRate" && sortOrder === "desc"
+                  ? "bg-[#E8F8F0] text-primary border-transparent"
+                  : "hover:bg-[#E8F8F0] hover:text-primary"
+              }`}
+              onClick={() => handleSort("interestRate", "desc")}
+            >
+              Highest Interest Rate
+            </Badge>
+            <Badge
+              variant="outline"
+              className={`cursor-pointer ${
+                sortKey === "eligibleLoan" && sortOrder === "desc"
+                  ? "bg-[#E8F8F0] text-primary border-transparent"
+                  : "hover:bg-[#E8F8F0] hover:text-primary"
+              }`}
+              onClick={() => handleSort("eligibleLoan", "desc")}
+            >
+              Highest Loan Amount
+            </Badge>
+            <Badge
+              variant="outline"
+              className={`cursor-pointer ${
+                sortKey === "eligibleLoan" && sortOrder === "asc"
+                  ? "bg-[#E8F8F0] text-primary border-transparent"
+                  : "hover:bg-[#E8F8F0] hover:text-primary"
+              }`}
+              onClick={() => handleSort("eligibleLoan", "asc")}
+            >
+              Lowest Loan Amount
+            </Badge>
+          </div>
+          <div className="text-sm">We found {pagination.totalLoans} result </div>
+ 
+          {compareList.length > 1 && (
+            <Button onClick={navigateToCompare} className="mb-4 bg-primary hover:bg-primary/90" >
+              Compare Selected ({compareList.length})
+            </Button>
+          )}
+          
+          {/* Loan Cards */}
+          <div className="space-y-4">
+            {eligibilityData?.map((data: EligiblityData, index: number) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex flex-col lg:flex-row gap-6">
+                    {/* Left Section */}
+                    <div className="flex-1 space-y-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-4">
+                          <Image
+                            src={data?.coverImage}
+                            alt={`${data.bankName} Logo`}
+                            width={80}
+                            height={80}
+                            className="rounded"
+                            priority
+                          />
+                          <div>
+                            <h3 className="font-semibold">{data.bankName}</h3>
+                            <div className="flex gap-2 mt-2">
+                              <Badge variant="secondary" className="bg-[#E8F8F0] text-primary border-transparent">
+                                100% Paperless Approval
+                              </Badge>
+                              <Badge variant="secondary" className="text-[#FF6634] bg-orange-50 border-transparent">
+                                30% Cashback on Interest Rate
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleWishlist(index)}
+                          className={wishlist.includes(index) ? "text-primary" : ""}
+                        >
+                          <Heart className="w-5 h-5" fill={wishlist.includes(index) ? "currentColor" : "none"} />
+                        </Button>
+                      </div>
+                      {/* Summary Information */}
+                      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                          <div className="text-sm text-muted-foreground">Amount:</div>
+                          <div className="font-semibold">BDT {formatBDT(data?.amount)}/-</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Interest Rate:</div>
+                          <div className="font-semibold">{data?.interestRate}%</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Period (Months):</div>
+                          <div className="font-semibold">{data?.periodMonths} Months</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Monthly EMI:</div>
+                          <div className="font-semibold">BDT {formatBDT(data?.monthlyEMI)}/-</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Processing Fee:</div>
+                          <div className="font-semibold">{data?.processingFee}%</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground">Total Amount:</div>
+                          <div className="font-semibold">BDT {formatBDT(data?.totalRepayment)}/-</div>
+                        </div>
+                      </div>
+                      <Button variant={"outline"} size={"sm"} onClick={() => setShowDetails(!showDetails)} className="mt-4">
+                        {showDetails ? "Hide Details" : "Show Details"}
+                      </Button>
+                      {showDetails && (
+                        <Tabs defaultValue="features">
+                          <TabsList className="bg-transparent border-b p-0 gap-6">
+                            <TabsTrigger
+                              value="features"
+                              className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary bg-transparent"
+                            >
+                              Features
+                            </TabsTrigger>
+                            <TabsTrigger
+                              value="eligibility"
+                              className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary bg-transparent"
+                            >
+                              Eligibility
+                            </TabsTrigger>
+                            <TabsTrigger
+                              value="fees"
+                              className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary bg-transparent"
+                            >
+                              Fees & Charges
+                            </TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="features" className="space-y-2 mt-4">
+                            <div className="font-medium">Features</div>
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                              <li><strong>Loan Amount: </strong>{data?.features?.loanAmount}</li>
+                              <li><strong> Minimum: BDT {formatBDT(50000)}/- - Maximum: BDT {formatBDT(2000000)}/-</strong> </li>
+                              <li><strong>Loan Tenure: </strong>{data?.features?.loanTenure}</li>
+                              <li><strong>Minimum {data?.features?.minimumYear} Year - Maximum {data?.features?.maximumYear} Years</strong></li>
+                            </ul>
+                          </TabsContent>
+                          <TabsContent value="eligibility" className="mt-4">
+                            <div className="font-medium mb-2">Eligibility Criteria</div>
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                              <li>{data?.eligibility?.condition}.</li>
+                              <li><strong>Offer: </strong>{data?.eligibility?.offer}.</li>
+                              <li> <strong>Minimum Income:</strong> BDT {formatBDT(data?.eligibility?.minimumIncome)}/-</li>
+                              <li><strong>Minimum Experience:</strong> {data?.eligibility?.minimumExperience} years</li>
+                              <li><strong>Age Requirement:</strong> {data?.eligibility?.ageRequirement} years</li>
+                            </ul>
+                          </TabsContent>
+                          <TabsContent value="fees" className="mt-4">
+                            <div className="font-medium mb-2">Fees & Charges</div>
+                            <ul className="list-disc list-inside space-y-1 text-sm">
+                              <li><strong>Processing Fee:</strong> {data?.feesCharges?.processingFee}.</li>
+                              <li><strong>Early Settlement Fee:</strong>{data?.feesCharges?.earlySettlementFee}.</li>
+                              <li><strong>Prepayment Fee:</strong> {data?.feesCharges?.prepaymentFee}</li>
+                              <li><strong>Loan Re-scheduling Fee:</strong> {data?.feesCharges?.LoanReSchedulingFee} </li>
+                              <li><strong>Penal Charge:</strong> {data?.feesCharges?.penalCharge}</li>
+                            </ul>
+                          </TabsContent>
+                        </Tabs>
+                      )}
+                    </div>
+                    {/* Right Section */}
+                    <div className="lg:w-64 space-y-4">
+                      <div className="p-4 bg-[#E8F8F0] rounded-lg">
+                        <div className="text-sm">Eligible Loan</div>
+                        <div className="text-xl font-bold">BDT {formatBDT(data?.eligibleLoan)}/-</div>
+                      </div>
+                      <Button onClick={() => handelApplication(data)} className="w-full bg-primary hover:bg-primary/90">
+                        Apply Now
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleCompare(Number(index))}
+                        className={`w-full border-primary text-primary hover:bg-primary hover:text-white ${
+                          compareList.includes(index) ? "bg-primary text-white" : ""
+                        }`}
+                      >
+                        {compareList.includes(index) ? "Selected" : "Compare Now"}
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          {/* Pagination UI */}
+          <div className="flex items-center justify-between mt-6">
+            <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>
+              Previous
+            </Button>
+            <div className="text-sm">
+              Page {page} of {totalPages}
+            </div>
+            <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
+              Next
+            </Button>
+          </div>
+        </div>
+      </div>
+      {/* Compare Modal */}
+      <CompareModal isOpen={isCompareModalOpen} onClose={() => setIsCompareModalOpen(false)} compareData={compareData} />
+    </div>
+  );
+}
