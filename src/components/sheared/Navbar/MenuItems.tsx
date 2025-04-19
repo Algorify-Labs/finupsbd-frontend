@@ -16,7 +16,7 @@ type NavLinkType = {
 };
 
 // This is our main Navbar component
-const MenuItems = ({ hasSidebar }) => {
+const MenuItems = ({ hasSidebar }: { hasSidebar: boolean }) => {
   return (
     <Menubar className="nav gap-1 border-none 2xl:gap-2">
       {!hasSidebar && (

@@ -72,11 +72,13 @@ function Calendar({
           children,
           ...props
         }: {
-          value: string;
-          onChange: (event: { target: { value: string } }) => void;
+          value?: string | number;
+          onChange?: (event: { target: { value: string } }) => void;
           children: React.ReactNode;
         }) => {
-          const options = React.Children.toArray(children);
+          const options = React.Children.toArray(
+            children,
+          ) as React.ReactElement[];
           const selected = options.find(
             (child: any) => child.props.value === value,
           );

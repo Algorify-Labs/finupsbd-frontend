@@ -98,13 +98,15 @@ const DatePickerInput = <T extends FieldValues>({
                       ? new Date(defaultValue)
                       : undefined
                 }
-                onSelect={(e) => {
+                onSelect={(e: Date | undefined) => {
                   field.onChange(e);
                   setIsCalendarOpen(false);
                 }}
                 fromYear={fromYear}
                 toYear={toYear}
-                disabled={(date) => (dateDisabled ? dateDisabled(date) : false)}
+                disabled={(date: Date) =>
+                  dateDisabled ? dateDisabled(date) : false
+                }
                 defaultMonth={field.value ? new Date(field.value) : new Date()}
               />
             </PopoverContent>
