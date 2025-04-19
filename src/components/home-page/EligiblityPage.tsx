@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // (Below imports assume you have these shadcn (or Radix-based) components set up in a non-Next.js project)
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -9,10 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoveUpRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
+import { useRouter } from "next/navigation";
 import EligiblityCheck from "../modules/eligiblity/eligiblityCheckModal";
 import { Alert, AlertDescription } from "../ui/alert";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 function EligiblityPage() {
   // Track the selected loan type
@@ -38,6 +37,13 @@ function EligiblityPage() {
     }
     setOpenEligibility(true);
   }
+
+  useEffect(() => {
+    console.log("Loan Type:", loanType);
+    if (loanType !== "") {
+      setError(false);
+    }
+  }, [loanType]);
 
   return (
     <div className="container-md relative z-10 p-6">
@@ -74,7 +80,6 @@ function EligiblityPage() {
                 >
                   Investment
                 </TabsTrigger>
-
               </TabsList>
             </div>
             <TabsContent value="loans">
@@ -99,7 +104,7 @@ function EligiblityPage() {
                       Personal Loan
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-2 ">
+                  <div className="flex items-center space-x-2">
                     <RadioGroupItem id="INSTANT_LOAN" value="INSTANT_LOAN" />
                     <Label className="cursor-pointer" htmlFor="INSTANT_LOAN">
                       Instant Loan

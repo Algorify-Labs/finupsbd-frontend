@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -929,7 +930,7 @@ export default function EligiblityCheckModal({
      4) Render the Full Dialog
      -------------------------------------------- */
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} aria-describedby="">
+    <Dialog open={open} onOpenChange={onOpenChange} aria-describedby="dfdasf">
       <DialogContent
         className="max-w-2xl rounded-lg"
         onInteractOutside={(e) => {
@@ -940,6 +941,7 @@ export default function EligiblityCheckModal({
           <DialogTitle className="mb-10 text-center">
             Find the best Personal Loan for you
           </DialogTitle>
+          <DialogDescription></DialogDescription>
 
           <div className="mt-8">{renderStepIndicator()}</div>
 

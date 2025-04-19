@@ -96,7 +96,7 @@ function Calendar({
               }}
             >
               <SelectTrigger className="h-8 pr-1.5">
-                <SelectValue />
+                <SelectValue className="text-6xl" />
               </SelectTrigger>
               <SelectContent>
                 {options.map((option: any, id: number) => (
