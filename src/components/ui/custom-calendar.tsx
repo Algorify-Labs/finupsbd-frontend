@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, ChevronsUpDown } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 import { DayPicker } from "react-day-picker";
 
@@ -72,9 +72,9 @@ function Calendar({
           children,
           ...props
         }: {
-          value?: string | number;
-          onChange?: (event: { target: { value: string } }) => void;
-          children: React.ReactNode;
+          value?: string | number | undefined;
+          onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+          children?: React.ReactNode;
         }) => {
           const options = React.Children.toArray(
             children,
@@ -83,10 +83,10 @@ function Calendar({
             (child: any) => child.props.value === value,
           );
           const handleChange = (value: string) => {
-            const changeEvent = {
-              target: { value },
-            };
-            onChange?.(changeEvent);
+            const event = {
+              target: { value } as HTMLSelectElement,
+            } as React.ChangeEvent<HTMLSelectElement>;
+            onChange?.(event);
           };
           return (
             <Select
@@ -95,11 +95,8 @@ function Calendar({
                 handleChange(value);
               }}
             >
-              <SelectTrigger
-                icon={<ChevronsUpDown className="text-primaryGray w-3" />}
-                className="h-8 pr-1.5"
-              >
-                <SelectValue>{selected?.props?.children}</SelectValue>
+              <SelectTrigger className="h-8 pr-1.5">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {options.map((option: any, id: number) => (
