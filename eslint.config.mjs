@@ -13,6 +13,12 @@ const eslintConfig = [
   ...compat.config({
     extends: ['next'],
     rules: {
+      "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+      }
+    ]
       // React rules
       // 'react/react-in-jsx-scope': 'off',
       // 'react/prop-types': 'off',

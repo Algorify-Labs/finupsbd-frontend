@@ -36,8 +36,8 @@ export default function LoginForm() {
   const form = useForm<z.infer<typeof loginValidationSchema>>({
     resolver: zodResolver(loginValidationSchema),
     defaultValues: {
-      email: "shamimrezabd67@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
     },
   });
 
@@ -68,17 +68,13 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-lg shadow-lg">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="mb-8">
+        <Image src={logo} alt="Logo" className="mx-auto mb-4 w-full" />
+      </div>
+      <Card className="w-full max-w-lg rounded-md border-[#D0D5DD] text-secondary shadow-xl">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">
-            <div className="mb-8">
-              <Image
-                src={logo}
-                alt="Logo"
-                className="mx-auto mb-4 h-10 w-auto"
-              />
-            </div>
+          <CardTitle className="text-center text-2xl text-green-950">
             Login
           </CardTitle>
         </CardHeader>

@@ -1,23 +1,21 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 
-import { Check } from "lucide-react";
-
+import DatePickerInput from "@/components/core/form/DatePickerInput";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -26,7 +24,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -34,24 +34,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { validateDob } from "./eligiblityConostant";
 import { eligibilityCheckValidationSchema } from "./eligiblityValidation";
-
-
-
-
-
 
 interface EligibilityCheckProps {
   open: boolean;
   onOpenChange: (val: boolean) => void;
   loanType: string; // e.g. 'PERSONAL_LOAN'
 }
-
-
 
 export default function EligiblityCheckModal({
   open,
@@ -62,16 +52,15 @@ export default function EligiblityCheckModal({
 
   const router = useRouter();
 
-
-  console.log({ loanType })
+  // console.log({ loanType });
 
   // Initialize Form
   const form = useForm<z.infer<typeof eligibilityCheckValidationSchema>>({
     resolver: zodResolver(eligibilityCheckValidationSchema),
     defaultValues: {
       gender: "MALE",
-      profession: "SALARIED",   // need change
-      dateOfBirth: new Date("1994-11-12T00:00:00.000Z"),
+      profession: "SALARIED", // need change
+      dateOfBirth: new Date("1990-01-01T00:00:00.000Z"),
       monthlyIncome: 45000,
       // expectedLoanTenure: 36,
       jobLocation: "DHAKA",
@@ -82,8 +71,6 @@ export default function EligiblityCheckModal({
       // tradeLicenseAge: 0,
       // vehicleType: "BIKE",
 
-
-
       // haveAnyRentalIncome: false,
       //   selectArea: "dhaka",
       //   rentalIncome: 15000,
@@ -93,7 +80,6 @@ export default function EligiblityCheckModal({
       //   existingLoanType: "CAR_LOAN",
       //   EMIAmountBDT: 15000,
       //   InterestRate: 10,
-
 
       // haveAnyCreditCard: false,
       // numberOfCard: 1,
@@ -108,27 +94,22 @@ export default function EligiblityCheckModal({
     },
   });
 
-
+  // console.log("form", form.getValues());
 
   // Dynamic arrays
   const professions = ["SALARIED", "BUSINESS_OWNER"];
   const jobLocation = ["DHAKA"];
   const loanTypes = ["PERSONAL_LOAN", "HOME_LOAN", "CAR_LOAN", "SME_LOAN"];
   const cardTypes = ["CREDIT_CARD"];
-  const loanTenure = [12, 24, 36, 48, 60, 72]
-  const loanTenureForInstantLoan = [1, 2, 3]
+  const loanTenure = [12, 24, 36, 48, 60, 72];
+  const loanTenureForInstantLoan = [1, 2, 3];
   const tradeLicenseYears = Array.from({ length: 10 }, (_, i) => i + 1);
-
-
-
-
 
   function onSubmit(values: z.infer<typeof eligibilityCheckValidationSchema>) {
     const eligibilityData = {
       ...values,
-      loanType
-    }
-
+      loanType,
+    };
 
     sessionStorage.setItem("eligibilityData", JSON.stringify(eligibilityData));
 
@@ -137,10 +118,7 @@ export default function EligiblityCheckModal({
     } else {
       router.push("/eligiblity");
     }
-
-
   }
-
 
   const handleNext = async () => {
     const isValid = await form.trigger();
@@ -149,14 +127,11 @@ export default function EligiblityCheckModal({
     }
   };
 
-
-
-
   /* --------------------------------------------
      3A) Step Components
      -------------------------------------------- */
   const renderStep1 = () => (
-    <div className="space-y-4 md:grid md:grid-cols-2 items-center gap-4">
+    <div className="grid items-center gap-x-6 gap-y-4 md:grid-cols-2">
       {/* Gender */}
       <FormField
         name="gender"
@@ -184,9 +159,18 @@ export default function EligiblityCheckModal({
         )}
       />
 
-
       {/* Date of Birth */}
-      <FormField
+      <DatePickerInput
+        form={form}
+        name="dateOfBirth"
+        label={"Date of Birth"}
+        placeholder={"Select Date of Birth"}
+        dateDisabled={(date) => {
+          return date > new Date();
+        }}
+        toYear={new Date().getFullYear()}
+      />
+      {/* <FormField
         name="dateOfBirth"
         control={form.control}
         rules={{ required: "Date of Birth is required" }}
@@ -196,16 +180,18 @@ export default function EligiblityCheckModal({
             <FormControl>
               <Input
                 type="date"
-                value={field.value ? field.value.toISOString().split('T')[0] : ''}
+                value={
+                  field.value ? field.value.toISOString().split("T")[0] : ""
+                }
                 onChange={(e) => field.onChange(new Date(e.target.value))}
                 placeholder="Select your date"
-                className="w-full border py-1 rounded-lg px-2"
+                className="w-full rounded-md border px-2 py-1"
               />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
-      />
+      /> */}
       {/* Profession */}
       <FormField
         name="profession"
@@ -225,11 +211,8 @@ export default function EligiblityCheckModal({
               </FormControl>
               <SelectContent>
                 {professions.map((profession) => (
-                  <SelectItem
-                    key={profession}
-                    value={profession}
-                  >
-                    {profession === "SALARIED"? "Salaried": "Business Owner"}
+                  <SelectItem key={profession} value={profession}>
+                    {profession === "SALARIED" ? "Salaried" : "Business Owner"}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -261,7 +244,9 @@ export default function EligiblityCheckModal({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="PROPRIETOR">Sole Proprietorship</SelectItem>
+                    <SelectItem value="PROPRIETOR">
+                      Sole Proprietorship
+                    </SelectItem>
                     <SelectItem value="PARTNER">Partnership</SelectItem>
                     <SelectItem value="CORPORATION">Corporation</SelectItem>
                     <SelectItem value="LLC">llc</SelectItem>
@@ -295,9 +280,7 @@ export default function EligiblityCheckModal({
                   <SelectContent>
                     <SelectItem value="retail">Retail</SelectItem>
                     <SelectItem value="service">Service</SelectItem>
-                    <SelectItem value="manufacturing">
-                      Manufacturing
-                    </SelectItem>
+                    <SelectItem value="manufacturing">Manufacturing</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -323,7 +306,6 @@ export default function EligiblityCheckModal({
               </FormItem>
             )}
           />
-
 
           <FormField
             name="tradeLicenseAge"
@@ -352,11 +334,10 @@ export default function EligiblityCheckModal({
               </FormItem>
             )}
           />
-
         </>
       )}
-      {
-        loanType === "CAR_LOAN" ? <FormField
+      {loanType === "CAR_LOAN" ? (
+        <FormField
           name="vehicleType"
           rules={{ required: "vehicleType is requird" }}
           control={form.control}
@@ -384,8 +365,8 @@ export default function EligiblityCheckModal({
               <FormMessage />
             </FormItem>
           )}
-        /> : null
-      }
+        />
+      ) : null}
       <FormField
         name="jobLocation"
         control={form.control}
@@ -405,7 +386,6 @@ export default function EligiblityCheckModal({
                 {jobLocation.map((location) => (
                   <SelectItem key={location} value={location}>
                     {location}
-
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -446,26 +426,30 @@ export default function EligiblityCheckModal({
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue className="text-gray-200" placeholder="Selecet month" />
+                  <SelectValue
+                    className="text-gray-200"
+                    placeholder="Selecet month"
+                  />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {loanType === 'INSTANT_LOAN' ? loanTenureForInstantLoan.map((num) => (
-                  <SelectItem key={num} value={String(num)}>
-                    {num} Month
-                  </SelectItem>
-                )) : loanTenure.map((num) => (
-                  <SelectItem key={num} value={String(num)}>
-                    {num} Month
-                  </SelectItem>
-                ))}
+                {loanType === "INSTANT_LOAN"
+                  ? loanTenureForInstantLoan.map((num) => (
+                      <SelectItem key={num} value={String(num)}>
+                        {num} Month
+                      </SelectItem>
+                    ))
+                  : loanTenure.map((num) => (
+                      <SelectItem key={num} value={String(num)}>
+                        {num} Month
+                      </SelectItem>
+                    ))}
               </SelectContent>
             </Select>
             <FormMessage />
           </FormItem>
         )}
       />
-
     </div>
   );
 
@@ -505,7 +489,7 @@ export default function EligiblityCheckModal({
       />
 
       {form.watch("haveAnyLoan") && (
-        <div className="md:grid grid-cols-2 gap-2">
+        <div className="grid items-center gap-x-6 gap-y-4 md:grid-cols-2">
           <FormField
             name="numberOfLoan"
             control={form.control}
@@ -617,7 +601,6 @@ export default function EligiblityCheckModal({
               </FormItem>
             )}
           />
-
         </div>
       )}
 
@@ -654,7 +637,7 @@ export default function EligiblityCheckModal({
       />
 
       {form.watch("haveAnyCreditCard") && (
-        <div className="md:grid grid-cols-2 gap-2">
+        <div className="grid items-center gap-x-6 gap-y-4 md:grid-cols-2">
           <FormField
             name="numberOfCard"
             control={form.control}
@@ -700,7 +683,6 @@ export default function EligiblityCheckModal({
               </FormItem>
             )}
           />
-
 
           <FormField
             name="cardType"
@@ -762,7 +744,7 @@ export default function EligiblityCheckModal({
       />
 
       {form.watch("haveAnyRentalIncome") && (
-        <div className="md:grid grid-cols-2 gap-2">
+        <div className="grid items-center gap-x-6 gap-y-4 md:grid-cols-2">
           <FormField
             name="selectArea"
             control={form.control}
@@ -875,95 +857,69 @@ export default function EligiblityCheckModal({
      -------------------------------------------- */
   const renderStepIndicator = () => {
     const stepPercentage = ((step - 1) / 2) * 100;
+    const formSteps = [
+      { stepNumber: 1, title: "Step 1", description: "Personal Info" },
+      { stepNumber: 2, title: "Step 2", description: "Financial Details" },
+      { stepNumber: 3, title: "Step 3", description: "Contact Info" },
+    ];
     return (
-      <div className="relative mb-8">
-        <div className="absolute left-0 top-1/2 h-[4px] w-full -translate-y-1/2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all duration-500 ease-out"
-            style={{ width: `${stepPercentage}%` }}
-          />
-        </div>
-        <div className="relative z-10 flex justify-between">
-          {[1, 2, 3].map((stepNumber) => {
-            const isCompleted = stepNumber < step;
-            const isCurrent = stepNumber === step;
-
-            return (
+      <div className="px-0 lg:px-4">
+        <div className="relative mb-2 px-10">
+          <div className="relative z-10 flex w-full items-center justify-between">
+            <div className="absolute left-0 right-0 top-[10px] mx-auto h-[4px] w-full -translate-y-1/2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
               <div
-                key={stepNumber}
-                className="relative flex flex-col items-center group"
-              >
-                <div
-                  className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all duration-300 transform",
-                    isCompleted && "border-emerald-500 bg-emerald-500 scale-110",
-                    isCurrent &&
-                    "border-emerald-500 bg-white dark:bg-gray-900 scale-125 shadow-lg",
-                    !isCompleted &&
-                    !isCurrent &&
-                    "border-gray-300 bg-white dark:bg-gray-800 hover:border-emerald-300 "
-                  )}
-                >
-                  {isCompleted ? (
-                    <Check className="h-5 w-5 text-white animate-check-in" />
-                  ) : (
-                    <span
-                      className={cn(
-                        "font-semibold transition-colors",
-                        isCurrent
-                          ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-gray-400"
-                      )}
-                    >
-                      {stepNumber}
-                    </span>
-                  )}
-                </div>
+                className="h-full bg-primary transition-all duration-500 ease-out"
+                style={{ width: `${stepPercentage}%` }}
+              />
+            </div>
+            {formSteps.map((formStep) => {
+              const isCompleted = formStep.stepNumber < step;
+              const isCurrent = formStep.stepNumber === step;
 
-                {isCurrent && (
-                  <div className="absolute inset-0 rounded-full animate-pulse bg-emerald-500/20 blur-md" />
-                )}
+              return (
+                <div
+                  key={formStep.stepNumber}
+                  className="group relative flex flex-col items-center"
+                >
+                  <div
+                    className={cn(
+                      "relative flex h-5 w-5 transform items-center justify-center rounded-full border-2 transition-all duration-300",
+                      isCompleted &&
+                        "border-primary bg-primary ring-4 ring-primary/30",
+                      isCurrent &&
+                        "border-primary bg-primary ring-4 ring-primary/30",
+                      !isCompleted && !isCurrent && "border-gray-300 bg-white",
+                    )}
+                  >
+                    {isCompleted ? (
+                      <div className="h-2 w-2 rounded-full bg-white ring-4 ring-primary/30 transition-colors"></div>
+                    ) : (
+                      <div className="text-center">
+                        <div
+                          className={cn(
+                            "h-2 w-2 rounded-full transition-colors",
+                            isCurrent ? "bg-white" : "bg-gray-300",
+                          )}
+                        ></div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="mx-0 mt-4 flex w-full items-center justify-between px-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+          {formSteps.map((formStep) => {
+            return (
+              <div key={formStep.stepNumber} className="text-center">
+                <h4 className="mb-1 font-bold text-primary">
+                  {formStep.title}
+                </h4>
+                <p className="text-sm">{formStep.description}</p>
               </div>
             );
           })}
-        </div>
-
-        <div className="mt-6 grid grid-cols-3 text-center gap-4">
-          <div
-            className={cn(
-              "space-y-1 transition-opacity",
-              step >= 1 ? "opacity-100" : "opacity-50"
-            )}
-          >
-            <span className="block text-sm font-medium text-emerald-600">
-              Step 1
-            </span>
-            <span className="block text-xs text-gray-500">Personal Info</span>
-          </div>
-          <div
-            className={cn(
-              "space-y-1 transition-opacity",
-              step >= 2 ? "opacity-100" : "opacity-50"
-            )}
-          >
-            <span className="block text-sm font-medium text-emerald-600">
-              Step 2
-            </span>
-            <span className="block text-xs text-gray-500">
-              Financial Details
-            </span>
-          </div>
-          <div
-            className={cn(
-              "space-y-1 transition-opacity",
-              step >= 3 ? "opacity-100" : "opacity-50"
-            )}
-          >
-            <span className="block text-sm font-medium text-emerald-600">
-              Step 3
-            </span>
-            <span className="block text-xs text-gray-500">Contact Info</span>
-          </div>
         </div>
       </div>
     );
@@ -973,20 +929,22 @@ export default function EligiblityCheckModal({
      4) Render the Full Dialog
      -------------------------------------------- */
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl rounded-lg">
+    <Dialog open={open} onOpenChange={onOpenChange} aria-describedby="">
+      <DialogContent
+        className="max-w-2xl rounded-lg"
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+      >
         <DialogHeader>
-          <DialogTitle className="text-center">
+          <DialogTitle className="mb-10 text-center">
             Find the best Personal Loan for you
           </DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
 
-          <div className="px-10 mt-8">{renderStepIndicator()}</div>
+          <div className="mt-8">{renderStepIndicator()}</div>
 
           <ScrollArea className="max-h-96">
-            <Card className="w-full p-6 border-none shadow-none">
+            <Card className="w-full border-none p-6 text-left shadow-none">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -996,7 +954,7 @@ export default function EligiblityCheckModal({
                   {step === 2 && renderStep2()}
                   {step === 3 && renderStep3()}
 
-                  <div className="flex justify-between pt-4">
+                  <div className="flex justify-between pt-1">
                     {/* Back Button */}
                     {step > 1 && (
                       <Button

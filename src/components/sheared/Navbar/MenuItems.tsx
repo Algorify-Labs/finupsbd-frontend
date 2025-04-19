@@ -16,9 +16,15 @@ type NavLinkType = {
 };
 
 // This is our main Navbar component
-const MenuItems = () => {
+const MenuItems = ({ hasSidebar }) => {
   return (
     <Menubar className="nav gap-1 border-none 2xl:gap-2">
+      {!hasSidebar && (
+        <Link href="/" className="pr-2 text-accent-foreground">
+          Home
+        </Link>
+      )}
+
       {navItems.map((navLink, index) => (
         <MenubarMenu key={index}>
           <div className="group relative">

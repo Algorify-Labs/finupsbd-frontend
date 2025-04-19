@@ -1,15 +1,13 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import logo from "/public/logo.png";
 
-import { Loader2, Apple } from "lucide-react";
-import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -18,30 +16,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { registerUser } from "@/services/AuthService";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 import { registerValidationSchema } from "./registerValidation";
-import { useRouter } from "next/navigation";
-import { registerUser } from "@/services/AuthService";
-import { toast } from "sonner";
-
-
-
 
 export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState<string | null>('')
-  const [openOtpVerificition, setOpenOtpVerificition] = useState(false)
+  const [email, setEmail] = useState<string | null>("");
+  const [openOtpVerificition, setOpenOtpVerificition] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof registerValidationSchema>>({
     resolver: zodResolver(registerValidationSchema),
     defaultValues: {
-      name: "Reza",
-      email: "shamimrezabd67@gmail.com",
-      phone: "01910479167",
-      password: "123456",
-      confirmPassword: "123456",
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -51,22 +49,22 @@ export default function RegisterForm() {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log(data);
       // Handle successful registration
-      const result = await registerUser(data)
-      console.log(result)
+      const result = await registerUser(data);
+      console.log(result);
 
       if (!result.success) {
-        toast.error("Registration failed. Please try again")
+        toast.error("Registration failed. Please try again");
       }
-      toast.success(result.message)
+      toast.success(result.message);
 
       if (result.success) {
-        router.push('/login')
+        router.push("/login");
       }
-      setEmail(data.email)
-      setOpenOtpVerificition(true)
+      setEmail(data.email);
+      setOpenOtpVerificition(true);
     } catch (error: any) {
       setServerError("Registration failed. Please try again later.");
     } finally {
@@ -80,16 +78,21 @@ export default function RegisterForm() {
   // };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Card className="w-[400px]">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="mb-8">
+        <Image src={logo} alt="Logo" className="mx-auto mb-4 w-full" />
+      </div>
+      <Card className="w-full max-w-lg rounded-md border-[#D0D5DD] text-secondary shadow-gray-200">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Create New Account</CardTitle>
+          <CardTitle className="text-center text-2xl text-green-950">
+            Create New Account
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {serverError && (
-                <div className="text-red-500 text-sm text-center">
+                <div className="text-center text-sm text-red-500">
                   {serverError}
                 </div>
               )}
@@ -165,6 +168,7 @@ export default function RegisterForm() {
                           type="password"
                           {...field}
                           disabled={isLoading}
+                          placeholder="Enter your password"
                         />
                       </FormControl>
                       <FormMessage />
@@ -184,6 +188,7 @@ export default function RegisterForm() {
                           type="password"
                           {...field}
                           disabled={isLoading}
+                          placeholder="Type your password again"
                         />
                       </FormControl>
                       <FormMessage />
@@ -208,7 +213,7 @@ export default function RegisterForm() {
             </Link>
           </div>
 
-          <div className="relative my-6">
+          {/* <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
@@ -218,7 +223,7 @@ export default function RegisterForm() {
               </span>
             </div>
           </div>
-          {/* 
+          
           <div className="flex gap-4">
             <Button
               variant="outline"

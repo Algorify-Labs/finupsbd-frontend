@@ -7,7 +7,7 @@ import MobileHeader from "./Navbar/Mobile/MobileHeader";
 import ProfileMenu from "./Navbar/ProfileMenu";
 import SiteLogo from "./SiteLogo";
 
-const Header = () => {
+const Header = ({ hasSidebar = true }) => {
   return (
     <header
       className={cn(
@@ -17,14 +17,16 @@ const Header = () => {
       {/* Desktop Navigation */}
       <div className="container-full mx-auto hidden px-4 2xl:container xl:block 2xl:px-0">
         <div className="flex h-full w-full items-center justify-between gap-x-6">
-          <div className="w-2/12">
-            <SiteLogo />
-          </div>
-          <div className="w-10/12">
+          {hasSidebar && (
+            <div className="w-2/12">
+              <SiteLogo />
+            </div>
+          )}
+          <div className={cn("", hasSidebar ? "w-10/12" : "w-full")}>
             <nav>
               <div className="flex items-center justify-between gap-x-4">
                 <div className="w-8/12">
-                  <MenuItems />
+                  <MenuItems hasSidebar={hasSidebar} />
                 </div>
                 <div className="w-4/12">
                   <div className="flex items-center justify-center gap-4">

@@ -15,13 +15,10 @@ import SiteLogo from "@/components/sheared/SiteLogo";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavMain } from "@/components/user/dashboard-layout/nav-main";
-import { NavUser } from "@/components/user/dashboard-layout/nav-user";
-
 
 // Sample data with teams, main navigation and projects.
 const data = {
@@ -98,17 +95,15 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
-
   return (
     <div className="z-50">
       <Sidebar
-        className="w-72 bg-white dark:bg-gray-900 shadow-lg transition-all"
+        className="w-72 bg-white shadow-lg transition-all dark:bg-gray-900"
         collapsible="icon"
         {...props}
       >
         {/* Header */}
-        <SidebarHeader className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <SidebarHeader className="border-b border-gray-200 p-4 dark:border-gray-700">
           <SiteLogo className="w-52" />
         </SidebarHeader>
 
@@ -141,8 +136,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
           {/* Projects Section */}
           {data.projects && (
-            <div className="px-4 py-3 mt-4 border-t border-gray-200 dark:border-gray-700">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase">
+            <div className="mt-4 border-t border-gray-200 px-4 py-3 dark:border-gray-700">
+              <h3 className="text-xs font-semibold uppercase text-gray-500">
                 Projects
               </h3>
               <div className="mt-2 space-y-1">
@@ -150,9 +145,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <a
                     key={index}
                     href={project.url}
-                    className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    className="flex items-center space-x-2 rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
-                    <project.icon className="w-5 h-5 text-gray-500" />
+                    <project.icon className="h-5 w-5 text-gray-500" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">
                       {project.name}
                     </span>
@@ -164,9 +159,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarContent>
 
         {/* Footer */}
-        <SidebarFooter className="p-4 border-t border-gray-200 dark:border-gray-700">
+        {/* <SidebarFooter className="border-t border-gray-200 p-4 dark:border-gray-700">
           <NavUser />
-        </SidebarFooter>
+        </SidebarFooter> */}
         <SidebarRail />
       </Sidebar>
     </div>
