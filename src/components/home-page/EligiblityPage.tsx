@@ -10,7 +10,7 @@ import { MoveUpRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
-import EligiblityCheck from "../modules/eligiblity/eligiblityCheckModal";
+import EligiblityCheck from "../modules/eligiblity/EligiblityCheckModal";
 import { Alert, AlertDescription } from "../ui/alert";
 
 function EligiblityPage() {

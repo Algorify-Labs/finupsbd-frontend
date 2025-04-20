@@ -15,8 +15,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { banks } from "./eligiblityConostant";
-import { EligiblityData, TEligiblityCheckDataShow } from "./eligiblityTypes";
+import { useDebounce } from "use-debounce";
+import { banks } from "./EligiblityConostant";
+import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
 
 // Format number to BDT format
 
@@ -33,6 +34,7 @@ export default function EligiblityCheckDataShow({
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
   const [amount, setLoanAmount] = useState(100000);
+  const [debouncedLoanAmount] = useDebounce(amount, 1000);
   const [interestRate, setProfitRate] = useState(12);
   const [searchTerm, setSelectedBanks] = useState<string[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
@@ -46,16 +48,15 @@ export default function EligiblityCheckDataShow({
   // Send filter/query data to parent
   useEffect(() => {
     const queryData = {
-      amount,
+      amount: debouncedLoanAmount,
       interestRate,
       searchTerm,
       sortOrder,
       page,
       sortKey,
     };
-
     onSendData(queryData);
-  }, [amount, interestRate, searchTerm, sortOrder, sortKey, page]);
+  }, [debouncedLoanAmount, interestRate, searchTerm, sortOrder, sortKey, page]);
 
   // Toggle wishlist
   const handleWishlist = (id: number) => {
@@ -148,7 +149,10 @@ export default function EligiblityCheckDataShow({
                     type="text"
                     className="relative w-full rounded-md border border-gray-300 px-3 py-2 pl-14 focus:border-gray-400 focus-visible:outline-none"
                     value={amount}
-                    onChange={(e) => setLoanAmount(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+                      setLoanAmount(value ? Number(value) : 0);
+                    }}
                   />
                 </div>
               </div>

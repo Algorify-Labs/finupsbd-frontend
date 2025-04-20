@@ -31,19 +31,13 @@ const CardTypeSchema = z.enum(["CREDIT_CARD"]);
 
 // Base schema with optional fields for conditional validations
 
-
 const dateValidation = z.date().refine(
   (dob) => {
     const age = calculateAge(dob);
     return age >= 22 && age <= 65;
   },
-  { message: "Your age must be between 22 and 65 years old." }
+  { message: "Your age must be between 22 and 65 years old." },
 );
-
-
-
-
-
 
 const baseEligibilityCheckSchema = z.object({
   gender: EGenderSchema,
@@ -53,12 +47,20 @@ const baseEligibilityCheckSchema = z.object({
   // Business-related fields
   businessOwnerType: BusinessOwnerTypeSchema.optional(),
   businessType: z.string().optional(),
-  sharePortion: z.number().int({ message: "Share portion must be an integer." }).optional(),
-  tradeLicenseAge: z.number().int({ message: "Trade license age must be an integer." }).optional(),
+  sharePortion: z
+    .number()
+    .int({ message: "Share portion must be an integer." })
+    .optional(),
+  tradeLicenseAge: z
+    .number()
+    .int({ message: "Trade license age must be an integer." })
+    .optional(),
 
   // Additional info
   vehicleType: VehicleTypeSchema.optional(),
-  expectedLoanTenure: z.number({ message: "Expected Loan Tenure required" }).int({ message: "Expected loan tenure must be an integer." }),
+  expectedLoanTenure: z
+    .number({ message: "Expected Loan Tenure required" })
+    .int({ message: "Expected loan tenure must be an integer." }),
   monthlyIncome: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
@@ -68,51 +70,69 @@ const baseEligibilityCheckSchema = z.object({
       })
       .int({ message: "Monthly income must be an integer." })
       .min(30000, { message: "Your salary must be at least 30,000/- BDT" })
-      .max(1000000000, { message: "Your salary must not exceed 1,000,000,000/- BDT" })
+      .max(1000000000, {
+        message: "Your salary must not exceed 1,000,000,000/- BDT",
+      }),
   ),
   jobLocation: jobLocation,
 
   // Rental income
   haveAnyRentalIncome: z.boolean().optional(),
   selectArea: z.string().optional(),
-  rentalIncome: z.preprocess((val) => (typeof val === "string" ? Number(val) : val),
-    z.number()
-      .int({ message: "Rental Income must be an integer." })
-      .min(100, { message: "Rental Income must be at least 100 BDT." })
-      .max(100000000000, { message: "Rental Income must not exceed 1,000,000,000,000 BDT." })
-      .optional()
-  ).optional(),
+  rentalIncome: z
+    .preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z
+        .number()
+        .int({ message: "Rental Income must be an integer." })
+        .min(100, { message: "Rental Income must be at least 100 BDT." })
+        .max(100000000000, {
+          message: "Rental Income must not exceed 1,000,000,000,000 BDT.",
+        })
+        .optional(),
+    )
+    .optional(),
 
   // Existing loan details
   haveAnyLoan: z.boolean().optional(),
   numberOfLoan: z.number().optional(),
   existingLoanType: ExistingLoanTypeSchema.optional(),
-  EMIAmountBDT: z.preprocess(
-    (val) => (typeof val === "string" ? Number(val) : val),
-    z.number()
-      .int({ message: "EMI amount must be an integer." })
-      .min(100, { message: "EMI amount must be at least 100 BDT." })
-      .max(1000000, { message: "EMI amount must not exceed 1,000,000 BDT." })
-      .optional()
-  ).optional(),
-  InterestRate: z.preprocess(
-    (val) => (typeof val === "string" ? Number(val) : val),
-    z
-      .number({
-        required_error: "Interest rate is required",
-        invalid_type_error: "Interest rate must be a number",
-      })
-      .min(0, "Interest rate must be at least 0%")
-      .max(100, "Interest rate must not exceed 100%")
-  ).optional(),
-  loanOutstanding: z.number().int({ message: "Loan Oustanding must be an integer." }).optional(),
-
+  EMIAmountBDT: z
+    .preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z
+        .number()
+        .int({ message: "EMI amount must be an integer." })
+        .min(100, { message: "EMI amount must be at least 100 BDT." })
+        .max(1000000, { message: "EMI amount must not exceed 1,000,000 BDT." })
+        .optional(),
+    )
+    .optional(),
+  InterestRate: z
+    .preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z
+        .number({
+          required_error: "Interest rate is required",
+          invalid_type_error: "Interest rate must be a number",
+        })
+        .min(0, "Interest rate must be at least 0%")
+        .max(100, "Interest rate must not exceed 100%"),
+    )
+    .optional(),
+  loanOutstanding: z
+    .number()
+    .int({ message: "Loan Oustanding must be an integer." })
+    .optional(),
 
   // Credit card details
   haveAnyCreditCard: z.boolean().optional(),
   numberOfCard: z.number().optional(),
   cardType: CardTypeSchema.optional(),
-  cardLimitBDT: z.number().int({ message: "Card limit must be an integer." }).optional(),
+  cardLimitBDT: z
+    .number()
+    .int({ message: "Card limit must be an integer." })
+    .optional(),
 
   // Secondary applicant and terms
   secondaryApplicant: z.boolean().optional(),
@@ -124,12 +144,12 @@ const baseEligibilityCheckSchema = z.object({
   phone: z.string().min(1, { message: "Phone number is required." }),
 
   // Loan application status
-  isAppliedLoan: z.boolean({ message: "Must Selecets" }).optional()
+  isAppliedLoan: z.boolean({ message: "Must Selecets" }).optional(),
 });
 
 // Extend the schema with conditional validations using superRefine
-export const eligibilityCheckValidationSchema = baseEligibilityCheckSchema.superRefine(
-  (data, ctx) => {
+export const eligibilityCheckValidationSchema =
+  baseEligibilityCheckSchema.superRefine((data, ctx) => {
     // Example: conditionally require business fields when profession is BUSINESS_OWNER.
     if (data.profession === "BUSINESS_OWNER") {
       if (!data.businessOwnerType) {
@@ -165,7 +185,7 @@ export const eligibilityCheckValidationSchema = baseEligibilityCheckSchema.super
     // Conditionally require rental income details if haveAnyRentalIncome is true
     if (data.haveAnyRentalIncome) {
       if (!data.selectArea) {
-        ctx.addIssue({ 
+        ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["selectArea"],
           message: "selectArea is required",
@@ -223,30 +243,33 @@ export const eligibilityCheckValidationSchema = baseEligibilityCheckSchema.super
       }
     }
 
-    if (typeof data.EMIAmountBDT === "number" && typeof data.monthlyIncome === "number" && data.EMIAmountBDT > data.monthlyIncome / 2) {
-      console.log(data.EMIAmountBDT)
+    if (
+      typeof data.EMIAmountBDT === "number" &&
+      typeof data.monthlyIncome === "number" &&
+      data.EMIAmountBDT > data.monthlyIncome / 2
+    ) {
+      console.log(data.EMIAmountBDT);
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["EMIAmountBDT"],
         message: "EMI amount cannot exceed your monthly income",
       });
     }
-    
-    if (typeof data.numberOfCard === "number" && typeof data.monthlyIncome === "number" && (data.numberOfCard * 2000 - data.monthlyIncome / 2) > data.monthlyIncome / 2) {
-      console.log(data.EMIAmountBDT)
+
+    if (
+      typeof data.numberOfCard === "number" &&
+      typeof data.monthlyIncome === "number" &&
+      data.numberOfCard * 2000 - data.monthlyIncome / 2 > data.monthlyIncome / 2
+    ) {
+      console.log(data.EMIAmountBDT);
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["EMIAmountBDT"],
         message: "Yor card limit cannot exceed your monthly income",
       });
     }
+  });
 
-
-  }
-);
-
-export type EligibilityCheckData = z.infer<typeof eligibilityCheckValidationSchema>;
-
-
-
-
+export type EligibilityCheckData = z.infer<
+  typeof eligibilityCheckValidationSchema
+>;
