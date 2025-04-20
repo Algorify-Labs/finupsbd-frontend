@@ -53,7 +53,7 @@ export default function EligiblityCheckModal({
 
   const router = useRouter();
 
-  console.log({ loanType });
+  // console.log({ loanType });
 
   // Initialize Form
   const form = useForm<z.infer<typeof eligibilityCheckValidationSchema>>({
