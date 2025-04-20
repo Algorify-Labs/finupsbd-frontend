@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCompare } from "@/context/CompareContext";
 import { formatBDT } from "@/utils";
-import { Heart } from "lucide-react";
+import { Heart, RotateCcw } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ export default function EligiblityCheckDataShow({
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
   const [amount, setLoanAmount] = useState(100000);
-  const [debouncedLoanAmount] = useDebounce(amount, 1000);
+  const [debouncedLoanAmount] = useDebounce(amount, 500);
   const [interestRate, setProfitRate] = useState(12);
   const [searchTerm, setSelectedBanks] = useState<string[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
@@ -114,28 +114,39 @@ export default function EligiblityCheckDataShow({
   const totalPages = Math.ceil(pagination.totalLoans / pagination.pageSize);
 
   return (
-    <div className="h-screen bg-[#F8F9FA] pt-20">
+    <div className="min-h-screen bg-[#F8F9FA] py-10">
       <div className="container mx-auto bg-[#F8F9FA]">
         <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
           {/* Filter Sidebar */}
-          <div className="w-3/12 space-y-6 rounded-xl bg-white p-8 shadow-md">
+          <div className="w-full rounded-xl bg-white px-6 py-4 pb-8 shadow-md lg:sticky lg:top-28 lg:w-3/12 lg:self-start">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Filter</h2>
-              <button
-                className="text-sm text-muted-foreground hover:text-primary"
+              <h2 className="text-lg font-semibold text-tertiary-dark">
+                Filter
+              </h2>
+              <Button
+                variant="ghost"
+                className="flex text-base text-tertiary-primay hover:bg-[#FFF2EB] hover:text-[#FF5F00]"
                 onClick={() => {
-                  setLoanAmount(500000);
+                  setLoanAmount(100000);
                   setProfitRate(12);
                   setSelectedBanks([]);
                 }}
               >
+                <RotateCcw size={15} />
                 Reset
-              </button>
+              </Button>
             </div>
-            <div className="space-y-4">
+            <div className="line-seperator my-4 mb-6" />
+            <div>
               {/* Loan Amount Slider */}
               <div className="space-y-4">
-                <label className="text-sm font-medium">Loan Amount</label>
+                <h3 className="mb-4 text-base font-medium text-tertiary-dark">
+                  Loan Amount
+                </h3>
+                <div className="flex justify-between text-sm font-semibold text-tertiary-primay">
+                  <p>BDT 0</p>
+                  <p>BDT 5,00,000</p>
+                </div>
                 <Slider
                   value={[amount]}
                   onValueChange={(value) => setLoanAmount(value[0])}
@@ -144,10 +155,12 @@ export default function EligiblityCheckDataShow({
                   className="w-full bg-[#EAECF0]"
                 />
                 <div className="relative flex items-center gap-2">
-                  <span className="absolute left-4 z-10">BDT</span>
+                  <span className="absolute left-4 top-[17px] z-10 text-base font-bold text-tertiary-primay">
+                    BDT
+                  </span>
                   <input
                     type="text"
-                    className="relative w-full rounded-md border border-gray-300 px-3 py-2 pl-14 focus:border-gray-400 focus-visible:outline-none"
+                    className="relative mt-2 w-full rounded-md border border-gray-300 px-3 py-2 pl-14 text-base font-bold text-tertiary-primay focus:border-gray-400 focus-visible:outline-none"
                     value={amount}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
@@ -175,10 +188,13 @@ export default function EligiblityCheckDataShow({
                 <span>30%</span>
               </div>
             </div> */}
+              <div className="line-seperator my-6" />
               {/* Bank Checkbox Filter */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Bank</label>
-                <div className="space-y-2">
+              <div>
+                <h3 className="mb-4 text-base font-medium text-tertiary-dark">
+                  Bank
+                </h3>
+                <div className="space-y-4">
                   {banks.slice(0, 6).map((bank) => (
                     <div key={bank} className="flex items-center space-x-2">
                       <Checkbox
@@ -191,6 +207,7 @@ export default function EligiblityCheckDataShow({
                               : prev.filter((item) => item !== bank),
                           );
                         }}
+                        className="border-[#344054]"
                       />
                       <label htmlFor={bank} className="text-sm leading-none">
                         {bank}
@@ -198,59 +215,56 @@ export default function EligiblityCheckDataShow({
                     </div>
                   ))}
                 </div>
-                <button className="text-sm text-primary hover:underline">
-                  View More
-                </button>
               </div>
             </div>
           </div>
           {/* Main Content */}
-          <div className="w-9/12 space-y-6">
-            <div className="flex flex-wrap gap-2">
-              <Badge
+          <div className="w-full space-y-6 lg:w-9/12">
+            <div className="flex flex-wrap gap-2 rounded-lg border border-[#B4B7D0]/30 bg-white p-2 shadow-md lg:gap-4">
+              <Button
                 variant="outline"
-                className={`cursor-pointer ${
+                className={`cursor-pointer border-none shadow-none ${
                   sortKey === "interestRate" && sortOrder === "asc"
-                    ? "border-transparent bg-[#E8F8F0] text-primary"
-                    : "hover:bg-[#E8F8F0] hover:text-primary"
+                    ? "!border-transparent bg-[#E7FDE2] text-primary"
+                    : "hover:bg-[#E7FDE2] hover:text-primary"
                 }`}
                 onClick={() => handleSort("interestRate", "asc")}
               >
                 Lowest Interest Rate
-              </Badge>
-              <Badge
+              </Button>
+              <Button
                 variant="outline"
-                className={`cursor-pointer ${
+                className={`cursor-pointer border-none shadow-none ${
                   sortKey === "interestRate" && sortOrder === "desc"
-                    ? "border-transparent bg-[#E8F8F0] text-primary"
-                    : "hover:bg-[#E8F8F0] hover:text-primary"
+                    ? "border-transparent bg-[#E7FDE2] text-primary"
+                    : "hover:bg-[#E7FDE2] hover:text-primary"
                 }`}
                 onClick={() => handleSort("interestRate", "desc")}
               >
                 Highest Interest Rate
-              </Badge>
-              <Badge
+              </Button>
+              <Button
                 variant="outline"
-                className={`cursor-pointer ${
+                className={`cursor-pointer border-none shadow-none ${
                   sortKey === "eligibleLoan" && sortOrder === "desc"
-                    ? "border-transparent bg-[#E8F8F0] text-primary"
-                    : "hover:bg-[#E8F8F0] hover:text-primary"
+                    ? "border-transparent bg-[#E7FDE2] text-primary"
+                    : "hover:bg-[#E7FDE2] hover:text-primary"
                 }`}
                 onClick={() => handleSort("eligibleLoan", "desc")}
               >
                 Highest Loan Amount
-              </Badge>
-              <Badge
+              </Button>
+              <Button
                 variant="outline"
-                className={`cursor-pointer ${
+                className={`cursor-pointer border-none shadow-none ${
                   sortKey === "eligibleLoan" && sortOrder === "asc"
-                    ? "border-transparent bg-[#E8F8F0] text-primary"
-                    : "hover:bg-[#E8F8F0] hover:text-primary"
+                    ? "border-transparent bg-[#E7FDE2] text-primary"
+                    : "hover:bg-[#E7FDE2] hover:text-primary"
                 }`}
                 onClick={() => handleSort("eligibleLoan", "asc")}
               >
                 Lowest Loan Amount
-              </Badge>
+              </Button>
             </div>
 
             <div className="text-sm">

@@ -223,3 +223,7 @@
 .animate-fade {
   @apply duration-500 animate-in fade-in;
 }
+
+.line-seperator {
+  @apply h-[2px] w-full bg-[#F2F4F7];
+}
