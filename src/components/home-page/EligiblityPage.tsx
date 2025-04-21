@@ -10,8 +10,9 @@ import { MoveUpRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
-import EligiblityCheck from "../modules/eligiblity/EligiblityCheckModal";
+
 import { Alert, AlertDescription } from "../ui/alert";
+import EligiblityCheckModal from "../modules/eligiblity/eligiblityCheckModal";
 
 function EligiblityPage() {
   // Track the selected loan type
@@ -205,7 +206,7 @@ function EligiblityPage() {
           </div>
         </Tabs>
       </div>
-      <EligiblityCheck
+      <EligiblityCheckModal
         open={openEligibility}
         onOpenChange={setOpenEligibility} // pass setState so the modal can close itself
         loanType={loanType}
