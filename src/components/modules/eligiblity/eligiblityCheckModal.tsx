@@ -36,8 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { eligibilityCheckValidationSchema } from "./eligiblityValidation";
-
+import { eligibilityCheckValidationSchema } from "./EligiblityValidation";
 
 interface EligibilityCheckProps {
   open: boolean;

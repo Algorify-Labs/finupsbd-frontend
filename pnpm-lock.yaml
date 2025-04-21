@@ -125,12 +125,9 @@ importers:
       react-countup:
         specifier: ^6.5.3
         version: 6.5.3(react@19.1.0)
-<<<<<<< HEAD
       react-day-picker:
         specifier: ^9.6.7
         version: 9.6.7(react@19.1.0)
-=======
->>>>>>> 2de810343635dc22d7bfc8deab6cd5f8a009ed62
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
@@ -3386,15 +3383,12 @@ packages:
     peerDependencies:
       react: '>= 16.3.0'
 
-<<<<<<< HEAD
   react-day-picker@9.6.7:
     resolution: {integrity: sha512-rCSt6X8FXQWpjykns/azRXjJk3cMSzkzGbDEXuEveFGNZgOjZULdJQ5wsu8Zfyo8ZgPBoYCBKQ5wRrgJfhJGbg==}
     engines: {node: '>=18'}
     peerDependencies:
       react: '>=16.8.0'
 
-=======
->>>>>>> 2de810343635dc22d7bfc8deab6cd5f8a009ed62
   react-dom@19.1.0:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
@@ -6232,7 +6226,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.30.1(eslint@9.25.0(jiti@1.21.7))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.25.0(jiti@1.21.7)))(eslint@9.25.0(jiti@1.21.7)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.30.1(eslint@9.25.0(jiti@1.21.7))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@9.25.0(jiti@1.21.7)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -6254,7 +6248,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.25.0(jiti@1.21.7)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.30.1(eslint@9.25.0(jiti@1.21.7))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.25.0(jiti@1.21.7)))(eslint@9.25.0(jiti@1.21.7))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.30.1(eslint@9.25.0(jiti@1.21.7))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@9.25.0(jiti@1.21.7))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -7591,7 +7585,6 @@ snapshots:
       countup.js: 2.8.0
       react: 19.1.0
 
-<<<<<<< HEAD
   react-day-picker@9.6.7(react@19.1.0):
     dependencies:
       '@date-fns/tz': 1.2.0
@@ -7599,8 +7592,6 @@ snapshots:
       date-fns-jalali: 4.1.0-0
       react: 19.1.0
 
-=======
->>>>>>> 2de810343635dc22d7bfc8deab6cd5f8a009ed62
   react-dom@19.1.0(react@19.1.0):
     dependencies:
       react: 19.1.0
