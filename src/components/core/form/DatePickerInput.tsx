@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/custom-calendar";
+// import { Calendar } from "@/components/ui/custom-calendar";
 import {
   FormControl,
   FormField,
@@ -88,7 +88,7 @@ const DatePickerInput = <T extends FieldValues>({
               </FormControl>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0" align="start">
-              <Calendar
+              {/* <Calendar
                 mode="single"
                 captionLayout="dropdown-buttons"
                 selected={
@@ -108,7 +108,7 @@ const DatePickerInput = <T extends FieldValues>({
                   dateDisabled ? dateDisabled(date) : false
                 }
                 defaultMonth={field.value ? new Date(field.value) : new Date()}
-              />
+              /> */}
             </PopoverContent>
           </Popover>
           <FormMessage />

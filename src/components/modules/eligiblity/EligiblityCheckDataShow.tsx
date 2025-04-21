@@ -16,8 +16,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
-import { banks } from "./EligiblityConostant";
-import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
+import { EligiblityData, TEligiblityCheckDataShow } from "./eligiblityTypes";
+import { banks } from "./eligiblityConostant";
 
 // Format number to BDT format
 

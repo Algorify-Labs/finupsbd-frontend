@@ -7,7 +7,8 @@ import { ArrowRight, Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
-import { TEligiblityCheckDataShow } from "../EligiblityTypes";
+import { TEligiblityCheckDataShow } from "../eligiblityTypes";
+
 
 type PageProps = {
   submissionData: TEligiblityCheckDataShow;
