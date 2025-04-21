@@ -11,8 +11,8 @@ import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
 
+import EligiblityCheckModal from "../modules/eligiblity/EligiblityCheckModal";
 import { Alert, AlertDescription } from "../ui/alert";
-import EligiblityCheckModal from "../modules/eligiblity/eligiblityCheckModal";
 
 function EligiblityPage() {
   // Track the selected loan type

@@ -6,7 +6,6 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import DatePickerInput from "@/components/core/form/DatePickerInput";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -95,7 +94,7 @@ export default function EligiblityCheckModal({
     },
   });
 
-  // console.log("form", form.getValues());
+  console.log("form", form.getValues());
 
   // Dynamic arrays
   const professions = ["SALARIED", "BUSINESS_OWNER"];
@@ -161,7 +160,7 @@ export default function EligiblityCheckModal({
       />
 
       {/* Date of Birth */}
-      <DatePickerInput
+      {/* <DatePickerInput
         form={form}
         name="dateOfBirth"
         label={"Date of Birth"}
@@ -170,8 +169,8 @@ export default function EligiblityCheckModal({
           return date > new Date();
         }}
         toYear={new Date().getFullYear()}
-      />
-      {/* <FormField
+      /> */}
+      <FormField
         name="dateOfBirth"
         control={form.control}
         rules={{ required: "Date of Birth is required" }}
@@ -192,7 +191,7 @@ export default function EligiblityCheckModal({
             <FormMessage />
           </FormItem>
         )}
-      /> */}
+      />
       {/* Profession */}
       <FormField
         name="profession"
