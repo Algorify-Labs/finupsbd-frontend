@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EligiblityData } from "../eligiblity/eligiblityTypes";
-
+import { EligiblityData } from "../eligiblity/EligiblityTypes";
 
 type CompareModalProps = {
   isOpen: boolean;

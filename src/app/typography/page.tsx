@@ -1,9 +1,7 @@
-import CustomDatePicker from "@/components/core/form/CustomDatePicker";
-
 const TypographyPage = () => {
   return (
     <div className="container-md my-16">
-      <CustomDatePicker />
+      {/* <CustomDatePicker label="Date Picker" /> */}
     </div>
   );
 };

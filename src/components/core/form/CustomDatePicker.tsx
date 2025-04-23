@@ -1,40 +1,91 @@
 "use client";
 
 import { format } from "date-fns";
-import * as React from "react";
+import { CalendarIcon } from "lucide-react";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
 
-export default function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
+const FormSchema = z.object({
+  datetime: z.date({
+    required_error: "Date & time is required!.",
+  }),
+});
 
-  console.log(date);
+export function CustomDatePicker(props: {
+  label?: string;
+  name?: string | undefined;
+  form?: any;
+}) {
+  const { label = "Date", form, name } = props;
+  const [isOpen, setIsOpen] = useState(false);
+  const [date, setDate] = useState<Date | null>(null);
+  // const form = useForm<z.infer<typeof FormSchema>>({
+  //   resolver: zodResolver(FormSchema),
+  // });
+
+  // async function onSubmit(data: z.infer<typeof FormSchema>) {
+  //   toast.success(`Meeting at: ${format(data.datetime, "PPP")}`);
+  // }
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[240px] justify-start text-left font-normal",
-            !date && "text-muted-foreground",
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar mode="single" selected={date} onSelect={setDate} autoFocus />
-      </PopoverContent>
-    </Popover>
+    <FormField
+      control={form.control}
+      name={name || "defaultDate"}
+      render={({ field }) => (
+        <FormItem className="flex w-full flex-col">
+          <FormLabel className="mb-2">{label}</FormLabel>
+          <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+              <FormControl>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full font-normal",
+                    !field.value && "text-muted-foreground",
+                  )}
+                >
+                  {field.value ? (
+                    `${format(field.value, "PPP")}`
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                </Button>
+              </FormControl>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                captionLayout="dropdown"
+                selected={date || field.value}
+                onSelect={(selectedDate) => {
+                  setDate(selectedDate!);
+                  field.onChange(selectedDate);
+                }}
+                onDayClick={() => setIsOpen(false)}
+                defaultMonth={field.value}
+              />
+            </PopoverContent>
+          </Popover>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 }

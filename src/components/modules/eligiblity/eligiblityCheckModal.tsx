@@ -6,6 +6,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { CustomDatePicker } from "@/components/core/form/CustomDatePicker";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -60,7 +61,7 @@ export default function EligiblityCheckModal({
     defaultValues: {
       gender: "MALE",
       profession: "SALARIED", // need change
-      dateOfBirth: new Date("1990-01-01T00:00:00.000Z"),
+      dateOfBirth: new Date(),
       monthlyIncome: 45000,
       // expectedLoanTenure: 36,
       jobLocation: "DHAKA",
@@ -170,7 +171,8 @@ export default function EligiblityCheckModal({
         }}
         toYear={new Date().getFullYear()}
       /> */}
-      <FormField
+      <CustomDatePicker label="Date of Birth*" name="dateOfBirth" form={form} />
+      {/* <FormField
         name="dateOfBirth"
         control={form.control}
         rules={{ required: "Date of Birth is required" }}
@@ -191,7 +193,7 @@ export default function EligiblityCheckModal({
             <FormMessage />
           </FormItem>
         )}
-      />
+      /> */}
       {/* Profession */}
       <FormField
         name="profession"
