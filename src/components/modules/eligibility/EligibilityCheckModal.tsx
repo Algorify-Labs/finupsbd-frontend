@@ -931,22 +931,27 @@ function EligibilityCheckModal({
   /* --------------------------------------------
      4) Render the Full Dialog
      -------------------------------------------- */
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange} aria-describedby="dfdasf">
-      <DialogContent
-        className="max-w-2xl rounded-lg"
-        onInteractOutside={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <DialogHeader>
-          <DialogTitle className="mb-10 text-center">
-            Find the best Personal Loan for you
-          </DialogTitle>
-          <DialogDescription></DialogDescription>
-
-          <div className="mt-8">{renderStepIndicator()}</div>
-
+     return (
+      <Dialog open={open} onOpenChange={onOpenChange} aria-describedby="loan-description">
+        <DialogContent
+          className="max-w-2xl rounded-lg"
+          onInteractOutside={(e) => {
+            e.preventDefault(); // Keep if you want to prevent outside click closing. Remove otherwise.
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle className="mb-10 text-center">
+              Find the best Personal Loan for you
+            </DialogTitle>
+    
+            {/* This ensures accessibility and removes aria-describedby warning */}
+            <DialogDescription id="loan-description">
+              Please provide your information to check your loan eligibility.
+            </DialogDescription>
+    
+            <div className="mt-8">{renderStepIndicator()}</div>
+          </DialogHeader>
+    
           <ScrollArea className="max-h-96">
             <Card className="w-full border-none p-6 text-left shadow-none">
               <Form {...form}>
@@ -957,7 +962,7 @@ function EligibilityCheckModal({
                   {step === 1 && renderStep1()}
                   {step === 2 && renderStep2()}
                   {step === 3 && renderStep3()}
-
+    
                   <div className="flex justify-between pt-1">
                     {/* Back Button */}
                     {step > 1 && (
@@ -969,6 +974,7 @@ function EligibilityCheckModal({
                         Back
                       </Button>
                     )}
+    
                     {/* Next or Submit */}
                     {step < 4 ? (
                       <Button type="button" onClick={handleNextTest}>
@@ -982,10 +988,10 @@ function EligibilityCheckModal({
               </Form>
             </Card>
           </ScrollArea>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
+        </DialogContent>
+      </Dialog>
+    );
+    
 }
 
 export default EligibilityCheckModal;
