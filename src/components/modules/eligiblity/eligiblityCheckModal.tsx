@@ -6,6 +6,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { CustomDatePicker } from "@/components/core/form/CustomDatePicker";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -160,8 +161,8 @@ function EligiblityCheckModal({
       />
 
       {/* Date of Birth */}
-      {/* <CustomDatePicker label="Date of Birth*" name="dateOfBirth" form={form} /> */}
-      <FormField
+      <CustomDatePicker label="Date of Birth*" name="dateOfBirth" form={form} />
+      {/* <FormField
         name="dateOfBirth"
         control={form.control}
         rules={{ required: "Date of Birth is required" }}
@@ -182,7 +183,7 @@ function EligiblityCheckModal({
             <FormMessage />
           </FormItem>
         )}
-      />
+      /> */}
       {/* Profession */}
       <FormField
         name="profession"
