@@ -13,7 +13,7 @@ import slide2 from "@/assets/images/slider/slide-2.jpg";
 import slide3 from "@/assets/images/slider/slide-3.jpg";
 import slide4 from "@/assets/images/slider/slide-4.jpg";
 import slide5 from "@/assets/images/slider/slide-5.jpg";
-import EligiblityPage from "./EligiblityPage";
+import EligibilityPage from "./EligibilityPage";
 
 export const sliderData = [
   {
@@ -61,7 +61,7 @@ const HomeSlider = () => {
         ))}
       </Swiper>
       <div className="relative -bottom-[18%] left-0 right-0 z-10 lg:absolute">
-        <EligiblityPage />
+        <EligibilityPage />
       </div>
     </section>
   );

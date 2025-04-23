@@ -11,9 +11,9 @@ import { toast } from "sonner";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
-import EligiblityCheckModal from "../modules/eligiblity/EligiblityCheckModal";
+import EligibilityCheckModal from "../modules/eligibility/EligibilityCheckModal";
 
-function EligiblityPage() {
+function EligibilityPage() {
   // Track the selected loan type
   const [loanType, setLoanType] = useState("");
   const [openEligibility, setOpenEligibility] = useState(false);
@@ -26,7 +26,7 @@ function EligiblityPage() {
       setError(true);
       return toast.error("Please Select any loan option for compare Loan");
     }
-    router.push(`/eligiblity?loanType=${loanType}&compare=true`);
+    router.push(`/eligibility?loanType=${loanType}&compare=true`);
   }
 
   // Send data to backend (Check Eligibility)
@@ -205,7 +205,7 @@ function EligiblityPage() {
           </div>
         </Tabs>
       </div>
-      <EligiblityCheckModal
+      <EligibilityCheckModal
         open={openEligibility}
         onOpenChange={setOpenEligibility} // pass setState so the modal can close itself
         loanType={loanType}
@@ -214,4 +214,4 @@ function EligiblityPage() {
   );
 }
 
-export default EligiblityPage;
+export default EligibilityPage;

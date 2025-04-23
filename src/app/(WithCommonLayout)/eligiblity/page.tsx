@@ -1,9 +1,9 @@
 "use client";
 
 import LoadingComponent from "@/components/loading/LoadingComponent";
-import EligiblityCheckDataShow from "@/components/modules/eligiblity/EligiblityCheckDataShow";
+import EligibilityCheckDataShow from "@/components/modules/eligibility/EligibilityCheckDataShow";
 import { Button } from "@/components/ui/button";
-import { eligiblityCheckData } from "@/services/eligiblityCheck";
+import { eligibilityCheckData } from "@/services/eligibilityCheck";
 import { useSearchParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export interface QueryData {
   sortKey: string;
 }
 
-const EligiblityPage = () => {
+const EligibilityPage = () => {
   const [submissionData, setSubmissionData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [queryData, setQueryData] = useState<QueryData>({
@@ -50,11 +50,11 @@ const EligiblityPage = () => {
           // Await the fetch response and parse it
 
           if (compareValue) {
-            const result = await eligiblityCheckData(compareData, queryData);
+            const result = await eligibilityCheckData(compareData, queryData);
             console.log("555555555555555");
             setSubmissionData(result?.data);
           } else {
-            const result = await eligiblityCheckData(parsedData, queryData);
+            const result = await eligibilityCheckData(parsedData, queryData);
             setSubmissionData(result?.data);
           }
 
@@ -82,7 +82,7 @@ const EligiblityPage = () => {
   return (
     <div>
       {submissionData ? (
-        <EligiblityCheckDataShow
+        <EligibilityCheckDataShow
           submissionData={submissionData}
           onSendData={handleQueryData}
         />
@@ -107,4 +107,4 @@ const EligiblityPage = () => {
   );
 };
 
-export default EligiblityPage;
+export default EligibilityPage;

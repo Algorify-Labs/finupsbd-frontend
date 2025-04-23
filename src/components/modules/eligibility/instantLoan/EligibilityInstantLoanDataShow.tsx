@@ -7,20 +7,20 @@ import { ArrowRight, Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
-import { TEligiblityCheckDataShow } from "../EligiblityTypes";
+import { TEligibilityCheckDataShow } from "../EligibilityTypes";
 
 type PageProps = {
-  submissionData: TEligiblityCheckDataShow;
+  submissionData: TEligibilityCheckDataShow;
   onSendData: (data: any) => void;
 };
 
-function EligiblityInstantLoanDataShow({
+function EligibilityInstantLoanDataShow({
   submissionData,
   onSendData,
 }: PageProps) {
-  const { data: eligiblityData, pagination } = submissionData;
+  const { data: eligibilityData, pagination } = submissionData;
   const [amount, setAmount] = useState(
-    eligiblityData[0]?.amount ? eligiblityData[0].eligibleLoan : 50000,
+    eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000,
   );
   const [showConfetti, setShowConfetti] = useState(true);
   const [tenure, setTenure] = useState(1);
@@ -128,7 +128,7 @@ function EligiblityInstantLoanDataShow({
           </div>
         </div>
 
-        {eligiblityData.map((data) => (
+        {eligibilityData.map((data) => (
           <>
             {/* Loan Details */}
             <div key={data.bankName} className="mb-8 rounded-lg border p-4">
@@ -281,4 +281,4 @@ function EligiblityInstantLoanDataShow({
   );
 }
 
-export default EligiblityInstantLoanDataShow;
+export default EligibilityInstantLoanDataShow;

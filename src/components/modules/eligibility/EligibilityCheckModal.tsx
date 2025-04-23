@@ -36,7 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { eligibilityCheckValidationSchema } from "./EligiblityValidation";
+import { eligibilityCheckValidationSchema } from "./EligibilityValidation";
 
 interface EligibilityCheckProps {
   open: boolean;
@@ -44,7 +44,7 @@ interface EligibilityCheckProps {
   loanType: string; // e.g. 'PERSONAL_LOAN'
 }
 
-function EligiblityCheckModal({
+function EligibilityCheckModal({
   open,
   onOpenChange,
   loanType,
@@ -115,9 +115,9 @@ function EligiblityCheckModal({
     sessionStorage.setItem("eligibilityData", JSON.stringify(eligibilityData));
 
     if (loanType === "INSTANT_LOAN") {
-      router.push("/eligiblity-instant-loan");
+      router.push("/eligibility-instant-loan");
     } else {
-      router.push("/eligiblity");
+      router.push("/eligibility");
     }
   }
 
@@ -961,7 +961,7 @@ function EligiblityCheckModal({
                     {/* Next or Submit */}
                     {step < 4 ? (
                       <Button type="button" onClick={handleNext}>
-                        {step === 3 ? "Check Eligiblity" : "Continue"}
+                        {step === 3 ? "Check Eligibility" : "Continue"}
                       </Button>
                     ) : (
                       <Button type="submit">Check Eligibility</Button>
@@ -977,4 +977,4 @@ function EligiblityCheckModal({
   );
 }
 
-export default EligiblityCheckModal;
+export default EligibilityCheckModal;

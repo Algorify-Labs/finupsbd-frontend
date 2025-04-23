@@ -1,14 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EligiblityData } from "../eligiblity/EligiblityTypes";
+import { EligibilityData } from "../eligibility/EligibilityTypes";
 
 type CompareModalProps = {
   isOpen: boolean;
   onClose: () => void;
   compareData: {
     ids: number[];
-    dynamicData: EligiblityData[];
+    dynamicData: EligibilityData[];
   };
 };
 

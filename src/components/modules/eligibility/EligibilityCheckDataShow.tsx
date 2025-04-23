@@ -1,4 +1,4 @@
-// /components/EligiblityCheckDataShow.tsx
+// /components/EligibilityCheckDataShow.tsx
 "use client";
 
 import CompareModal from "@/components/modules/compare/CompareModal";
@@ -16,19 +16,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
-import { banks } from "./EligiblityConostant";
-import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
-// import { banks } from "./EligiblityConostant";
-// import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
+import { banks } from "./EligibilityConostant";
+import { EligibilityData, TEligibilityCheckDataShow } from "./EligibilityTypes";
 
 // Format number to BDT format
 
 type PageProps = {
-  submissionData: TEligiblityCheckDataShow;
+  submissionData: TEligibilityCheckDataShow;
   onSendData: (data: any) => void;
 };
 
-function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
+function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -88,7 +86,7 @@ function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
     }
     // Prepare dynamic data for comparison.
     const selectedData = eligibilityData.filter(
-      (data: EligiblityData, index: number) => compareList.includes(index),
+      (data: EligibilityData, index: number) => compareList.includes(index),
     );
     // Save compare data in context
     setCompareData({
@@ -104,7 +102,7 @@ function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
     setSortOrder(order);
   };
 
-  const handelApplication = (data: EligiblityData) => {
+  const handelApplication = (data: EligibilityData) => {
     console.log(data);
 
     router.push(`/user/loan-application?applicationId=${data}`);
@@ -281,7 +279,7 @@ function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
 
             {/* Loan Cards */}
             <div className="space-y-4">
-              {eligibilityData?.map((data: EligiblityData, index: number) => (
+              {eligibilityData?.map((data: EligibilityData, index: number) => (
                 <Card key={index} className="transition-shadow hover:shadow-lg">
                   <CardContent className="p-6">
                     <div className="flex flex-col gap-6 lg:flex-row">
@@ -567,4 +565,4 @@ function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
   );
 }
 
-export default EligiblityCheckDataShow;
+export default EligibilityCheckDataShow;
