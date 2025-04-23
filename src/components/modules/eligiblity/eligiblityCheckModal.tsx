@@ -161,16 +161,6 @@ export default function EligiblityCheckModal({
       />
 
       {/* Date of Birth */}
-      {/* <DatePickerInput
-        form={form}
-        name="dateOfBirth"
-        label={"Date of Birth"}
-        placeholder={"Select Date of Birth"}
-        dateDisabled={(date) => {
-          return date > new Date();
-        }}
-        toYear={new Date().getFullYear()}
-      /> */}
       <CustomDatePicker label="Date of Birth*" name="dateOfBirth" form={form} />
       {/* <FormField
         name="dateOfBirth"
