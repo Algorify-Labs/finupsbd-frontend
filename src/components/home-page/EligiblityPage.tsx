@@ -10,7 +10,6 @@ import { MoveUpRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 import { useRouter } from "next/navigation";
-
 import EligiblityCheckModal from "../modules/eligiblity/EligiblityCheckModal";
 import { Alert, AlertDescription } from "../ui/alert";
 

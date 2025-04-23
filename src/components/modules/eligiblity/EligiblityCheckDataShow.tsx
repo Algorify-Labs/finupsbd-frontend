@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { banks } from "./EligiblityConostant";
 import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
+// import { banks } from "./EligiblityConostant";
+// import { EligiblityData, TEligiblityCheckDataShow } from "./EligiblityTypes";
 
 // Format number to BDT format
 
