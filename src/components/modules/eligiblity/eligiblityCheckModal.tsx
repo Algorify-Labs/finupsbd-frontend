@@ -44,7 +44,7 @@ interface EligibilityCheckProps {
   loanType: string; // e.g. 'PERSONAL_LOAN'
 }
 
-export default function EligiblityCheckModal({
+function EligiblityCheckModal({
   open,
   onOpenChange,
   loanType,
@@ -976,3 +976,5 @@ export default function EligiblityCheckModal({
     </Dialog>
   );
 }
+
+export default EligiblityCheckModal;

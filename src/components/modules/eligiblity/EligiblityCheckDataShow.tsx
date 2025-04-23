@@ -28,10 +28,7 @@ type PageProps = {
   onSendData: (data: any) => void;
 };
 
-export default function EligiblityCheckDataShow({
-  submissionData,
-  onSendData,
-}: PageProps) {
+function EligiblityCheckDataShow({ submissionData, onSendData }: PageProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -569,3 +566,5 @@ export default function EligiblityCheckDataShow({
     </div>
   );
 }
+
+export default EligiblityCheckDataShow;

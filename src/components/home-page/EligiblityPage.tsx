@@ -9,9 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoveUpRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import EligiblityCheckModal from "../modules/eligiblity/EligiblityCheckModal";
-import { Alert, AlertDescription } from "../ui/alert";
 
 function EligiblityPage() {
   // Track the selected loan type

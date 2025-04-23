@@ -14,7 +14,7 @@ type PageProps = {
   onSendData: (data: any) => void;
 };
 
-export default function EligiblityInstantLoanDataShow({
+function EligiblityInstantLoanDataShow({
   submissionData,
   onSendData,
 }: PageProps) {
@@ -280,3 +280,5 @@ export default function EligiblityInstantLoanDataShow({
     </>
   );
 }
+
+export default EligiblityInstantLoanDataShow;
