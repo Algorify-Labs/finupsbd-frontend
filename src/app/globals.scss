@@ -227,3 +227,10 @@
 .line-seperator {
   @apply h-[2px] w-full bg-[#F2F4F7];
 }
+
+.form-inoput-item {
+  @apply relative mb-4;
+  label {
+    @apply mb-2 block text-sm font-medium text-[#344054];
+  }
+}

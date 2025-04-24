@@ -3,23 +3,49 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { emiCalculatorApi, EmiCalculatorPayload } from "@/services/public";
 import { useState } from "react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+
 
 export default function EmiCalculator() {
   const [inputData, setInputData] = useState({
-    disbursementDate: "2025-01-02",
-    loanAmount: "300000",
-    numberOfMonths: 12,
-    interestRate: "10.05",
+    disbursementDate: "",
+    loanAmount: "",
+    numberOfMonths: 0,
+    interestRate: "",
   });
 
-  const [outputData, setOutputData] = useState({
-    disbursementDate: "02 Jan 2025",
-    loanAmount: "BDT 300,000.00",
-    numberOfSchedule: 12,
-    interestRate: "10.05 %",
-    emiAmount: "26381.74",
-  });
+  const [emiCalculator, setEmiCalculator] = useState<EmiCalculatorPayload>()
+  const [loading, setLoading] = useState(true)
+
+
+  const handelSubmit = async () => {
+    try {
+      setLoading(true)
+      const { data } = await emiCalculatorApi(inputData)
+      setEmiCalculator(data)
+    } catch (err) {
+      // setError("Failed to load user profile")
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  console.log(emiCalculator)
+
+
+
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -52,7 +78,8 @@ export default function EmiCalculator() {
               <Label htmlFor="loanAmount">Loan Amount (BDT)</Label>
               <Input
                 id="loanAmount"
-                type="number"
+                type="string"
+                placeholder="Enter Loan Amount"
                 value={inputData.loanAmount}
                 onChange={handleChange}
               />
@@ -70,7 +97,8 @@ export default function EmiCalculator() {
               <Label htmlFor="interestRate">Interest Rate (%)</Label>
               <Input
                 id="interestRate"
-                type="number"
+                type="string"
+                placeholder="Enter Interest Rate"
                 step="0.01"
                 value={inputData.interestRate}
                 onChange={handleChange}
@@ -78,24 +106,7 @@ export default function EmiCalculator() {
             </div>
             <div className="pt-2">
               <Button
-                onClick={() => {
-                  setOutputData({
-                    disbursementDate: new Date(
-                      inputData.disbursementDate,
-                    ).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    }),
-                    loanAmount: new Intl.NumberFormat("en-BD", {
-                      style: "currency",
-                      currency: "BDT",
-                    }).format(Number(inputData.loanAmount)),
-                    numberOfSchedule: inputData.numberOfMonths,
-                    interestRate: `${inputData.interestRate} %`,
-                    emiAmount: "26381.74",
-                  });
-                }}
+                onClick={() => handelSubmit()}
                 className="w-full"
               >
                 Calculate EMI
@@ -114,33 +125,70 @@ export default function EmiCalculator() {
             <div className="flex items-center justify-between">
               <p>Disbursement Date</p>
               <span className="text-right font-medium">
-                {outputData.disbursementDate}
+                {emiCalculator?.disbursementDate}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <p>Loan Amount</p>
               <span className="text-right font-medium">
-                {outputData.loanAmount}
+                {emiCalculator?.loanAmount}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <p>Schedule</p>
               <span className="text-right font-medium">
-                {outputData.numberOfSchedule} months
+                {emiCalculator?.numberOfSchedule} Months
               </span>
             </div>
             <div className="flex items-center justify-between">
               <p>Interest Rate</p>
               <span className="text-right font-medium">
-                {outputData.interestRate}
+                {emiCalculator?.interestRate}
               </span>
             </div>
             <div className="flex items-center justify-between border-t pt-3">
               <p className="font-bold">EMI Amount</p>
-              <p className="font-bold">BDT {outputData.emiAmount}</p>
+              <p className="font-bold">BDT {emiCalculator?.emiAmount}</p>
+            </div>
+            <div>
+              {emiCalculator?.emiAmount && (
+                <CardContent className="p-2">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={[
+                          {
+                            name: "Loan Amount",
+                            value: Number(inputData.loanAmount),
+                          },
+                          {
+                            name: "Total Interest",
+                            value:
+                              Math.round(Number(emiCalculator.emiAmount) * inputData.numberOfMonths -
+                              Number(inputData.loanAmount))
+                          },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={70}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label
+                      >
+                        <Cell fill="#4caf50" />
+                        <Cell fill="#f44336" />
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              )}
             </div>
           </CardContent>
+
         </Card>
+
       </div>
     </div>
   );

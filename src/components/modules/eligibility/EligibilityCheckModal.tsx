@@ -95,7 +95,7 @@ function EligibilityCheckModal({
     },
   });
 
-  console.log("form", form.getValues());
+  // console.log("form", form.getValues());
 
   // Dynamic arrays
   const professions = ["SALARIED", "BUSINESS_OWNER"];
@@ -126,6 +126,15 @@ function EligibilityCheckModal({
     if (isValid) {
       setStep((prev) => prev + 1);
     }
+  };
+
+  const handleNextTest = async () => {
+    const isValid = await form.trigger(); // Trigger validation for the current step
+    if (!isValid) {
+      console.log("Validation Errors:", form.formState.errors); // Log validation errors
+      return; // Prevent moving to the next step
+    }
+    setStep((prev) => prev + 1); // Move to the next step if valid
   };
 
   /* --------------------------------------------
@@ -162,7 +171,8 @@ function EligibilityCheckModal({
 
       {/* Date of Birth */}
       <CustomDatePicker label="Date of Birth*" name="dateOfBirth" form={form} />
-      {/* <FormField
+      {/* 
+      <FormField
         name="dateOfBirth"
         control={form.control}
         rules={{ required: "Date of Birth is required" }}
@@ -183,7 +193,8 @@ function EligibilityCheckModal({
             <FormMessage />
           </FormItem>
         )}
-      /> */}
+      /> 
+      */}
       {/* Profession */}
       <FormField
         name="profession"
@@ -966,7 +977,7 @@ function EligibilityCheckModal({
     
                     {/* Next or Submit */}
                     {step < 4 ? (
-                      <Button type="button" onClick={handleNext}>
+                      <Button type="button" onClick={handleNextTest}>
                         {step === 3 ? "Check Eligibility" : "Continue"}
                       </Button>
                     ) : (

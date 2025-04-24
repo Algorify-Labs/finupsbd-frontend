@@ -141,7 +141,7 @@ importers:
         specifier: ^9.15.1
         version: 9.16.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       recharts:
-        specifier: ^2.15.1
+        specifier: ^2.15.3
         version: 2.15.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       sass:
         specifier: ^1.86.3
