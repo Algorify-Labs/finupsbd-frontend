@@ -35,13 +35,6 @@ export function CustomDatePicker(props: {
   const { label = "Date", form, name } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
-  // const form = useForm<z.infer<typeof FormSchema>>({
-  //   resolver: zodResolver(FormSchema),
-  // });
-
-  // async function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   toast.success(`Meeting at: ${format(data.datetime, "PPP")}`);
-  // }
 
   return (
     <FormField
