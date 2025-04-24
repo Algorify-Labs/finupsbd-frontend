@@ -8,31 +8,54 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { applicationTracking } from "@/services/public";
+import { useState } from "react";
+import { toast } from "sonner";
+import TrackApplicationStatus from "./TrackApplicationStatus";
+import { ApplicationStatusData } from "./TrackingApplicationTypes";
 
 const FormSchema = z.object({
-  trackingNumber: z.string().min(6, "Tracking number must be at least 6 characters"),
-  fullName: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z.string().regex(/^\+8801[3-9]\d{8}$/, "Invalid Bangladeshi phone number"),
+  applicationId: z.string().min(12, "Application ID must be at least 12 characters"),
+  phone: z.string().min(11, "Phone number must be at least 11 characters").max(11, "Phone number must be at most 11 characters"),
 });
 
 export default function TrackApplicationForm() {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [applicationStatus, setApplicationStatus] = useState(false);
+  const [applicationStatusData, setApplicationStatusData] = useState<ApplicationStatusData | null | undefined>();
+
+  console.log(applicationStatusData)
+
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      trackingNumber: "",
-      fullName: "",
-      phone: "+880",
+      applicationId: "325041400002",
+      phone: "01910479168",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
-    // Handle form submission
+    setIsLoading(true);
+    const res = await applicationTracking(data);
+    setIsLoading(false);
+    if (res.success) {
+      console.log(res.data);
+      toast.success("Application status fetched successfully!");
+      setApplicationStatusData(res.data);
+      setApplicationStatus(true);
+    }
+    else {
+      console.log(res.error);
+      toast.error(res.error.message || "Please provide a valid application ID and phone number");
+    }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <Card className="w-full max-w-md">
+      {applicationStatus && applicationStatusData ? <TrackApplicationStatus applicationStatusData={applicationStatusData} /> : <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Track your Application</CardTitle>
         </CardHeader>
@@ -45,40 +68,24 @@ export default function TrackApplicationForm() {
             <div className="space-y-4">
               {/* Tracking Number */}
               <div>
-                <Label htmlFor="trackingNumber">Tracking Number</Label>
+                <Label htmlFor="applicationId">Application ID</Label>
                 <Input
-                  id="trackingNumber"
-                  placeholder="Enter your tracking number"
-                  {...form.register("trackingNumber")}
+                  id="applicationId"
+                  placeholder="Enter your Application ID"
+                  {...form.register("applicationId")}
                 />
-                {form.formState.errors.trackingNumber && (
+                {form.formState.errors.applicationId && (
                   <p className="text-red-500 text-sm mt-1">
-                    {form.formState.errors.trackingNumber.message}
+                    {form.formState.errors.applicationId.message}
                   </p>
                 )}
               </div>
-
-              {/* Full Name */}
-              <div>
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  id="fullName"
-                  placeholder="Enter your full name"
-                  {...form.register("fullName")}
-                />
-                {form.formState.errors.fullName && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {form.formState.errors.fullName.message}
-                  </p>
-                )}
-              </div>
-
               {/* Phone Number */}
               <div>
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
                   id="phone"
-                  placeholder="+880XXXXXXXXXX" 
+                  placeholder="01XXXXXXXXXX"
                   {...form.register("phone")}
                 />
                 {form.formState.errors.phone && (
@@ -89,8 +96,8 @@ export default function TrackApplicationForm() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full">
-              Track Application
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? "Loading... " : "Track Application"}
             </Button>
 
             <div className="text-center text-sm">
@@ -100,7 +107,7 @@ export default function TrackApplicationForm() {
             </div>
           </form>
         </CardContent>
-      </Card>
+      </Card>}
     </div>
   );
 }

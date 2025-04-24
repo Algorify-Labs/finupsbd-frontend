@@ -17,14 +17,14 @@ import {
 
 export default function EmiCalculator() {
   const [inputData, setInputData] = useState({
-    disbursementDate: "2025/04/17",
+    disbursementDate: "",
     loanAmount: "150000",
     numberOfMonths: 12,
     interestRate: "11",
   });
 
   const [emiCalculator, setEmiCalculator] = useState<EmiCalculatorPayload>()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
 
   const handelSubmit = async () => {
@@ -39,12 +39,6 @@ export default function EmiCalculator() {
       setLoading(false)
     }
   }
-
-  console.log(emiCalculator)
-
-
-
-
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,10 +100,11 @@ export default function EmiCalculator() {
             </div>
             <div className="pt-2">
               <Button
+              disabled={loading}
                 onClick={() => handelSubmit()}
                 className="w-full"
               >
-                Calculate EMI
+                {loading ? "Loading..." : "Calculate EMI"}
               </Button>
             </div>
           </CardContent>
