@@ -17,10 +17,10 @@ import {
 
 export default function EmiCalculator() {
   const [inputData, setInputData] = useState({
-    disbursementDate: "",
-    loanAmount: "",
-    numberOfMonths: 0,
-    interestRate: "",
+    disbursementDate: "2025/04/17",
+    loanAmount: "150000",
+    numberOfMonths: 12,
+    interestRate: "11",
   });
 
   const [emiCalculator, setEmiCalculator] = useState<EmiCalculatorPayload>()
