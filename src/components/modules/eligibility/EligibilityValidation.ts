@@ -139,12 +139,12 @@ const baseEligibilityCheckSchema = z.object({
   termsAccepted: z.boolean().optional(),
 
   // Contact / personal info
-  name: z.string().min(1, { message: "Name is required." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  phone: z.string().min(1, { message: "Phone number is required." }),
+  // name: z.string().min(1, { message: "Name is required." }),
+  // email: z.string().email({ message: "Invalid email address." }),
+  // phone: z.string().min(1, { message: "Phone number is required." }),
 
-  // Loan application status
-  isAppliedLoan: z.boolean({ message: "Must Selecets" }).optional(),
+  // // Loan application status
+  // isAppliedLoan: z.boolean({ message: "Must Selecets" })
 });
 
 // Extend the schema with conditional validations using superRefine

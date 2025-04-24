@@ -61,9 +61,9 @@ function EligibilityCheckModal({
     defaultValues: {
       gender: "MALE",
       profession: "SALARIED", // need change
-      dateOfBirth: new Date(),
+      dateOfBirth: new Date("1990-01-01"),
       monthlyIncome: 45000,
-      // expectedLoanTenure: 36,
+      expectedLoanTenure: 36,
       jobLocation: "DHAKA",
 
       // businessOwnerType: "COOPERATIVE",
@@ -91,7 +91,7 @@ function EligibilityCheckModal({
       name: "reza",
       email: "reza@gmail.com",
       phone: "01910479167",
-      termsAccepted: false,
+      // termsAccepted: false,
     },
   });
 

@@ -36,3 +36,5 @@ export const banks = [
   "IDLC Finance bank",
   "Al Arafah Islamic Bank",
 ];
+
+
