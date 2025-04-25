@@ -37,7 +37,7 @@ function EligibilityCheckModal({
 }: EligibilityCheckProps) {
   // const [step, setStep] = React.useState(1);
   const renderStepIndicator = () => {
-    const stepPercentage = ((step - 1) / 2) * 100;
+    const stepPercentage = ((step + 1) / 2) * 100;
     const formSteps = [
       { stepNumber: 1, title: "Step 1", description: "Personal Info" },
       { stepNumber: 2, title: "Step 2", description: "Financial Details" },

@@ -144,7 +144,7 @@ const baseEligibilityCheckSchema = z.object({
   phone: z.string().min(1, { message: "Phone number is required." }),
 
   // Loan application status
-  isAppliedLoan: z.boolean({ message: "Must Selecets" }).optional(),
+  isAppliedLoan: z.boolean({ message: "Must Selecets" })
 });
 
 // Extend the schema with conditional validations using superRefine

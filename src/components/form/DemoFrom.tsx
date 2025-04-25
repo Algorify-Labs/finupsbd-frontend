@@ -55,6 +55,10 @@ const formSchema = z.object({
   }),
 });
 
+
+
+
+
 const DemoFrom = () => {
   const [fileKey, setFileKey] = useState(Date.now());
   const fileInputRef = useRef(null);
@@ -101,6 +105,7 @@ const DemoFrom = () => {
             label="Contact Number"
             type="tel"
             placeholder="Enter Contact Number"
+            icon={<User className="size-4 lg:size-6" />}
             required
           />
           <TextInput
