@@ -1,13 +1,22 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "lucide-react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Form } from "../ui/form";
 import { DatePickerInput, SelectInput, TextInput } from "./FormInpts";
+const MAX_FILE_SIZE = 5000000;
 
+function checkFileType(file: File) {
+  if (file?.name) {
+    const fileType = file.name.split(".").pop();
+    if (fileType === "docx" || fileType === "pdf") return true;
+  }
+  return false;
+}
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -47,6 +56,8 @@ const formSchema = z.object({
 });
 
 const DemoFrom = () => {
+  const [fileKey, setFileKey] = useState(Date.now());
+  const fileInputRef = useRef(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -117,6 +128,7 @@ const DemoFrom = () => {
             name="dob"
             required
           />
+
           <Button className="mt-6" type="submit">
             Submit
           </Button>

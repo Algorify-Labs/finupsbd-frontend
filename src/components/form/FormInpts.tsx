@@ -218,7 +218,7 @@ export const SelectInput = ({
 
 // Common File Upload Component
 interface FileInputProps {
-  form: UseFormReturn;
+  form: UseFormReturn<any>;
   name: string;
   label: string;
   placeholder?: string;
@@ -256,7 +256,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 <Input
                   ref={field.ref} // use react-hook-form's ref
                   className={cn(
-                    "flex h-12 items-center justify-center rounded-none bg-white max-sm:h-11",
+                    "flex h-12 bg-white max-sm:h-11",
                     icon && "pr-12",
                   )}
                   type="file"
