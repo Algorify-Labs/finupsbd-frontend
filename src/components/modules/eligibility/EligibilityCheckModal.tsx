@@ -35,7 +35,39 @@ function EligibilityCheckModal({
   onOpenChange,
   loanType,
 }: EligibilityCheckProps) {
-  // const [step, setStep] = React.useState(1);
+  const [step, setStep] = useState(0);
+
+  const form = useForm<FullFormSchema>({
+    resolver: zodResolver(fullFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    },
+    mode: "onTouched",
+  });
+
+  const steps = [
+    <StepOne key="step1" form={form} />,
+    <StepTwo key="step2" form={form} />,
+    <StepThree key="step3" form={form} />,
+  ];
+
+  const validateStep = async () => {
+    const schema =
+      step === 0 ? stepOneSchema : step === 1 ? stepTwoSchema : fullFormSchema;
+    const valid = await form.trigger(
+      Object.keys(schema.shape) as Array<keyof FullFormSchema>,
+    );
+    return valid;
+  };
+
+  const onSubmit = (data: FullFormSchema) => {
+    console.log("Submitted data:", data);
+    alert("Submitted! Check console.");
+  };
+
   const renderStepIndicator = () => {
     const stepPercentage = ((step + 1) / 2) * 100;
     const formSteps = [
@@ -104,39 +136,6 @@ function EligibilityCheckModal({
         </div>
       </div>
     );
-  };
-
-  const [step, setStep] = useState(0);
-
-  const form = useForm<FullFormSchema>({
-    resolver: zodResolver(fullFormSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-    },
-    mode: "onTouched",
-  });
-
-  const steps = [
-    <StepOne key="step1" form={form} />,
-    <StepTwo key="step2" form={form} />,
-    <StepThree key="step3" form={form} />,
-  ];
-
-  const validateStep = async () => {
-    const schema =
-      step === 0 ? stepOneSchema : step === 1 ? stepTwoSchema : fullFormSchema;
-    const valid = await form.trigger(
-      Object.keys(schema.shape) as Array<keyof FullFormSchema>,
-    );
-    return valid;
-  };
-
-  const onSubmit = (data: FullFormSchema) => {
-    console.log("Submitted data:", data);
-    alert("Submitted! Check console.");
   };
 
   return (
