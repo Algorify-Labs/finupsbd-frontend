@@ -14,12 +14,16 @@ export function StepTwo() {
       <div>
         <Label>Email</Label>
         <Input {...register("email")} />
-        <p className="text-sm text-red-500">{errors.email?.message}</p>
+        <p className="text-sm text-red-500">
+          {errors.email?.message ? String(errors.email.message) : ""}
+        </p>
       </div>
       <div>
         <Label>Phone</Label>
         <Input {...register("phone")} />
-        <p className="text-sm text-red-500">{errors.phone?.message}</p>
+        <p className="text-sm text-red-500">
+          {errors.phone?.message ? String(errors.phone.message) : ""}
+        </p>
       </div>
     </div>
   );

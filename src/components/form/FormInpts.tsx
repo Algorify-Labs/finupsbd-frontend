@@ -42,6 +42,8 @@ interface TextInputProps<T extends FieldValues> {
   required?: boolean;
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  maxLength?: number;
+  minLength?: number;
 }
 export const TextInput = <T extends FieldValues>({
   form,
@@ -53,6 +55,8 @@ export const TextInput = <T extends FieldValues>({
   required = false,
   disabled = false,
   onChange,
+  maxLength,
+  minLength,
 }: TextInputProps<T>) => {
   return (
     <FormField
@@ -67,7 +71,7 @@ export const TextInput = <T extends FieldValues>({
             <div className="relative">
               <Input
                 className={cn(
-                  "h-12 border-[#D0D5DD] bg-white max-sm:h-11",
+                  "h-10 border-[#D0D5DD] bg-white max-sm:h-11",
                   icon && "pr-12",
                 )}
                 type={type}
@@ -78,9 +82,11 @@ export const TextInput = <T extends FieldValues>({
                   field.onChange(e); // react-hook-form binding
                   onChange?.(e); // your custom logic if provided
                 }}
+                maxLength={maxLength}
+                minLength={minLength}
               />
               {icon && (
-                <div className="absolute right-3 top-0 flex h-full items-center justify-center text-tertiary-primay">
+                <div className="absolute right-3 top-0 flex h-full items-center justify-center text-tertiary-primary">
                   {icon}
                 </div>
               )}
@@ -147,7 +153,7 @@ export const TextAreaInput = ({
 // Common Seelct Component
 interface SelectOption {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface SelectInputProps {
@@ -180,17 +186,23 @@ export const SelectInput = ({
           </FormLabel>
           <Select
             // onValueChange={field.onChange}
-            onValueChange={(val) => {
-              form.setValue(name, val, {
-                shouldValidate: true,
-                shouldDirty: true,
-              });
+            value={field.value !== undefined ? String(field.value) : ""}
+            onValueChange={(selectedValue) => {
+              // Find the original option
+              const matchedOption = options.find(
+                (opt) => String(opt.value) === selectedValue,
+              );
+              if (matchedOption) {
+                form.setValue(name, matchedOption.value, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+              }
             }}
-            value={field.value ?? ""}
             disabled={disabled}
           >
             <FormControl>
-              <SelectTrigger className="relative h-12 border-[#D0D5DD] bg-white transition-all duration-300 max-sm:h-11 [&[data-state=close]>svg]:-rotate-180 [&[data-state=close]>svg]:bg-primary [&[data-state=close]>svg]:duration-300 [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:duration-300">
+              <SelectTrigger className="relative h-10 border-[#D0D5DD] bg-white transition-all duration-300 max-sm:h-11 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-tertiary-primary/60 [&>svg]:opacity-100 [&[data-state=close]>svg]:-rotate-180 [&[data-state=close]>svg]:bg-primary [&[data-state=close]>svg]:duration-300 [&[data-state=open]>svg]:rotate-180 [&[data-state=open]>svg]:duration-300">
                 <SelectValue
                   className="placeholder:!text-primary-gray"
                   placeholder={placeholder}
@@ -200,8 +212,8 @@ export const SelectInput = ({
             <SelectContent className="border-[#D0D5DD]">
               {options.map((option) => (
                 <SelectItem
-                  key={option.value}
-                  value={option.value}
+                  key={String(option.value)}
+                  value={String(option.value)}
                   className="cursor-pointer"
                 >
                   {option.label}
@@ -256,7 +268,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 <Input
                   ref={field.ref} // use react-hook-form's ref
                   className={cn(
-                    "flex h-12 bg-white max-sm:h-11",
+                    "flex h-10 bg-white max-sm:h-11",
                     icon && "pr-12",
                   )}
                   type="file"
@@ -318,7 +330,7 @@ export const DatePickerInput = ({
                 <Button
                   variant="outline"
                   className={cn(
-                    "!mt-0 h-12 w-full border-[#D0D5DD] bg-white [&_svg]:size-6",
+                    "!mt-0 h-10 w-full border-[#D0D5DD] bg-white pr-2 [&_svg]:size-6",
                     !field.value && "text-muted-foreground",
                   )}
                 >
@@ -327,7 +339,7 @@ export const DatePickerInput = ({
                   ) : (
                     <span>Pick a date</span>
                   )}
-                  <CalendarIcon className="text-tertiary-primay-gray ml-auto" />
+                  <CalendarIcon className="ml-auto text-tertiary-primary/60" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
@@ -335,12 +347,13 @@ export const DatePickerInput = ({
               <Calendar
                 mode="single"
                 captionLayout="dropdown"
-                selected={date || field.value}
-                onSelect={(selectedDate) => {
-                  setDate(selectedDate!);
+                selected={field.value}
+                onSelect={async (selectedDate) => {
                   field.onChange(selectedDate);
+                  await form.trigger(name);
+                  setDate(selectedDate!);
+                  setIsOpen(false);
                 }}
-                onDayClick={() => setIsOpen(false)}
                 defaultMonth={field.value}
               />
             </PopoverContent>

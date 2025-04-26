@@ -146,7 +146,7 @@
         }
       }
       .accordion-content {
-        @apply pl-14 text-base leading-7 text-tertiary-primay lg:text-[18px];
+        @apply text-tertiary-primary pl-14 text-base leading-7 lg:text-[18px];
       }
       @apply border-none;
     }
@@ -162,7 +162,7 @@
         }
       }
       .accordion-content {
-        @apply text-base leading-7 text-tertiary-primay lg:text-[18px];
+        @apply text-tertiary-primary text-base leading-7 lg:text-[18px];
       }
       @apply mb-6 border border-[#F2F4F7];
     }
@@ -229,8 +229,8 @@
 }
 
 .form-inoput-item {
-  @apply relative mb-4;
+  @apply relative mb-2;
   label {
-    @apply mb-2 block text-sm font-medium text-[#344054];
+    @apply mb-2 block text-sm font-medium;
   }
 }

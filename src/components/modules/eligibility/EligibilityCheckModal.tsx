@@ -12,6 +12,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StepOne } from "./form-steps/StepOne";
@@ -40,8 +41,17 @@ function EligibilityCheckModal({
   const form = useForm<FullFormSchema>({
     resolver: zodResolver(fullFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      gender: "",
+      dateOfBirth: new Date(),
+      profession: "",
+      jobLocation: "",
+      businessOwnerType: "",
+      businessType: "",
+      tradeLicenseAge: 1,
+      monthlyIncome: 30000,
+      expectedLoanTenure: 12,
+      sharePortion: 0,
+      fullName: "",
       email: "",
       phone: "",
     },
@@ -58,7 +68,9 @@ function EligibilityCheckModal({
     const schema =
       step === 0 ? stepOneSchema : step === 1 ? stepTwoSchema : fullFormSchema;
     const valid = await form.trigger(
-      Object.keys(schema.shape) as Array<keyof FullFormSchema>,
+      Object.keys(
+        "shape" in schema ? schema.shape : schema._def.schema.shape,
+      ) as Array<keyof FullFormSchema>,
     );
     return valid;
   };
@@ -69,11 +81,11 @@ function EligibilityCheckModal({
   };
 
   const renderStepIndicator = () => {
-    const stepPercentage = ((step + 1) / 2) * 100;
+    const stepPercentage = (step / 2) * 100;
     const formSteps = [
-      { stepNumber: 1, title: "Step 1", description: "Personal Info" },
-      { stepNumber: 2, title: "Step 2", description: "Financial Details" },
-      { stepNumber: 3, title: "Step 3", description: "Contact Info" },
+      { stepNumber: 0, title: "Step 1", description: "Personal Info" },
+      { stepNumber: 1, title: "Step 2", description: "Financial Details" },
+      { stepNumber: 2, title: "Step 3", description: "Contact Info" },
     ];
     return (
       <div className="px-0 lg:px-4">
@@ -155,7 +167,7 @@ function EligibilityCheckModal({
             Find the best Personal Loan for you
           </DialogTitle>
 
-          <DialogDescription className="text-center text-sm">
+          <DialogDescription className="text-center text-sm text-tertiary-primary">
             Please provide your information to check your loan eligibility.
           </DialogDescription>
 
@@ -168,25 +180,29 @@ function EligibilityCheckModal({
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 {steps[step]}
 
-                <div className="flex justify-between">
+                <div className="mt-8 flex justify-between">
                   {step > 0 && (
                     <Button
                       type="button"
                       variant="outline"
+                      className="pl-2"
                       onClick={() => setStep(step - 1)}
                     >
+                      <ChevronLeft />
                       Back
                     </Button>
                   )}
                   {step < steps.length - 1 ? (
                     <Button
                       type="button"
+                      className="pr-2"
                       onClick={async () => {
                         const valid = await validateStep();
                         if (valid) setStep(step + 1);
                       }}
                     >
                       Next
+                      <ChevronLeft className="rotate-180" />
                     </Button>
                   ) : (
                     <Button type="submit">Submit</Button>

@@ -38,13 +38,13 @@ const MenuItems = ({ hasSidebar }: { hasSidebar: boolean }) => {
             {/* <div className="opacity-1 absolute left-[12px] top-full z-50 transition-all duration-300 group-hover:visible group-hover:opacity-100"> */}
             <div className="invisible absolute !top-full left-[12px] z-50 w-full opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100">
               <div className="pt-2">
-                <div className="min-w-60 rounded-md border border-gray-primay bg-white p-2 shadow-md">
+                <div className="min-w-60 rounded-md border border-gray-primary bg-white p-2 shadow-md">
                   <div className="py-1">
                     {navLink.subItems?.map((item, index) => (
                       <Link
                         key={index}
                         href={item.href}
-                        className="group/subitem block px-4 py-2 text-base text-tertiary-primay transition-colors duration-200 hover:bg-green-100 hover:text-tertiary-dark"
+                        className="group/subitem block px-4 py-2 text-base text-tertiary-primary transition-colors duration-200 hover:bg-green-100 hover:text-tertiary-dark"
                       >
                         {item.name}
                       </Link>

@@ -115,7 +115,7 @@ const ProfileMenu = () => {
 
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="cursor-pointer rounded-md bg-red-primay text-white hover:bg-red-dark"
+              className="cursor-pointer rounded-md bg-red-primary text-white hover:bg-red-dark"
               onClick={handleLogOut}
             >
               <LogOut className="mr-2 h-4 w-4" />

@@ -87,7 +87,7 @@ const MobileUserProfileMenu = ({ user, setIsLoading }: { user: TUser; setIsLoadi
           <li className="group border-b border-[#F2F4F7] py-4">
             <Button
               variant="destructive"
-              className="bg-red-primay text-white"
+              className="bg-red-primary text-white"
               onClick={handleLogOut}
             >
               <LogOut className="mr-2 h-4 w-4" />

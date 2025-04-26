@@ -158,7 +158,7 @@ body {
         }
       }
       .accordion-content {
-        @apply pl-14 text-base leading-7 text-tertiary-primay lg:text-[18px];
+        @apply text-tertiary-primary pl-14 text-base leading-7 lg:text-[18px];
       }
       @apply border-none;
     }
@@ -174,7 +174,7 @@ body {
         }
       }
       .accordion-content {
-        @apply text-base leading-7 text-tertiary-primay lg:text-[18px];
+        @apply text-tertiary-primary text-base leading-7 lg:text-[18px];
       }
       @apply mb-6 border border-[#F2F4F7];
     }

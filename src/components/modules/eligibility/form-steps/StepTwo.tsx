@@ -6,7 +6,28 @@ import { FullFormSchema } from "./schema";
 
 export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => (
   <div className="space-y-4">
-    <TextInput form={form} name="email" label="Email" type="email" required />
-    <TextInput form={form} name="phone" label="Phone" type="tel" required />
+    <TextInput
+      form={form}
+      name="fullName"
+      label="Your Name"
+      placeholder="Enter your name"
+      required
+    />
+    <TextInput
+      form={form}
+      name="email"
+      label="Your Email Address"
+      placeholder="Enter email address"
+      type="email"
+      required
+    />
+    <TextInput
+      form={form}
+      name="phone"
+      label="Phone"
+      type="tel"
+      placeholder="01XXXXXXXXX"
+      required
+    />
   </div>
 );

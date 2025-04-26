@@ -75,7 +75,7 @@
 //                 >
 //                   <Link
 //                     href={item.href}
-//                     className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-tertiary-primay transition-colors duration-200 hover:bg-gray-50 hover:text-tertiary-dark"
+//                     className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-tertiary-primary transition-colors duration-200 hover:bg-gray-50 hover:text-tertiary-dark"
 //                   >
 //                     {item.icon && <item.icon className="h-5 w-5" />}
 //                     {item.title}
@@ -92,10 +92,10 @@
 //                         <Link
 //                           key={subItem.name}
 //                           href={subItem.href}
-//                           className="group/subitem flex items-center gap-3 px-4 py-2.5 text-tertiary-primay transition-colors duration-200 hover:text-tertiary-dark"
+//                           className="group/subitem flex items-center gap-3 px-4 py-2.5 text-tertiary-primary transition-colors duration-200 hover:text-tertiary-dark"
 //                         >
 //                           {subItem.icon && (
-//                             <subItem.icon className="h-5 w-5 text-tertiary-primay group-hover/subitem:text-tertiary-dark" />
+//                             <subItem.icon className="h-5 w-5 text-tertiary-primary group-hover/subitem:text-tertiary-dark" />
 //                           )}
 //                           <div>
 //                             <span className="block text-sm">

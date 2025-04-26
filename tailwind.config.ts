@@ -52,7 +52,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         red: {
-          primay: "#E92215",
+          primary: "#E92215",
           dark: "#D21A0E",
         },
         green: {
@@ -62,15 +62,15 @@ export default {
         },
         gray: {
           "950": "#475467",
-          primay: "#D0D5DD",
+          primary: "#D0D5DD",
           dark: "#98A2B3",
         },
         tertiary: {
-          primay: "#344054",
+          primary: "#344054",
           dark: "#101828",
         },
         // text: {
-        //   primay: "#000000",
+        //   primary: "#000000",
         //   secondary: "#344054",
         // },
       },

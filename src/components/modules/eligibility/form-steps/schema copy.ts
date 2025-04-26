@@ -1,30 +1,56 @@
 import { calculateAge } from "@/utils";
 import { z } from "zod";
 
-const ageVerification = z.preprocess(
-  (val) => (typeof val === "string" ? new Date(val) : val),
-  z.date().refine(
-    (dob) => {
-      const age = calculateAge(dob);
-      return age >= 22 && age <= 65;
-    },
-    { message: "Your age must be between 22 and 65 years old." },
-  ),
+// Step Two Schema
+const ageVerification = z.date().refine(
+  (dob) => {
+    const age = calculateAge(dob);
+    return age >= 22 && age <= 65;
+  },
+  { message: "Your age must be between 22 and 65 years old." },
 );
+
+/*export const stepOneSchema = z.object({
+  gender: z.string().min(1, "Gender is required"),
+  dateOfBirth: ageVerification,
+  profession: z.string().min(1, "Profession is required"),
+  jobLocation: z.string().min(1, "Location is required"),
+
+  monthlyIncome: z
+    .number({
+      required_error: "Monthly Income (BDT) is required",
+      invalid_type_error: "Monthly Income must be a number",
+    })
+    .int({ message: "Monthly income must be an integer" })
+    .min(30000, { message: "Monthly income must be at least 30,000/- BDT" })
+    .max(1000000000, {
+      message: "Monthly income must not exceed 1,000,000,000/- BDT",
+    }),
+
+  businessOwnerType: z.string().min(1, "Business Owner Type is required"),
+  businessType: z.string().min(1, "Business Type is required"),
+
+  sharePortion: z
+    .number({
+      required_error: "Share Portion is required",
+      invalid_type_error: "Share Portion must be a number",
+    })
+    .int({ message: "Share Portion must be an integer" })
+    .min(1, "Share Portion must be at least 1%"),
+  tradeLicenseAge: z
+    .number({
+      required_error: "Share Portion is required",
+      invalid_type_error: "Share Portion must be a number",
+    })
+    .int({ message: "Share Portion must be an integer" })
+    .min(1, "Share Portion must be at least 1%"),
+  expectedLoanTenure: z.number().min(1, "Location is required"),
+});*/
 
 // Step One Schema
 export const stepOneSchema = z.object({
   gender: z.string().min(1, "Gender is required"),
-  dateOfBirth: z.preprocess(
-    (val) => (typeof val === "string" ? new Date(val) : val),
-    z.date().refine(
-      (dob) => {
-        const age = calculateAge(dob);
-        return age >= 22 && age <= 65;
-      },
-      { message: "Your age must be between 22 and 65 years old." },
-    ),
-  ),
+  dateOfBirth: ageVerification,
   profession: z.string().min(1, "Profession is required"),
   jobLocation: z.string().min(1, "Location is required"),
   monthlyIncome: z

@@ -27,8 +27,8 @@ const UserLogin = () => {
           </Sheet>
         </div>
       ) : (
-        <Link href="/login" className="gap-2">
-          <Button size="sm" className="px-3">
+        <Link href="/login" className="gap-2 text-right">
+          <Button className="px-3">
             <LogIn className="h-4 w-4" />
             Sign In
           </Button>

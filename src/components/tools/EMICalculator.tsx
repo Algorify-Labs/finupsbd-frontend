@@ -6,14 +6,13 @@ import { Label } from "@/components/ui/label";
 import { emiCalculatorApi, EmiCalculatorPayload } from "@/services/public";
 import { useState } from "react";
 import {
-  PieChart,
-  Pie,
   Cell,
-  Tooltip,
-  ResponsiveContainer,
   Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
 } from "recharts";
-
 
 export default function EmiCalculator() {
   const [inputData, setInputData] = useState({
@@ -23,23 +22,21 @@ export default function EmiCalculator() {
     interestRate: "11",
   });
 
-  const [emiCalculator, setEmiCalculator] = useState<EmiCalculatorPayload>()
-  const [loading, setLoading] = useState(false)
-
+  const [emiCalculator, setEmiCalculator] = useState<EmiCalculatorPayload>();
+  const [loading, setLoading] = useState(false);
 
   const handelSubmit = async () => {
     try {
-      setLoading(true)
-      const { data } = await emiCalculatorApi(inputData)
-      setEmiCalculator(data)
+      setLoading(true);
+      const { data } = await emiCalculatorApi(inputData);
+      setEmiCalculator(data);
     } catch (err) {
       // setError("Failed to load user profile")
-      console.error(err)
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -100,7 +97,7 @@ export default function EmiCalculator() {
             </div>
             <div className="pt-2">
               <Button
-              disabled={loading}
+                disabled={loading}
                 onClick={() => handelSubmit()}
                 className="w-full"
               >
@@ -110,8 +107,8 @@ export default function EmiCalculator() {
           </CardContent>
         </Card>
 
-        <Card className="border-tertiary-primay shadow-md">
-          <CardHeader className="rounded-t-xl bg-tertiary-primay px-4 py-3">
+        <Card className="border-tertiary-primary shadow-md">
+          <CardHeader className="bg-tertiary-primary rounded-t-xl px-4 py-3">
             <CardTitle className="text-lg font-semibold text-white">
               EMI Breakdown (Output)
             </CardTitle>
@@ -158,9 +155,11 @@ export default function EmiCalculator() {
                           },
                           {
                             name: "Total Interest",
-                            value:
-                              Math.round(Number(emiCalculator.emiAmount) * inputData.numberOfMonths -
-                              Number(inputData.loanAmount))
+                            value: Math.round(
+                              Number(emiCalculator.emiAmount) *
+                                inputData.numberOfMonths -
+                                Number(inputData.loanAmount),
+                            ),
                           },
                         ]}
                         cx="50%"
@@ -181,9 +180,7 @@ export default function EmiCalculator() {
               )}
             </div>
           </CardContent>
-
         </Card>
-
       </div>
     </div>
   );

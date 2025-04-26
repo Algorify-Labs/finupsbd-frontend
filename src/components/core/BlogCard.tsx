@@ -56,10 +56,10 @@ const BlogCard = ({ data }: BlogCardProps) => {
         <CardFooter>
           <Link
             href=""
-            className="flex items-center text-tertiary-primay group-hover:text-tertiary-dark"
+            className="flex items-center text-tertiary-primary group-hover:text-tertiary-dark"
           >
             Read More
-            <ArrowRight className="ml-1 h-4 w-4 -rotate-45 font-semibold text-tertiary-primay transition-transform group-hover:-rotate-0 group-hover:text-tertiary-dark" />
+            <ArrowRight className="ml-1 h-4 w-4 -rotate-45 font-semibold text-tertiary-primary transition-transform group-hover:-rotate-0 group-hover:text-tertiary-dark" />
           </Link>
         </CardFooter>
       </Card>

@@ -55,10 +55,6 @@ const formSchema = z.object({
   }),
 });
 
-
-
-
-
 const DemoFrom = () => {
   const [fileKey, setFileKey] = useState(Date.now());
   const fileInputRef = useRef(null);
@@ -70,7 +66,7 @@ const DemoFrom = () => {
       phone: "",
       email: "",
       gender: "",
-      dob: new Date(),
+      dob: "",
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {

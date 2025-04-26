@@ -11,11 +11,11 @@ const Header = ({ hasSidebar = true }) => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-gray-primay bg-white py-2 drop-shadow-md xl:py-4",
+        "border-gray-primary sticky top-0 z-50 border-b bg-white py-2 drop-shadow-md xl:py-4",
       )}
     >
       {/* Desktop Navigation */}
-      <div className="container-full mx-auto hidden px-4 2xl:container xl:block 2xl:px-0">
+      <div className="container-full mx-auto hidden px-4 2xl:container lg:block 2xl:px-0">
         <div className="flex h-full w-full items-center justify-between gap-x-6">
           {hasSidebar && (
             <div className="w-2/12">
@@ -45,7 +45,7 @@ const Header = ({ hasSidebar = true }) => {
         </div>
       </div>
       {/* Mobile Navigation */}
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <MobileHeader />
       </div>
     </header>
