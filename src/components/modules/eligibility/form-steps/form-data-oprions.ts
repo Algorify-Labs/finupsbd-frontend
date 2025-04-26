@@ -85,16 +85,9 @@ export const tenureOptions = [
 ];
 
 export const businessOwnerOptions = [
-  { label: "Sole Proprietorship", value: "PROPRIETOR" },
-  { label: "Partnership", value: "PARTNER" },
-  { label: "Corporation", value: "CORPORATION" },
-  { label: "LLC", value: "LLC" },
-  { label: "Cooperative", value: "COOPERATIVE" },
-  { label: "Joint Venture", value: "JOINT_VENTURE" },
-  { label: "Franchise", value: "FRANCHISE" },
-  // { label: "Non-Profit Organization", value: "NON_PROFIT_ORGANIZATION" },
-  // { label: "Private Limited Company", value: "PRIVATE_LIMITED_COMPANY" },
-  // { label: "Public Limited Company", value: "PUBLIC_LIMITED_COMPANY" },
+  { label: "Proprietorship", value: "PROPRIETORSHIP" },
+  { label: "Partnership", value: "PARTNERSHIP" },
+  { label: "Public Limited Company", value: "PUBLIC_LIMITED_COMPANY" },
 ];
 
 export const businessTypeOptions = [
