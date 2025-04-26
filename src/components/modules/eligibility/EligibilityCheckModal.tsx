@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { cleanFormData } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -76,7 +77,22 @@ function EligibilityCheckModal({
   };
 
   const onSubmit = (data: FullFormSchema) => {
-    console.log("Submitted data:", data);
+    let cleanedData = { ...data };
+
+    if (
+      data.profession !== "BUSINESS_OWNER" &&
+      data.profession !== "SELF_EMPLOYED"
+    ) {
+      delete cleanedData.businessOwnerType;
+      delete cleanedData.businessType;
+      delete cleanedData.sharePortion;
+      delete cleanedData.tradeLicenseAge;
+    }
+
+    // Final cleaning to remove any empty fields
+    const finalData = cleanFormData(cleanedData);
+
+    console.log("Submitted data:", finalData);
     alert("Submitted! Check console.");
   };
 
