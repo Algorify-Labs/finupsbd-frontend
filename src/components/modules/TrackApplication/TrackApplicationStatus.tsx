@@ -22,37 +22,7 @@ import { Badge } from "@/components/ui/badge"
 import { ApplicationStatusData } from "./TrackingApplicationTypes"
 
 export default function TrackApplicationStatus({ applicationStatusData }: { applicationStatusData: ApplicationStatusData }) {
-    // This would normally come from an API call
-    //   const applicationStatusData = {
-    //     status: "SUBMITTED",
-    //     adminNotes: null,
-    //     applicationId: "325041400002",
-    //     loanRequest: {
-    //       id: "b22d1124-a4a8-41e9-bae6-512dd0aa04b5",
-    //       loanType: "Personal Loan",
-    //       loanAmount: "500000",
-    //       purpose: "Medical Expenses",
-    //       tenure: "24",
-    //       emiStartDate: "2025-05-01",
-    //       repaymentPreferences: "Bank Transfer",
-    //       loanApplicationFormId: "d8e6d6d6-f42b-47c0-bafa-e94ed2913f43",
-    //     },
-    //     user: {
-    //       name: "yyyyyy",
-    //       userId: "250414001",
-    //       profile: {
-    //         id: "5665849f-4b6b-4223-b104-ae82b6b6eb53",
-    //         nameAsNid: "Shamim reza",
-    //         nationalIdNumber: "1234567890",
-    //         gender: "MALE",
-    //         dateOfBirth: "1995-06-15T00:00:00.000Z",
-    //         avatar: "https://res.cloudinary.com/djr5gjijg/image/upload/v1744573945/Blog-1744573943090.jpg",
-    //         address: "123 Street Name",
-    //         city: "New York",
-    //         userId: "f1ec5cd2-7784-4f2b-939f-11a850acb7e6",
-    //       },
-    //     },
-    //   }
+
 
 
     const getStatusStep = (status: string) => {
