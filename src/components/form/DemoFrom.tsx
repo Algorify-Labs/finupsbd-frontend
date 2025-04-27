@@ -66,7 +66,7 @@ const DemoFrom = () => {
       phone: "",
       email: "",
       gender: "",
-      dob: "",
+      dob: new Date(),
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
