@@ -4,7 +4,7 @@ import {
   DatePickerInput,
   SelectInput,
   TextInput,
-} from "@/components/form/FormInpts";
+} from "@/components/form/FormInputs";
 import { Percent } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { TbCurrencyTaka } from "react-icons/tb";

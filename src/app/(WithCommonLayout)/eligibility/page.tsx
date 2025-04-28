@@ -68,7 +68,7 @@ const EligibilityPage = () => {
     };
 
     fetchData();
-  }, [queryData]);
+  }, [queryData, compareData, compareValue]);
 
   if (isLoading) {
     return <LoadingComponent />;
