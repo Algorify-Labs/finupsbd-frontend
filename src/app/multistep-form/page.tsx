@@ -15,7 +15,11 @@ import {
 
 type FormData = z.infer<typeof fullFormSchema>;
 
-const steps = [<StepOne />, <StepTwo />, <StepThree />];
+const steps = [
+  <StepOne key="step-one" />,
+  <StepTwo key="step-two" />,
+  <StepThree key="step-three" />,
+];
 
 export default function MultiStepFormPage() {
   const [step, setStep] = useState(0);

@@ -53,7 +53,15 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
       sortKey,
     };
     onSendData(queryData);
-  }, [debouncedLoanAmount, interestRate, searchTerm, sortOrder, sortKey, page]);
+  }, [
+    debouncedLoanAmount,
+    interestRate,
+    searchTerm,
+    sortOrder,
+    sortKey,
+    page,
+    onSendData,
+  ]);
 
   // Toggle wishlist
   const handleWishlist = (id: number) => {
@@ -122,7 +130,7 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
               </h2>
               <Button
                 variant="ghost"
-                className="flex text-base text-tertiary-primay hover:bg-[#FFF2EB] hover:text-[#FF5F00]"
+                className="text-tertiary-primay flex text-base hover:bg-[#FFF2EB] hover:text-[#FF5F00]"
                 onClick={() => {
                   setLoanAmount(100000);
                   setProfitRate(12);
@@ -140,7 +148,7 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
                 <h3 className="mb-4 text-base font-medium text-tertiary-dark">
                   Loan Amount
                 </h3>
-                <div className="flex justify-between text-sm font-semibold text-tertiary-primay">
+                <div className="text-tertiary-primay flex justify-between text-sm font-semibold">
                   <p>BDT 0</p>
                   <p>BDT 5,00,000</p>
                 </div>
@@ -152,12 +160,12 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
                   className="w-full bg-[#EAECF0]"
                 />
                 <div className="relative flex items-center gap-2">
-                  <span className="absolute left-4 top-[17px] z-10 text-base font-bold text-tertiary-primay">
+                  <span className="text-tertiary-primay absolute left-4 top-[17px] z-10 text-base font-bold">
                     BDT
                   </span>
                   <input
                     type="text"
-                    className="relative mt-2 w-full rounded-md border border-gray-300 px-3 py-2 pl-14 text-base font-bold text-tertiary-primay focus:border-gray-400 focus-visible:outline-none"
+                    className="text-tertiary-primay relative mt-2 w-full rounded-md border border-gray-300 px-3 py-2 pl-14 text-base font-bold focus:border-gray-400 focus-visible:outline-none"
                     value={amount}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters

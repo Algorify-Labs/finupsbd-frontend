@@ -93,6 +93,7 @@ function EligibilityCheckModal({
     const finalData = cleanFormData(cleanedData);
 
     console.log("Submitted data:", finalData);
+    
     alert("Submitted! Check console.");
   };
 

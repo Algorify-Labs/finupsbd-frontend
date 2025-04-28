@@ -32,7 +32,7 @@ function EligibilityInstantLoanDataShow({
     };
 
     onSendData(queryData);
-  }, [amount, tenure]);
+  }, [amount, tenure, onSendData]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
