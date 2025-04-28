@@ -335,7 +335,7 @@ export const DatePickerInput = ({
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "PPP")
+                    format(field.value, "mm/dd/yyyy")
                   ) : (
                     <span>Pick a date</span>
                   )}

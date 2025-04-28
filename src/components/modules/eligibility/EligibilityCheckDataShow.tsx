@@ -60,7 +60,6 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
     sortOrder,
     sortKey,
     page,
-    onSendData,
   ]);
 
   // Toggle wishlist

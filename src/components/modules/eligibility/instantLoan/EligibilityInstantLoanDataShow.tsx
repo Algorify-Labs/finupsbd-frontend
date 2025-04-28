@@ -129,9 +129,9 @@ function EligibilityInstantLoanDataShow({
         </div>
 
         {eligibilityData.map((data) => (
-          <>
+          <div key={data.bankName}>
             {/* Loan Details */}
-            <div key={data.bankName} className="mb-8 rounded-lg border p-4">
+            <div className="mb-8 rounded-lg border p-4">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <div>
@@ -274,7 +274,7 @@ function EligibilityInstantLoanDataShow({
                 </li>
               </ul>
             </div>
-          </>
+          </div>
         ))}
       </div>
     </>

@@ -31,7 +31,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(WithDashboardLayout)/super-admin/content"
+    "src/app/(WithDashboardLayout)/super-admin/content",
+    "src/components/modules/eligibility/form-steps/StepTwo.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -4,7 +4,7 @@ import {
   DatePickerInput,
   SelectInput,
   TextInput,
-} from "@/components/form/FormInpts";
+} from "@/components/form/FormInputs";
 import { Percent } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -15,9 +15,11 @@ import {
   genderOptions,
   professionOptions,
   tenureOptions,
+  tenureOptionsForInstant,
   tradeLicenseExperieOptions,
 } from "./form-data-oprions";
 import { FullFormSchema } from "./schema";
+import { table } from "console";
 
 export const StepOne = ({ form }: { form: UseFormReturn<FullFormSchema> }) => (
   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -113,7 +115,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<FullFormSchema> }) => (
       name="expectedLoanTenure"
       label="Expected Loan Tenure (Month)"
       placeholder="Select Tenure"
-      options={tenureOptions}
+      options={tenureOptionsForInstant}
       required
     />
   </div>

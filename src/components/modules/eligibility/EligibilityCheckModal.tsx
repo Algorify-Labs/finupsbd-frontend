@@ -14,17 +14,20 @@ import { cn } from "@/lib/utils";
 import { cleanFormData } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { StepOne } from "./form-steps/StepOne";
-import { StepThree } from "./form-steps/StepThree";
-import { StepTwo } from "./form-steps/StepTwo";
 import {
   fullFormSchema,
   FullFormSchema,
   stepOneSchema,
+  stepThreeSchema,
   stepTwoSchema,
 } from "./form-steps/schema";
+import { StepFour } from "./form-steps/StepFour";
+import { StepOne } from "./form-steps/StepOne";
+import { StepThree } from "./form-steps/StepThree";
+import { StepTwo } from "./form-steps/StepTwo";
 
 interface EligibilityCheckProps {
   open: boolean;
@@ -38,23 +41,27 @@ function EligibilityCheckModal({
   loanType,
 }: EligibilityCheckProps) {
   const [step, setStep] = useState(0);
+  const router = useRouter();
 
   const form = useForm<FullFormSchema>({
     resolver: zodResolver(fullFormSchema),
     defaultValues: {
-      // gender: "",
-      // dateOfBirth: new Date(),
-      // profession: "",
-      // jobLocation: "",
-      // businessOwnerType: "",
-      // businessType: "",
-      // tradeLicenseAge: 1,
-      // // monthlyIncome: 30000,
-      // expectedLoanTenure: 12,
-      // sharePortion: 0,
-      // fullName: "",
-      // email: "",
-      // phone: "",
+      gender: "",
+      dateOfBirth: new Date("January 01, 1985"),
+      profession: "",
+      jobLocation: "",
+      businessOwnerType: "",
+      businessType: "",
+      tradeLicenseAge: 1,
+      monthlyIncome: 30000,
+      expectedLoanTenure: 12,
+      sharePortion: 0,
+      // numberOfLoans: undefined,
+      // hasLoan: "NO",
+      // loans: [],
+      name: "reza",
+      email: "reza@gmail.com",
+      phone: "01910479167",
     },
     mode: "onTouched",
   });
@@ -63,21 +70,46 @@ function EligibilityCheckModal({
     <StepOne key="step1" form={form} />,
     <StepTwo key="step2" form={form} />,
     <StepThree key="step3" form={form} />,
+    <StepFour key="step4" form={form} />,
   ];
 
+  // const validateStep = async () => {
+  //   const schema =
+  //     step === 0
+  //       ? stepOneSchema
+  //       : step === 1
+  //         ? stepTwoSchema
+  //         : step === 2
+  //           ? stepThreeSchema
+  //           : fullFormSchema;
+  //   const valid = await form.trigger(
+  //     Object.keys(
+  //       "shape" in schema ? schema.shape : schema._def.schema.shape,
+  //     ) as Array<keyof FullFormSchema>,
+  //   );
+  //   return valid;
+  // };
+
+
+const dateOfBirth = form.getValues("dateOfBirth");
+console.log(dateOfBirth)
+
+  const currentSchema = [stepOneSchema, stepTwoSchema, stepThreeSchema][step];
+
   const validateStep = async () => {
-    const schema =
-      step === 0 ? stepOneSchema : step === 1 ? stepTwoSchema : fullFormSchema;
-    const valid = await form.trigger(
-      Object.keys(
-        "shape" in schema ? schema.shape : schema._def.schema.shape,
-      ) as Array<keyof FullFormSchema>,
-    );
+    const fields = Object.keys(currentSchema.shape) as Array<
+      keyof FullFormSchema
+    >;
+    const valid = await form.trigger(fields);
     return valid;
   };
 
   const onSubmit = (data: FullFormSchema) => {
-    let cleanedData = { ...data };
+    let cleanedData: Partial<FullFormSchema> = { ...data };
+
+    console.log("nnnnn",{data})
+    delete cleanedData.hasLoan;
+    delete cleanedData.loans;
 
     if (
       data.profession !== "BUSINESS_OWNER" &&
@@ -90,11 +122,23 @@ function EligibilityCheckModal({
     }
 
     // Final cleaning to remove any empty fields
-    const finalData = cleanFormData(cleanedData);
+    const eligibilityData = {
+      ...cleanFormData(cleanedData),
+      loanType,
+    };
 
-    console.log("Submitted data:", finalData);
-    
+ 
+
+    sessionStorage.setItem("eligibilityData", JSON.stringify(eligibilityData));
+
+    console.log("Submitted data:", eligibilityData);
     alert("Submitted! Check console.");
+
+    if (loanType === "INSTANT_LOAN") {
+      router.push("/eligibility-instant-loan");
+    } else {
+      router.push("/eligibility");
+    }
   };
 
   const renderStepIndicator = () => {
@@ -192,7 +236,7 @@ function EligibilityCheckModal({
         </DialogHeader>
 
         <ScrollArea className="max-h-96">
-          <Card className="w-full border-none p-6 text-left shadow-none">
+          <Card className={cn("w-full border-none p-6 text-left shadow-none")}>
             <FormProvider {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 {steps[step]}
@@ -215,7 +259,7 @@ function EligibilityCheckModal({
                       className="pr-2"
                       onClick={async () => {
                         const valid = await validateStep();
-                        if (valid) setStep(step + 1);
+                        if (valid) setStep((prev) => prev + 1);
                       }}
                     >
                       Next

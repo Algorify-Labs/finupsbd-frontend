@@ -20,15 +20,7 @@ export interface QueryData {
 const InastantLoanPage = () => {
   const [submissionData, setSubmissionData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [queryData, setQueryData] = useState<QueryData>({
-    tenure: 1,
-    sortKey: "desc",
-    page: 1,
-    sortOrder: "desc",
-    interestRate: 0,
-    searchTerm: [],
-    amount: 100000,
-  });
+  const [queryData, setQueryData] = useState<QueryData>();
 
   const handleQueryData = (data: QueryData) => {
     setQueryData(data);

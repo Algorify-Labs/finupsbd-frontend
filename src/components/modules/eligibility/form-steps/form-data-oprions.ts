@@ -84,6 +84,13 @@ export const tenureOptions = [
   { label: "72 Months", value: 72 },
 ];
 
+export const tenureOptionsForInstant = [
+  { label: "1 Month", value: 1 },
+  { label: "2 Months", value: 2 },
+  { label: "3 Months", value: 3 },
+
+];
+
 export const businessOwnerOptions = [
   { label: "Proprietorship", value: "PROPRIETORSHIP" },
   { label: "Partnership", value: "PARTNERSHIP" },

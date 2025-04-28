@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Form } from "../ui/form";
-import { DatePickerInput, SelectInput, TextInput } from "./FormInpts";
+import { DatePickerInput, SelectInput, TextInput } from "./FormInputs";
 const MAX_FILE_SIZE = 5000000;
 
 function checkFileType(file: File) {
