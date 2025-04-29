@@ -12,8 +12,9 @@ import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 import EligibilityCheckModal from "../modules/eligibility/EligibilityCheckModal";
+import { loanTypes } from "../modules/eligibility/form-steps/form-data-oprions";
 
-function EligibilityPage() {
+function EligibilityNavigation() {
   // Track the selected loan type
   const [loanType, setLoanType] = useState("");
   const [openEligibility, setOpenEligibility] = useState(false);
@@ -98,7 +99,19 @@ function EligibilityPage() {
                   onValueChange={setLoanType} // track changes
                   className="gird mb-4 mt-2 flex-none grid-cols-2 gap-6 lg:flex lg:flex-row lg:items-center"
                 >
-                  <div className="flex items-center space-x-2">
+                  {loanTypes?.map((type) => (
+                    <div
+                      key={type.value}
+                      className="flex items-center space-x-2"
+                    >
+                      <RadioGroupItem id={type.value} value={type.value} />
+                      <Label className="cursor-pointer" htmlFor={type.value}>
+                        {type.label}
+                      </Label>
+                    </div>
+                  ))}
+
+                  {/* <div className="flex items-center space-x-2">
                     <RadioGroupItem id="PEOSONAL_LOAN" value="PERSONAL_LOAN" />
                     <Label className="cursor-pointer" htmlFor="PEOSONAL_LOAN">
                       Personal Loan
@@ -127,7 +140,7 @@ function EligibilityPage() {
                     <Label className="cursor-pointer" htmlFor="SME_LOAN">
                       SME Loan
                     </Label>
-                  </div>
+                  </div> */}
                 </RadioGroup>
 
                 {/* Action buttons */}
@@ -214,4 +227,4 @@ function EligibilityPage() {
   );
 }
 
-export default EligibilityPage;
+export default EligibilityNavigation;

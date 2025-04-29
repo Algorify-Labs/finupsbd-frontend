@@ -20,14 +20,14 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
     name: "loans",
   });
 
-  const watchHasLoan = form.watch("hasLoan");
+  const watchHasLoan = form.watch("haveAnyLoan");
 
   const watchNumberOfLoans = form.watch("numberOfLoans");
 
   // Effectively rebuild loans array when number of loans change
   useEffect(() => {
     if (
-      form.getValues("hasLoan") === "YES" &&
+      form.getValues("haveAnyLoan") === "YES" &&
       typeof watchNumberOfLoans === "number"
     ) {
       const newLoans = Array.from({ length: watchNumberOfLoans }, () => ({
@@ -44,9 +44,9 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       <div className="space-y-2">
         <Label className="text-base">Do you have any loans?</Label>
         <RadioGroup
-          value={form.watch("hasLoan")}
+          value={form.watch("haveAnyLoan")}
           onValueChange={(value) => {
-            form.setValue("hasLoan", value as "YES" | "NO", {
+            form.setValue("haveAnyLoan", value as "YES" | "NO", {
               shouldValidate: true,
             });
             if (value === "NO") {
@@ -68,7 +68,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       </div>
 
       {/* Select Number of Loans if YES */}
-      {watchHasLoan === "YES" && (
+      {form.watch("haveAnyLoan") === "YES" && (
         <>
           <SelectInput
             form={form}

@@ -1,3 +1,11 @@
+export const loanTypes = [
+  { label: "Personal Loan", value: "PERSONAL_LOAN" },
+  { label: "Instant Loan", value: "INSTANT_LOAN" },
+  { label: "Home Loan", value: "HOME_LOAN" },
+  { label: "Car Loan", value: "CAR_LOAN" },
+  { label: "SME Loan", value: "SME_LOAN" },
+];
+
 export const genderOptions = [
   { label: "Male", value: "MALE" },
   { label: "Female", value: "FEMALE" },
@@ -84,6 +92,12 @@ export const tenureOptions = [
   { label: "72 Months", value: 72 },
 ];
 
+export const tenureOptionsForInstantLoans = [
+  { label: "1 Month", value: 1 },
+  { label: "2 Months", value: 2 },
+  { label: "3 Months", value: 3 },
+];
+
 export const businessOwnerOptions = [
   { label: "Proprietorship", value: "PROPRIETORSHIP" },
   { label: "Partnership", value: "PARTNERSHIP" },
@@ -108,3 +122,8 @@ export const tradeLicenseExperieOptions = [
   { label: "9 Years", value: 9 },
   { label: "10 Years", value: 10 },
 ];
+
+// export const genderOptions = [
+//   { label: "Male", value: "MALE" },
+//   { label: "Female", value: "FEMALE" },
+// ];

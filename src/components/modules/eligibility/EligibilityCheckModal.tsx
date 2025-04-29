@@ -32,7 +32,7 @@ import { StepTwo } from "./form-steps/StepTwo";
 interface EligibilityCheckProps {
   open: boolean;
   onOpenChange: (val: boolean) => void;
-  loanType: string; // e.g. 'PERSONAL_LOAN'
+  loanType: string;
 }
 
 function EligibilityCheckModal({
@@ -50,11 +50,11 @@ function EligibilityCheckModal({
       dateOfBirth: new Date("January 01, 1985"),
       profession: "",
       jobLocation: "",
-      businessOwnerType: "",
-      businessType: "",
+      // businessOwnerType: "",
+      // businessType: "",
+      haveAnyLoan: "NO",
       tradeLicenseAge: 1,
       monthlyIncome: 30000,
-      expectedLoanTenure: 12,
       sharePortion: 0,
       // numberOfLoans: undefined,
       // hasLoan: "NO",
@@ -67,7 +67,7 @@ function EligibilityCheckModal({
   });
 
   const steps = [
-    <StepOne key="step1" form={form} />,
+    <StepOne key="step1" form={form} loanType={loanType} />,
     <StepTwo key="step2" form={form} />,
     <StepThree key="step3" form={form} />,
     <StepFour key="step4" form={form} />,
@@ -90,13 +90,30 @@ function EligibilityCheckModal({
   //   return valid;
   // };
 
-  const currentSchema = [stepOneSchema, stepTwoSchema, stepThreeSchema][step];
+  // const currentSchema = [stepOneSchema, stepTwoSchema, stepThreeSchema][step];
+
+  // const validateStep = async () => {
+  //   const fields = Object.keys(currentSchema.shape) as Array<
+  //     keyof FullFormSchema
+  //   >;
+  //   const valid = await form.trigger(fields);
+  //   return valid;
+  // };
 
   const validateStep = async () => {
-    const fields = Object.keys(currentSchema.shape) as Array<
-      keyof FullFormSchema
-    >;
-    const valid = await form.trigger(fields);
+    const schema =
+      step === 0
+        ? stepOneSchema
+        : step === 1
+          ? stepTwoSchema
+          : step === 2
+            ? stepThreeSchema
+            : fullFormSchema;
+    const valid = await form.trigger(
+      Object.keys(
+        "shape" in schema ? schema.shape : schema._def.schema.shape,
+      ) as Array<keyof FullFormSchema>,
+    );
     return valid;
   };
 
