@@ -52,12 +52,11 @@ function EligibilityCheckModal({
       jobLocation: "",
       // businessOwnerType: "",
       // businessType: "",
-      haveAnyLoan: "NO",
       tradeLicenseAge: 1,
       monthlyIncome: 30000,
       sharePortion: 0,
+      haveAnyLoan: "NO",
       // numberOfLoans: undefined,
-      // hasLoan: "NO",
       // loans: [],
       name: "reza",
       email: "reza@gmail.com",
@@ -118,25 +117,28 @@ function EligibilityCheckModal({
   };
 
   const onSubmit = (data: FullFormSchema) => {
-    let cleanedData: Partial<FullFormSchema> = { ...data };
+    let formatedData: Partial<FullFormSchema> = { ...data };
 
-    console.log("nnnnn", { data });
-    delete cleanedData.haveAnyLoan;
-    delete cleanedData.loans;
+    if (formatedData.haveAnyLoan === "YES") {
+      formatedData.haveAnyLoan = true;
+    } else {
+      formatedData.haveAnyLoan = false;
+    }
+    delete formatedData.existingLoans;
 
     if (
       data.profession !== "BUSINESS_OWNER" &&
       data.profession !== "SELF_EMPLOYED"
     ) {
-      delete cleanedData.businessOwnerType;
-      delete cleanedData.businessType;
-      delete cleanedData.sharePortion;
-      delete cleanedData.tradeLicenseAge;
+      delete formatedData.businessOwnerType;
+      delete formatedData.businessType;
+      delete formatedData.sharePortion;
+      delete formatedData.tradeLicenseAge;
     }
 
     // Final cleaning to remove any empty fields
     const eligibilityData = {
-      ...cleanFormData(cleanedData),
+      ...cleanFormData(formatedData),
       loanType,
     };
 
@@ -145,11 +147,11 @@ function EligibilityCheckModal({
     console.log("Submitted data:", eligibilityData);
     alert("Submitted! Check console.");
 
-    if (loanType === "INSTANT_LOAN") {
-      router.push("/eligibility-instant-loan");
-    } else {
-      router.push("/eligibility");
-    }
+    // if (loanType === "INSTANT_LOAN") {
+    //   router.push("/eligibility-instant-loan");
+    // } else {
+    //   router.push("/eligibility");
+    // }
   };
 
   const renderStepIndicator = () => {

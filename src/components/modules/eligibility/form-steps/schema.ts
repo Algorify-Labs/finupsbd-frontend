@@ -80,12 +80,15 @@ export const stepOneSchema = z
 
 // Step Two Schema
 export const stepTwoSchema = z.object({
-  haveAnyLoan: z.string({
-    required_error: "Please select if you have any loan",
-    invalid_type_error: "Please select if you have any loan",
-  }),
+  haveAnyLoan: z.union([
+    z.string({
+      required_error: "Please select if you have any loan",
+      invalid_type_error: "Please select if you have any loan",
+    }),
+    z.boolean(),
+  ]),
   numberOfLoans: z.number().optional(),
-  loans: z
+  existingLoans: z
     .array(
       z.object({
         loanType: z.string().nonempty("Loan type is required"),
@@ -142,43 +145,46 @@ export const fullFormSchema = z
       }
     }
 
-    // if (data.haveAnyLoan === "YES") {
-    //   if (
-    //     typeof data.numberOfLoans !== "number" ||
-    //     data.numberOfLoans < 1 ||
-    //     data.numberOfLoans > 3
-    //   ) {
-    //     ctx.addIssue({
-    //       code: "custom",
-    //       path: ["numberOfLoans"],
-    //       message: "Please select number of loans (1, 2 or 3)",
-    //     });
-    //   }
-    //   if (!data.loans || data.loans.length !== data.numberOfLoans) {
-    //     ctx.addIssue({
-    //       code: "custom",
-    //       path: ["loans"],
-    //       message: "Loan details are required for each loan",
-    //     });
-    //   } else {
-    //     data.loans.forEach((loan, index) => {
-    //       if (!loan.loanType) {
-    //         ctx.addIssue({
-    //           code: "custom",
-    //           path: ["loans", index, "loanType"],
-    //           message: `Loan type required for loan ${index + 1}`,
-    //         });
-    //       }
-    //       if (!loan.loanAmount || loan.loanAmount < 1000) {
-    //         ctx.addIssue({
-    //           code: "custom",
-    //           path: ["loans", index, "loanAmount"],
-    //           message: `Loan amount must be at least 1000 for loan ${index + 1}`,
-    //         });
-    //       }
-    //     });
-    //   }
-    // }
+    if (data.haveAnyLoan === "YES") {
+      if (
+        typeof data.numberOfLoans !== "number" ||
+        data.numberOfLoans < 1 ||
+        data.numberOfLoans > 3
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["numberOfLoans"],
+          message: "Please select number of loans you have",
+        });
+      }
+      if (
+        !data.existingLoans ||
+        data.existingLoans.length !== data.numberOfLoans
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["loans"],
+          message: "Loan details are required for each loan",
+        });
+      } else {
+        data.existingLoans.forEach((loan, index) => {
+          if (!loan.loanType) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["existingLoans", index, "loanType"],
+              message: `Loan type required for loan ${index + 1}`,
+            });
+          }
+          if (!loan.loanAmount || loan.loanAmount < 1000) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["loans", index, "loanAmount"],
+              message: `Loan amount must be at least 1000 for loan ${index + 1}`,
+            });
+          }
+        });
+      }
+    }
   });
 
 export type FullFormSchema = z.infer<typeof fullFormSchema>;
