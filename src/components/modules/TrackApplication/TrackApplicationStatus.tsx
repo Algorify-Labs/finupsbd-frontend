@@ -27,6 +27,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ApplicationStatusData } from "./TrackingApplicationTypes";
 
+<<<<<<< HEAD
+export default function TrackApplicationStatus({ applicationStatusData }: { applicationStatusData: ApplicationStatusData }) {
+
+=======
 export default function TrackApplicationStatus({
   applicationStatusData,
 }: {
@@ -63,6 +67,7 @@ export default function TrackApplicationStatus({
   //       },
   //     },
   //   }
+>>>>>>> fe29c55ffdd95163b3315a7aaa130fddc49b03de
 
   const getStatusStep = (status: string) => {
     switch (status) {

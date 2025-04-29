@@ -1,6 +1,14 @@
 import { calculateAge } from "@/utils";
 import { z } from "zod";
 
+const dateValidation = z.date().refine(
+  (dob) => {
+    const age = calculateAge(dob);
+    return age >= 22 && age <= 65;
+  },
+  { message: "Your age must be between 22 and 65 years old." },
+);
+
 // Step One Schema
 export const stepOneSchema = z
   .object({
@@ -89,7 +97,7 @@ export const stepTwoSchema = z.object({
 
 // Step Two Schema
 export const stepThreeSchema = z.object({
-  fullName: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
   phone: z.string().min(10, "Phone must be at least 10 digits"),
 });

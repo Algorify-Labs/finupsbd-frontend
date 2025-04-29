@@ -12,7 +12,7 @@ export const StepThree = ({
   <div className="space-y-4">
     <TextInput
       form={form}
-      name="fullName"
+      name="name"
       label="Your Name"
       placeholder="Enter your name"
       required

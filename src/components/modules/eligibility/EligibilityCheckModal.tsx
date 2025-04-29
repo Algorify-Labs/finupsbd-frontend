@@ -59,9 +59,9 @@ function EligibilityCheckModal({
       // numberOfLoans: undefined,
       // hasLoan: "NO",
       // loans: [],
-      fullName: "",
-      email: "",
-      phone: "",
+      name: "reza",
+      email: "reza@gmail.com",
+      phone: "01910479167",
     },
     mode: "onTouched",
   });
@@ -119,6 +119,10 @@ function EligibilityCheckModal({
 
   const onSubmit = (data: FullFormSchema) => {
     let cleanedData: Partial<FullFormSchema> = { ...data };
+
+    console.log("nnnnn", { data });
+    delete cleanedData.haveAnyLoan;
+    delete cleanedData.loans;
 
     if (
       data.profession !== "BUSINESS_OWNER" &&

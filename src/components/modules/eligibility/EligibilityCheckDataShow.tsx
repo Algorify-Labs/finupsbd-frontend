@@ -53,15 +53,7 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
       sortKey,
     };
     onSendData(queryData);
-  }, [
-    debouncedLoanAmount,
-    interestRate,
-    searchTerm,
-    sortOrder,
-    sortKey,
-    page,
-    onSendData,
-  ]);
+  }, [debouncedLoanAmount, interestRate, searchTerm, sortOrder, sortKey, page]);
 
   // Toggle wishlist
   const handleWishlist = (id: number) => {

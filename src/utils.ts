@@ -84,3 +84,24 @@ export function cleanFormData<T extends Record<string, any>>(
 
 // const emiValue = calculateEMI({ principal: amount, months: periodInMonths, annualInterestRate });
 // console.log(`The EMI is: ${emiValue.toFixed(2)}`);
+
+export function customDateFormater(inputDateString: string | number | Date) {
+  // 1. Parse the input into a Date
+  const localDate = new Date(inputDateString);
+
+  // 2. Extract the Y/M/D components in local time
+  const year = localDate.getFullYear();
+  const month = localDate.getMonth(); // zero-based
+  const day = localDate.getDate();
+
+  // 3. Build a new Date at 00:00:00 UTC for that same Y/M/D
+  const utcMidnight = new Date(Date.UTC(year, month, day));
+
+  // 4. Return its ISO string
+  return utcMidnight.toISOString();
+}
+
+// Usage example:
+// const raw = "Wed Jan 02 1985 00:00:00 GMT+0600 (Bangladesh Standard Time)";
+// console.log(formatDateOfBirth(raw));
+// → "1985-01-02T00:00:00.000Z"
