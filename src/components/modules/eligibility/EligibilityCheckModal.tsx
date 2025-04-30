@@ -50,14 +50,11 @@ function EligibilityCheckModal({
       dateOfBirth: new Date("January 01, 1985"),
       profession: "",
       jobLocation: "",
-      // businessOwnerType: "",
-      // businessType: "",
       tradeLicenseAge: 1,
       monthlyIncome: 30000,
       sharePortion: 0,
       haveAnyLoan: "NO",
-      // numberOfLoans: undefined,
-      // loans: [],
+      haveAnyCreditCard: "NO",
       name: "reza",
       email: "reza@gmail.com",
       phone: "01910479167",
@@ -123,8 +120,13 @@ function EligibilityCheckModal({
       formatedData.haveAnyLoan = true;
     } else {
       formatedData.haveAnyLoan = false;
+      delete formatedData.existingLoans;
     }
-    delete formatedData.existingLoans;
+    if (formatedData.haveAnyCreditCard === "YES") {
+      formatedData.haveAnyCreditCard = true;
+    } else {
+      formatedData.haveAnyCreditCard = false;
+    }
 
     if (
       data.profession !== "BUSINESS_OWNER" &&

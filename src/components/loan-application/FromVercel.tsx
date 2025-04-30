@@ -1,16 +1,5 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
-import { useForm, Controller, type SubmitHandler } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Menu, Save, HelpCircle, ChevronRight, ChevronLeft } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,7 +11,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Progress } from "@/components/ui/progress"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { HelpCircle, Menu } from "lucide-react"
 import Image from "next/image"
+import React, { useEffect, useState } from "react"
+import { Controller, useForm, type SubmitHandler } from "react-hook-form"
+import { z } from "zod"
 
 // Define a Zod schema for your application form.
 const applicationFormSchema = z.object({
@@ -919,7 +919,7 @@ const ApplicationFormVercel = () => {
                 {previews["PASSPORT_PHOTO"] && (
                   <div>
                     <p className="text-sm font-medium text-gray-700">Preview:</p>
-                    <img
+                    <Image
                       src={previews["PASSPORT_PHOTO"] || "/placeholder.svg"}
                       alt="Preview"
                       className="mt-2 w-48 h-48 object-cover rounded-lg border border-gray-300 shadow-sm"

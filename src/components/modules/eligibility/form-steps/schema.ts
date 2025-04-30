@@ -88,11 +88,42 @@ export const stepTwoSchema = z.object({
     z.boolean(),
   ]),
   numberOfLoans: z.number().optional(),
+  haveAnyCreditCard: z.union([
+    z.string({
+      required_error: "Please select if you have any credit card",
+      invalid_type_error: "Please select if you have any credit card",
+    }),
+    z.boolean(),
+  ]),
+  numberOfCreditCards: z.number().optional(),
   existingLoans: z
     .array(
       z.object({
-        loanType: z.string().nonempty("Loan type is required"),
-        loanAmount: z.number().min(1000, "Minimum loan amount is 1000"),
+        existingLoanType: z.string().nonempty("Loan type is required"),
+        loanOutstanding: z
+          .number({
+            required_error: "Outstanding Amount is required",
+            invalid_type_error: "Outstanding  Amount must be a number",
+          })
+          .int({ message: "Outstanding Amount must be an integer" })
+          .min(1000, "Outstanding Amount must be at least 1000 BDT"),
+        emiAmount: z
+          .number({
+            required_error: "EMI Amount is required",
+            invalid_type_error: "EMI Amount must be a number",
+          })
+          .int({ message: "EMI Amount must be an integer" })
+          .min(1, "EMI Amount must be at least 1000 BDT"),
+        interestRate: z.preprocess(
+          (val) => (typeof val === "string" ? Number(val) : val),
+          z
+            .number({
+              required_error: "Interest rate is required",
+              invalid_type_error: "Interest rate must be a number",
+            })
+            .min(0, "Interest rate must be at least 0%")
+            .max(100, "Interest rate must not exceed 100%"),
+        ),
       }),
     )
     .optional(),
@@ -149,12 +180,12 @@ export const fullFormSchema = z
       if (
         typeof data.numberOfLoans !== "number" ||
         data.numberOfLoans < 1 ||
-        data.numberOfLoans > 3
+        data.numberOfLoans > 5
       ) {
         ctx.addIssue({
           code: "custom",
           path: ["numberOfLoans"],
-          message: "Please select number of loans you have",
+          message: "Please select number of loans",
         });
       }
       if (
@@ -163,25 +194,53 @@ export const fullFormSchema = z
       ) {
         ctx.addIssue({
           code: "custom",
-          path: ["loans"],
+          path: ["esistingLoans"],
           message: "Loan details are required for each loan",
         });
       } else {
         data.existingLoans.forEach((loan, index) => {
-          if (!loan.loanType) {
+          if (!loan.existingLoanType) {
             ctx.addIssue({
               code: "custom",
-              path: ["existingLoans", index, "loanType"],
+              path: ["existingLoans", index, "existingLoanType"],
               message: `Loan type required for loan ${index + 1}`,
             });
           }
-          if (!loan.loanAmount || loan.loanAmount < 1000) {
+          if (!loan.loanOutstanding || loan.loanOutstanding < 1000) {
             ctx.addIssue({
               code: "custom",
-              path: ["loans", index, "loanAmount"],
-              message: `Loan amount must be at least 1000 for loan ${index + 1}`,
+              path: ["existingLoans", index, "loanOutstanding"],
+              message: `Amount must be at least 1000 BDT ${index + 1}`,
             });
           }
+          if (!loan.emiAmount || loan.emiAmount < 1000) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["existingLoans", index, "emiAmount"],
+              message: `Amount must be at least 1000 BDT ${index + 1}`,
+            });
+          }
+          if (!loan.interestRate) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["existingLoans", index, "interestRate"],
+              message: `Interest rate is required`,
+            });
+          }
+        });
+      }
+    }
+
+    if (data.haveAnyCreditCard === "YES") {
+      if (
+        typeof data.numberOfCreditCards !== "number" ||
+        data.numberOfCreditCards < 1 ||
+        data.numberOfCreditCards > 5
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["numberOfCreditCards"],
+          message: "Please select number of cards",
         });
       }
     }

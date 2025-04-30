@@ -506,7 +506,7 @@ export default function KycVerificationPage() {
                                 className="flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors hover:bg-muted/50"
                               >
                                 {documentFrontPreview ? (
-                                  <img
+                                  <Image
                                     src={
                                       documentFrontPreview || "/placeholder.svg"
                                     }
@@ -713,7 +713,7 @@ export default function KycVerificationPage() {
                               className="flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors hover:bg-muted/50"
                             >
                               {addressProofPreview ? (
-                                <img
+                                <Image
                                   src={
                                     addressProofPreview || "/placeholder.svg"
                                   }
@@ -773,7 +773,7 @@ export default function KycVerificationPage() {
                               className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors hover:bg-muted/50"
                             >
                               {selfiePreview ? (
-                                <img
+                                <Image
                                   src={selfiePreview || "/placeholder.svg"}
                                   alt="Selfie preview"
                                   className="h-full w-full rounded-lg object-contain"
