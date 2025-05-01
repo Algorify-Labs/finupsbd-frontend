@@ -4,11 +4,12 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { FullFormSchema } from "./schema";
 
 import { SelectInput, TextInput } from "@/components/form/FormInputs";
-import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect } from "react";
+import { MapPinHouse } from "lucide-react";
+import { useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
+import { useDebounce } from "use-debounce";
 
 const loanTypeOptions = [
   { label: "Personal Loan", value: "PERSONAL_LOAN" },
@@ -34,6 +35,10 @@ const numberOfCreditCards = [
 ];
 
 export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
+  const [showPropertyMessage, setShowPropertyMessage] = useState(false);
+  const [showIncomeMessage, setShowIncomeMessage] = useState(false);
+  const [rentalAreaInput, setRentalAreaInput] = useState("");
+  const [debouncedRentalArea] = useDebounce(rentalAreaInput, 700); // 500ms delay
   const { fields, replace } = useFieldArray({
     control: form.control,
     name: "existingLoans",
@@ -57,6 +62,20 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       replace(newLoans);
     }
   }, [watchNumberOfLoans, form, replace]);
+
+  useEffect(() => {
+    if (debouncedRentalArea.length > 0) {
+      setShowPropertyMessage(true);
+    } else {
+      setShowPropertyMessage(false);
+    }
+
+    if (debouncedRentalArea.trim().endsWith(",")) {
+      setShowIncomeMessage(true);
+    } else {
+      setShowIncomeMessage(false);
+    }
+  }, [debouncedRentalArea]);
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -233,10 +252,77 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
               required
             />
             {(form.watch("numberOfCreditCards") ?? 0) > 1 && (
-              <Badge className="w-full border-primary bg-[#E7FDE2] text-xs font-medium text-green-950">
+              <p className="w-full rounded-md border border-primary bg-[#E7FDE2] p-2 text-xs font-medium text-green-950">
                 If you have more than 1 card, please provide the total credit
                 limit by summing the limit of each individual card.
-              </Badge>
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Radio Group for "Do you have loans?" */}
+      <div className="mt-4 space-y-2">
+        <Label className="text-base">Do you have any credit card?</Label>
+        <RadioGroup
+          className="flex gap-8"
+          value={String(form.watch("haveAnyRentalIncome"))}
+          onValueChange={(value) => {
+            form.setValue("haveAnyRentalIncome", value as "YES" | "NO", {
+              shouldValidate: true,
+            });
+          }}
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="YES" id="yes" />
+            <Label htmlFor="yes">Yes</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="NO" id="no" />
+            <Label htmlFor="no">No</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {form.watch("haveAnyRentalIncome") === "YES" && (
+        <div className="mt-2 grid grid-cols-2 gap-4">
+          <div>
+            <TextInput
+              form={form}
+              name="rentalArea"
+              label="Rental Property Area"
+              type="text"
+              placeholder="Enter rental property area"
+              icon={<MapPinHouse size={20} />}
+              onChange={(e) => setRentalAreaInput(e.target.value)}
+            />
+            {showPropertyMessage && (
+              <p className="w-full rounded-md border border-primary bg-[#E7FDE2] p-2 text-xs font-medium text-green-950">
+                If property area more than 1, please type the area with comma
+                separated. For example: Dhaka, Chattogram.
+              </p>
+            )}
+          </div>
+          <div>
+            <TextInput
+              form={form}
+              name="rentalIncome"
+              label="Rental Income (BDT)"
+              type="number"
+              placeholder="Enter rental income amount"
+              onChange={(e) =>
+                form.setValue("rentalIncome", Number(e.target.value))
+              }
+              maxLength={10}
+              icon={<TbCurrencyTaka size={20} />}
+              required
+            />
+            {showIncomeMessage && (
+              <p className="w-full rounded-md border border-primary bg-[#E7FDE2] p-2 text-xs font-medium leading-[18px] text-green-950">
+                If you have more than multiple rental property, please provide
+                the total rental income by summing the income of each individual
+                property.
+              </p>
             )}
           </div>
         </div>

@@ -55,7 +55,7 @@ function EligibilityCheckModal({
       sharePortion: 0,
       haveAnyLoan: "NO",
       haveAnyCreditCard: "NO",
-
+      haveAnyRentalIncome: "NO",
       name: "reza",
       email: "reza@gmail.com",
       phone: "01910479167",
@@ -117,6 +117,16 @@ function EligibilityCheckModal({
   const onSubmit = (data: FullFormSchema) => {
     let formatedData: Partial<FullFormSchema> = { ...data };
 
+    if (
+      data.profession !== "BUSINESS_OWNER" &&
+      data.profession !== "SELF_EMPLOYED"
+    ) {
+      delete formatedData.businessOwnerType;
+      delete formatedData.businessType;
+      delete formatedData.sharePortion;
+      delete formatedData.tradeLicenseAge;
+    }
+
     if (formatedData.haveAnyLoan === "YES") {
       formatedData.haveAnyLoan = true;
     } else {
@@ -131,14 +141,10 @@ function EligibilityCheckModal({
       delete formatedData.cardLimit;
     }
 
-    if (
-      data.profession !== "BUSINESS_OWNER" &&
-      data.profession !== "SELF_EMPLOYED"
-    ) {
-      delete formatedData.businessOwnerType;
-      delete formatedData.businessType;
-      delete formatedData.sharePortion;
-      delete formatedData.tradeLicenseAge;
+    if (formatedData.haveAnyRentalIncome === "YES") {
+      formatedData.haveAnyRentalIncome = true;
+    } else {
+      formatedData.haveAnyRentalIncome = false;
     }
 
     // Final cleaning to remove any empty fields
@@ -152,11 +158,11 @@ function EligibilityCheckModal({
     console.log("Submitted data:", eligibilityData);
     alert("Submitted! Check console.");
 
-    // if (loanType === "INSTANT_LOAN") {
-    //   router.push("/eligibility-instant-loan");
-    // } else {
-    //   router.push("/eligibility");
-    // }
+    if (loanType === "INSTANT_LOAN") {
+      router.push("/eligibility-instant-loan");
+    } else {
+      router.push("/eligibility");
+    }
   };
 
   const renderStepIndicator = () => {
@@ -271,7 +277,7 @@ function EligibilityCheckModal({
                       Back
                     </Button>
                   )}
-                  {step < steps.length - 1 ? (
+                  {step < 4 ? (
                     <Button
                       type="button"
                       className="pr-2"
@@ -280,7 +286,8 @@ function EligibilityCheckModal({
                         if (valid) setStep((prev) => prev + 1);
                       }}
                     >
-                      Next
+                      {step === 3 ? "Check Eligibility" : "Continue"}
+
                       <ChevronLeft className="rotate-180" />
                     </Button>
                   ) : (

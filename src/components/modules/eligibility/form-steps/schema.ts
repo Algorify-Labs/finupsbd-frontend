@@ -101,9 +101,30 @@ export const stepTwoSchema = z.object({
     .int({ message: "Amount must be an integer" })
     .min(100000, { message: "Amount must be at least 1,00,000/- BDT" })
     .optional(),
+
+  haveAnyRentalIncome: z.union([
+    z.string({
+      required_error: "Please select if you have any credit card",
+      invalid_type_error: "Please select if you have any credit card",
+    }),
+    z.boolean(),
+  ]),
+  rentalArea: z
+    .string({
+      required_error: "Rental Property Area is required",
+      invalid_type_error: "Rental Property Area is required",
+    })
+    .optional(),
+  rentalIncome: z
+    .number({
+      required_error: "Rental income is required",
+      invalid_type_error: "Rental income must be a number",
+    })
+    .int({ message: "Rental income must be an integer" })
+    .optional(),
 });
 
-// Step Two Schema
+// Step Three Schema
 export const stepThreeSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
@@ -234,6 +255,23 @@ export const fullFormSchema = z
           code: "custom",
           message: "Share Portion is required",
           path: ["cardLimit"],
+        });
+      }
+    }
+
+    if (data.haveAnyRentalIncome === "YES") {
+      if (data.rentalArea === undefined || data.rentalArea === null) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["rentalIncome"],
+          message: `Rental income amount is required`,
+        });
+      }
+      if (data.rentalIncome === undefined || data.rentalIncome === null) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["rentalIncome"],
+          message: `Rental income amount is required`,
         });
       }
     }

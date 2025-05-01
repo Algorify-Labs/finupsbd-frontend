@@ -1,7 +1,7 @@
 "use server";
 
 export const eligibilityCheckData = async (payload: any, queryData: any) => {
-  console.log({payload, queryData});
+  console.log({ payload, queryData });
 
   try {
     const res = await fetch(
