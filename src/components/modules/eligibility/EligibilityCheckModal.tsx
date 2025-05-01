@@ -127,6 +127,8 @@ function EligibilityCheckModal({
       formatedData.haveAnyCreditCard = true;
     } else {
       formatedData.haveAnyCreditCard = false;
+      delete formatedData.numberOfCreditCards;
+      delete formatedData.cardLimit;
     }
 
     if (
