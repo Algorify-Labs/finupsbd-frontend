@@ -69,6 +69,11 @@ export default {
           primary: "#344054",
           dark: "#101828",
         },
+        orange: {
+          lighter: "#E7FDE2",
+          light: "#FFF2EB",
+          dark: "#FF5F00",
+        },
         // text: {
         //   primary: "#000000",
         //   secondary: "#344054",

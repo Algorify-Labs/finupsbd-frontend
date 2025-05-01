@@ -10,73 +10,39 @@ const dateValidation = z.date().refine(
 );
 
 // Step One Schema
-export const stepOneSchema = z
-  .object({
-    gender: z.string().min(1, "Gender is required"),
-    dateOfBirth: z.preprocess(
-      (val) => (typeof val === "string" ? new Date(val) : val),
-      z.date().refine(
-        (dob) => {
-          const age = calculateAge(dob);
-          return age >= 22 && age <= 65;
-        },
-        { message: "Your age must be between 22 and 65 years old." },
-      ),
+export const stepOneSchema = z.object({
+  gender: z.string().min(1, "Gender is required"),
+  dateOfBirth: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date().refine(
+      (dob) => {
+        const age = calculateAge(dob);
+        return age >= 22 && age <= 65;
+      },
+      { message: "Your age must be between 22 and 65 years old." },
     ),
-    profession: z.string().min(1, "Profession is required"),
-    jobLocation: z.string().min(1, "Location is required"),
-    monthlyIncome: z
-      .number({
-        required_error: "Monthly Income (BDT) is required",
-        invalid_type_error: "Monthly Income must be a number",
-      })
-      .int({ message: "Monthly income must be an integer" })
-      .min(30000, { message: "Monthly income must be at least 30,000/- BDT" })
-      .max(1000000000, {
-        message: "Monthly income must not exceed 1,000,000,000/- BDT",
-      }),
-    businessOwnerType: z.string().optional(),
-    businessType: z.string().optional(),
-    sharePortion: z.number().optional(),
-    tradeLicenseAge: z.number().optional(),
-    expectedLoanTenure: z.number({
-      required_error: "Expected Loan Tenure is required",
-      invalid_type_error: "Expected Loan Tenure is required",
+  ),
+  profession: z.string().min(1, "Profession is required"),
+  jobLocation: z.string().min(1, "Location is required"),
+  monthlyIncome: z
+    .number({
+      required_error: "Monthly Income (BDT) is required",
+      invalid_type_error: "Monthly Income must be a number",
+    })
+    .int({ message: "Monthly income must be an integer" })
+    .min(30000, { message: "Monthly income must be at least 30,000/- BDT" })
+    .max(1000000000, {
+      message: "Monthly income must not exceed 1,000,000,000/- BDT",
     }),
-  })
-  .superRefine((data, ctx) => {
-    console.log("SuperRefine running, profession:", data.profession);
-    if (["BUSINESS_OWNER", "SELF_EMPLOYED"].includes(data.profession)) {
-      if (!data.businessOwnerType?.trim()) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Business Owner Type is required",
-          path: ["businessOwnerType"],
-        });
-      }
-      if (!data.businessType?.trim()) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Business Type is required",
-          path: ["businessType"],
-        });
-      }
-      if (data.sharePortion === undefined || data.sharePortion === null) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Share Portion is required",
-          path: ["sharePortion"],
-        });
-      }
-      if (data.tradeLicenseAge === undefined || data.tradeLicenseAge === null) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Trade License Age is required",
-          path: ["tradeLicenseAge"],
-        });
-      }
-    }
-  });
+  businessOwnerType: z.string().optional(),
+  businessType: z.string().optional(),
+  sharePortion: z.number().optional(),
+  tradeLicenseAge: z.number().optional(),
+  expectedLoanTenure: z.number({
+    required_error: "Expected Loan Tenure is required",
+    invalid_type_error: "Expected Loan Tenure is required",
+  }),
+});
 
 // Step Two Schema
 export const stepTwoSchema = z.object({
@@ -88,14 +54,6 @@ export const stepTwoSchema = z.object({
     z.boolean(),
   ]),
   numberOfLoans: z.number().optional(),
-  haveAnyCreditCard: z.union([
-    z.string({
-      required_error: "Please select if you have any credit card",
-      invalid_type_error: "Please select if you have any credit card",
-    }),
-    z.boolean(),
-  ]),
-  numberOfCreditCards: z.number().optional(),
   existingLoans: z
     .array(
       z.object({
@@ -127,6 +85,22 @@ export const stepTwoSchema = z.object({
       }),
     )
     .optional(),
+  haveAnyCreditCard: z.union([
+    z.string({
+      required_error: "Please select if you have any credit card",
+      invalid_type_error: "Please select if you have any credit card",
+    }),
+    z.boolean(),
+  ]),
+  numberOfCreditCards: z.number().optional(),
+  cardLimit: z
+    .number({
+      required_error: "Card limit is required",
+      invalid_type_error: "Amount must be a number",
+    })
+    .int({ message: "Amount must be an integer" })
+    .min(100000, { message: "Amount must be at least 1,00,000/- BDT" })
+    .optional(),
 });
 
 // Step Two Schema
@@ -139,7 +113,7 @@ export const stepThreeSchema = z.object({
 // Combine manually in a new schema
 export const fullFormSchema = z
   .object({
-    ...stepOneSchema._def.schema.shape,
+    ...stepOneSchema.shape,
     ...stepTwoSchema.shape,
     ...stepThreeSchema.shape,
   })
@@ -241,6 +215,25 @@ export const fullFormSchema = z
           code: "custom",
           path: ["numberOfCreditCards"],
           message: "Please select number of cards",
+        });
+      }
+
+      if (
+        data.numberOfCreditCards === undefined ||
+        data.numberOfCreditCards === null
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Business Owner Type is required",
+          path: ["numberOfCreditCards"],
+        });
+      }
+
+      if (data.cardLimit === undefined || data.cardLimit === null) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Share Portion is required",
+          path: ["cardLimit"],
         });
       }
     }

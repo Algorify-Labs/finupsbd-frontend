@@ -55,6 +55,7 @@ function EligibilityCheckModal({
       sharePortion: 0,
       haveAnyLoan: "NO",
       haveAnyCreditCard: "NO",
+
       name: "reza",
       email: "reza@gmail.com",
       phone: "01910479167",

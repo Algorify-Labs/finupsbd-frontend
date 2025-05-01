@@ -4,6 +4,7 @@ import { UseFormReturn, useFieldArray } from "react-hook-form";
 import { FullFormSchema } from "./schema";
 
 import { SelectInput, TextInput } from "@/components/form/FormInputs";
+import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect } from "react";
@@ -60,7 +61,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
   return (
     <div className="grid grid-cols-1 gap-4">
       {/* Radio Group for "Do you have loans?" */}
-      <div className="space-y-2">
+      <div className="mb-4 space-y-2">
         <Label className="text-base">Do you have any loans?</Label>
         <RadioGroup
           value={String(form.watch("haveAnyLoan"))}
@@ -92,7 +93,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
           <SelectInput
             form={form}
             name="numberOfLoans"
-            label="Number of loans you have"
+            label="Number of Loans You Have"
             placeholder="Select number of loans"
             options={numberOfLoans}
             required
@@ -184,6 +185,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       <div className="mt-4 space-y-2">
         <Label className="text-base">Do you have any credit card?</Label>
         <RadioGroup
+          className="flex gap-8"
           value={String(form.watch("haveAnyCreditCard"))}
           onValueChange={(value) => {
             form.setValue("haveAnyCreditCard", value as "YES" | "NO", {
@@ -194,7 +196,6 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
               replace([]);
             }
           }}
-          className="flex gap-8"
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="YES" id="yes" />
@@ -208,7 +209,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       </div>
 
       {form.watch("haveAnyCreditCard") === "YES" && (
-        <>
+        <div className="mt-2 grid grid-cols-2 gap-4">
           <SelectInput
             form={form}
             name="numberOfCreditCards"
@@ -217,7 +218,28 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
             options={numberOfCreditCards}
             required
           />
-        </>
+          <div>
+            <TextInput
+              form={form}
+              name="cardLimit"
+              label="Card Limit (BDT)"
+              type="text"
+              placeholder="Enter limit amount"
+              onChange={(e) =>
+                form.setValue("cardLimit", Number(e.target.value))
+              }
+              maxLength={10}
+              icon={<TbCurrencyTaka size={20} />}
+              required
+            />
+            {(form.watch("numberOfCreditCards") ?? 0) > 1 && (
+              <Badge className="w-full border-primary bg-[#E7FDE2] text-xs font-medium text-green-950">
+                If you have more than 1 card, please provide the total credit
+                limit by summing the limit of each individual card.
+              </Badge>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
