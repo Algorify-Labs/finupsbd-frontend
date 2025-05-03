@@ -46,10 +46,10 @@ function EligibilityCheckModal({
   const form = useForm<FullFormSchema>({
     resolver: zodResolver(fullFormSchema),
     defaultValues: {
-      gender: "",
+      gender: "MALE",
       dateOfBirth: new Date("January 01, 1985"),
-      profession: "",
-      jobLocation: "",
+      profession: "SALARIED",
+      jobLocation: "DHAKA",
       tradeLicenseAge: 1,
       monthlyIncome: 30000,
       sharePortion: 0,
@@ -147,6 +147,8 @@ function EligibilityCheckModal({
       formatedData.haveAnyRentalIncome = true;
     } else {
       formatedData.haveAnyRentalIncome = false;
+      delete formatedData.rentalArea;
+      delete formatedData.rentalIncome;
     }
 
     // Final cleaning to remove any empty fields
@@ -158,13 +160,13 @@ function EligibilityCheckModal({
     sessionStorage.setItem("eligibilityData", JSON.stringify(eligibilityData));
 
     console.log("Submitted data:", eligibilityData);
-    alert("Submitted! Check console.");
+    // alert("Submitted! Check console.");
 
-    // if (loanType === "INSTANT_LOAN") {
-    //   router.push("/eligibility-instant-loan");
-    // } else {
-    //   router.push("/eligibility");
-    // }
+    if (loanType === "INSTANT_LOAN") {
+      router.push("/eligibility-instant-loan");
+    } else {
+      router.push("/eligibility");
+    }
   };
 
   const renderStepIndicator = () => {
@@ -249,17 +251,18 @@ function EligibilityCheckModal({
           e.preventDefault(); // Keep if you want to prevent outside click closing. Remove otherwise.
         }}
       >
-        <DialogHeader>
-          <DialogTitle className="mb-2 text-center">
-            Find the best Personal Loan for you
-          </DialogTitle>
+        {step !== 3 && (
+          <DialogHeader>
+            <DialogTitle className="mb-2 text-center">
+              Find the best Personal Loan for you
+            </DialogTitle>
 
-          <DialogDescription className="text-center text-sm text-tertiary-primary">
-            Please provide your information to check your loan eligibility.
-          </DialogDescription>
-
-          <div className="pt-8">{renderStepIndicator()}</div>
-        </DialogHeader>
+            <DialogDescription className="text-center text-sm text-tertiary-primary">
+              Please provide your information to check your loan eligibility.
+            </DialogDescription>
+            <div className="pt-8">{renderStepIndicator()}</div>
+          </DialogHeader>
+        )}
 
         <ScrollArea className="max-h-96">
           <Card className={cn("w-full border-none p-6 text-left shadow-none")}>
@@ -282,7 +285,7 @@ function EligibilityCheckModal({
                   {step < 4 ? (
                     <Button
                       type="button"
-                      className="pr-2"
+                      className={cn("pr-2", step === 3 && "pr-4")}
                       onClick={async () => {
                         const valid = await validateStep();
                         if (valid) setStep((prev) => prev + 1);
@@ -290,7 +293,7 @@ function EligibilityCheckModal({
                     >
                       {step === 3 ? "Check Eligibility" : "Continue"}
 
-                      <ChevronLeft className="rotate-180" />
+                      {step === 3 ? "" : <ChevronLeft className="rotate-180" />}
                     </Button>
                   ) : (
                     <Button type="submit">Submit</Button>

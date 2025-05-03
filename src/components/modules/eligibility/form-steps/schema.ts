@@ -96,7 +96,7 @@ export const stepTwoSchema = z.object({
       invalid_type_error: "Amount must be a number",
     })
     .int({ message: "Amount must be an integer" })
-    .min(100000, { message: "Amount must be at least 1,00,000/- BDT" })
+    // .min(100000, { message: "Amount must be at least 1,00,000/- BDT" })
     .optional(),
 
   haveAnyRentalIncome: z.union([
@@ -237,20 +237,19 @@ export const fullFormSchema = z
       ) {
         ctx.addIssue({
           code: "custom",
-          message: "Business Owner Type is required",
+          message: "Number of cards is required",
           path: ["numberOfCreditCards"],
         });
       }
 
-      if (data.cardLimit === undefined || data.cardLimit === null) {
+      if (data.cardLimit === undefined || data.cardLimit < 100000) {
         ctx.addIssue({
           code: "custom",
-          message: "Share Portion is required",
+          message: "Amount must be at least 1,00,000/- BDT",
           path: ["cardLimit"],
         });
       }
     }
-
     if (data.haveAnyRentalIncome === "YES") {
       if (data.rentalArea === undefined || data.rentalArea === null) {
         ctx.addIssue({

@@ -3,11 +3,12 @@
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { formatBDT } from "@/utils";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { TEligibilityCheckDataShow } from "../EligibilityTypes";
+import icon_success from "/public/icon-success.svg";
 
 type PageProps = {
   submissionData: TEligibilityCheckDataShow;
@@ -24,15 +25,6 @@ function EligibilityInstantLoanDataShow({
   );
   const [showConfetti, setShowConfetti] = useState(true);
   const [tenure, setTenure] = useState(1);
-
-  // useEffect(() => {
-  //   const queryData = {
-  //     amount,
-  //     tenure,
-  //   };
-
-  //   onSendData(queryData);
-  // }, [amount, tenure]);
 
   useEffect(() => {
     // Don't send query data until component has mounted and user interacted
@@ -52,36 +44,14 @@ function EligibilityInstantLoanDataShow({
   return (
     <>
       {showConfetti && <Confetti />}
-      <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow-sm">
-        <div className="mb-4 flex justify-center">
-          <div className="relative h-16 w-16">
-            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-green-100">
-              <div className="absolute h-full w-full rounded-full">
-                {[...Array(8)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute h-1 w-1 bg-green-500"
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                      transform: `rotate(${i * 45}deg) translate(24px, 0px) translate(-50%, -50%)`,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="z-10 rounded-full bg-green-600 p-2">
-                <Check className="h-6 w-6 text-white" />
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div className="mx-auto my-14 max-w-5xl rounded-lg bg-white p-8 shadow-[0_2px_15px_rgba(0,0,0,0.1)]">
         {/* Congratulations Message */}
-        <div className="mb-6 text-center">
-          <h1 className="mb-2 text-2xl font-bold">
+        <div className="mb-12 text-center">
+          <Image src={icon_success} alt="Icon" className="mx-auto mb-8 w-24" />
+          <h1 className="mb-2 text-3xl font-semibold">
             Congratulations! You're Eligible for an Instant Loan
           </h1>
-          <p className="text-gray-600">
+          <p className="mx-auto w-full max-w-2xl">
             Based on your details, you qualify for our instant loan service!
             Complete your application and get funds within hours.
           </p>

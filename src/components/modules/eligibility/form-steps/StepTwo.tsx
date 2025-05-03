@@ -292,7 +292,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
 
       {/* Radio Group for "Do you have loans?" */}
       <div className="mt-4 space-y-2">
-        <Label className="text-base">Do you have any credit card?</Label>
+        <Label className="text-base">Do you have any rental income?</Label>
         <RadioGroup
           className="flex gap-8"
           value={String(form.watch("haveAnyRentalIncome"))}
@@ -337,11 +337,20 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
               form={form}
               name="rentalIncome"
               label="Monthly Rental Income (BDT)"
-              type="number"
+              type="text"
               placeholder="Enter rental income amount"
-              onChange={(e) =>
-                form.setValue("rentalIncome", Number(e.target.value))
-              }
+              onChange={(e) => {
+                const inputValue = Number(e.target.value);
+                if (!isNaN(inputValue)) {
+                  form.setValue("rentalIncome", inputValue, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                } else {
+                  form.setValue("rentalIncome", 0);
+                }
+                form.trigger("rentalIncome");
+              }}
               maxLength={10}
               icon={<TbCurrencyTaka size={20} />}
               required
