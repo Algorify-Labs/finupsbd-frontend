@@ -65,23 +65,20 @@ export const stepTwoSchema = z.object({
           })
           .int({ message: "Outstanding Amount must be an integer" })
           .min(1000, "Outstanding Amount must be at least 1000 BDT"),
-        emiAmount: z
+        emiAmountBDT: z
           .number({
             required_error: "EMI Amount is required",
             invalid_type_error: "EMI Amount must be a number",
           })
           .int({ message: "EMI Amount must be an integer" })
           .min(1, "EMI Amount must be at least 1000 BDT"),
-        interestRate: z.preprocess(
-          (val) => (typeof val === "string" ? Number(val) : val),
-          z
-            .number({
-              required_error: "Interest rate is required",
-              invalid_type_error: "Interest rate must be a number",
-            })
-            .min(0, "Interest rate must be at least 0%")
-            .max(100, "Interest rate must not exceed 100%"),
-        ),
+        interestRate: z
+          .number({
+            required_error: "Interest rate is required",
+            invalid_type_error: "Interest rate must be a number",
+          })
+          .min(0.1, "Interest rate must be at least 0%")
+          .max(100, "Interest rate must not exceed 100%"),
       }),
     )
     .optional(),
@@ -172,11 +169,7 @@ export const fullFormSchema = z
     }
 
     if (data.haveAnyLoan === "YES") {
-      if (
-        typeof data.numberOfLoans !== "number" ||
-        data.numberOfLoans < 1 ||
-        data.numberOfLoans > 5
-      ) {
+      if (typeof data.numberOfLoans !== "number" || data.numberOfLoans < 1) {
         ctx.addIssue({
           code: "custom",
           path: ["numberOfLoans"],
@@ -208,14 +201,14 @@ export const fullFormSchema = z
               message: `Amount must be at least 1000 BDT ${index + 1}`,
             });
           }
-          if (!loan.emiAmount || loan.emiAmount < 1000) {
+          if (!loan.emiAmountBDT || loan.emiAmountBDT < 1000) {
             ctx.addIssue({
               code: "custom",
-              path: ["existingLoans", index, "emiAmount"],
+              path: ["existingLoans", index, "emiAmountBDT"],
               message: `Amount must be at least 1000 BDT ${index + 1}`,
             });
           }
-          if (!loan.interestRate) {
+          if (!loan.interestRate === undefined || loan.interestRate === null) {
             ctx.addIssue({
               code: "custom",
               path: ["existingLoans", index, "interestRate"],
@@ -229,8 +222,7 @@ export const fullFormSchema = z
     if (data.haveAnyCreditCard === "YES") {
       if (
         typeof data.numberOfCreditCards !== "number" ||
-        data.numberOfCreditCards < 1 ||
-        data.numberOfCreditCards > 5
+        data.numberOfCreditCards < 1
       ) {
         ctx.addIssue({
           code: "custom",

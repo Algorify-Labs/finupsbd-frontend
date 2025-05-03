@@ -16,6 +16,7 @@ const loanTypeOptions = [
   { label: "Home Loan", value: "HOME_LOAN" },
   { label: "Car Loan", value: "CAR_LOAN" },
   { label: "SME Loan", value: "SME_LOAN" },
+  { label: "Finups Agrim", value: "INSTANT_LOAN" },
 ];
 
 const numberOfLoans = [
@@ -56,7 +57,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
       const newLoans = Array.from({ length: watchNumberOfLoans }, () => ({
         existingLoanType: "",
         loanOutstanding: 0,
-        emiAmount: 0,
+        emiAmountBDT: 0,
         interestRate: 0,
       }));
       replace(newLoans);
@@ -142,33 +143,48 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
                     type="text"
                     icon={<TbCurrencyTaka size={20} />}
                     onChange={(e) => {
-                      const value = Number(e.target.value);
-                      form.setValue(
-                        `existingLoans.${index}.loanOutstanding`,
-                        value,
-                        {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        },
-                      );
-                      form.trigger(`existingLoans.${index}.loanOutstanding`); // <=== important to revalidate manually
+                      const inputValue = Number(e.target.value);
+                      if (!isNaN(inputValue)) {
+                        form.setValue(
+                          `existingLoans.${index}.loanOutstanding`,
+                          inputValue,
+                          {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          },
+                        );
+                      } else {
+                        form.setValue(
+                          `existingLoans.${index}.loanOutstanding`,
+                          0,
+                        );
+                      }
+                      form.trigger(`existingLoans.${index}.loanOutstanding`);
                     }}
                     required
                   />
                   <TextInput
                     form={form}
-                    name={`existingLoans.${index}.emiAmount`}
+                    name={`existingLoans.${index}.emiAmountBDT`}
                     label="EMI Amout (BDT)"
                     placeholder="Enter Amount"
                     type="text"
                     icon={<TbCurrencyTaka size={20} />}
                     onChange={(e) => {
-                      const value = Number(e.target.value);
-                      form.setValue(`existingLoans.${index}.emiAmount`, value, {
-                        shouldValidate: true,
-                        shouldDirty: true,
-                      });
-                      form.trigger(`existingLoans.${index}.emiAmount`); // <=== important to revalidate manually
+                      const inputValue = Number(e.target.value);
+                      if (!isNaN(inputValue)) {
+                        form.setValue(
+                          `existingLoans.${index}.emiAmountBDT`,
+                          inputValue,
+                          {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          },
+                        );
+                      } else {
+                        form.setValue(`existingLoans.${index}.emiAmountBDT`, 0);
+                      }
+                      form.trigger(`existingLoans.${index}.emiAmountBDT`);
                     }}
                     required
                   />
@@ -180,16 +196,20 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
                     type="number"
                     icon={<TbCurrencyTaka size={20} />}
                     onChange={(e) => {
-                      const value = parseFloat(e.target.value);
-                      form.setValue(
-                        `existingLoans.${index}.interestRate`,
-                        value,
-                        {
-                          shouldValidate: true,
-                          shouldDirty: true,
-                        },
-                      );
-                      form.trigger(`existingLoans.${index}.interestRate`); // <=== important to revalidate manually
+                      const inputValue = parseFloat(e.target.value);
+                      if (!isNaN(inputValue)) {
+                        form.setValue(
+                          `existingLoans.${index}.interestRate`,
+                          inputValue,
+                          {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          },
+                        );
+                      } else {
+                        form.setValue(`existingLoans.${index}.interestRate`, 0);
+                      }
+                      form.trigger(`existingLoans.${index}.interestRate`);
                     }}
                     required
                   />
@@ -244,9 +264,18 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
               label="Card Limit (BDT)"
               type="text"
               placeholder="Enter limit amount"
-              onChange={(e) =>
-                form.setValue("cardLimit", Number(e.target.value))
-              }
+              onChange={(e) => {
+                const inputValue = Number(e.target.value);
+                if (!isNaN(inputValue)) {
+                  form.setValue("cardLimit", inputValue, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                } else {
+                  form.setValue("cardLimit", 0);
+                }
+                form.trigger("cardLimit");
+              }}
               maxLength={10}
               icon={<TbCurrencyTaka size={20} />}
               required
@@ -307,7 +336,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
             <TextInput
               form={form}
               name="rentalIncome"
-              label="Rental Income (BDT)"
+              label="Monthly Rental Income (BDT)"
               type="number"
               placeholder="Enter rental income amount"
               onChange={(e) =>

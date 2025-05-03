@@ -89,11 +89,20 @@ export const StepOne = ({
               form={form}
               name="sharePortion"
               label="Share Portion (%)"
-              type="text"
+              type="number"
               placeholder="Enter share portion"
-              onChange={(e) =>
-                form.setValue("sharePortion", Number(e.target.value))
-              }
+              onChange={(e) => {
+                const inputValue = parseFloat(e.target.value);
+                if (!isNaN(inputValue)) {
+                  form.setValue("sharePortion", inputValue, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                } else {
+                  form.setValue("sharePortion", 0);
+                }
+                form.trigger("sharePortion");
+              }}
               icon={<Percent className="h-4" />}
               required
             />
@@ -114,9 +123,18 @@ export const StepOne = ({
           label="Monthly Income (BDT)"
           type="text"
           placeholder="Enter monthly income "
-          onChange={(e) =>
-            form.setValue("monthlyIncome", Number(e.target.value))
-          }
+          onChange={(e) => {
+            const inputValue = Number(e.target.value);
+            if (!isNaN(inputValue)) {
+              form.setValue("monthlyIncome", inputValue, {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+            } else {
+              form.setValue("monthlyIncome", 0);
+            }
+            form.trigger("monthlyIncome");
+          }}
           maxLength={10}
           icon={<TbCurrencyTaka size={20} />}
           required

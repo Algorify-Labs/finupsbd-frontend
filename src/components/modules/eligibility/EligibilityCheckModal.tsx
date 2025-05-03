@@ -55,7 +55,9 @@ function EligibilityCheckModal({
       sharePortion: 0,
       haveAnyLoan: "NO",
       haveAnyCreditCard: "NO",
+      cardLimit: 0,
       haveAnyRentalIncome: "NO",
+      rentalIncome: 0,
       name: "reza",
       email: "reza@gmail.com",
       phone: "01910479167",
@@ -158,11 +160,11 @@ function EligibilityCheckModal({
     console.log("Submitted data:", eligibilityData);
     alert("Submitted! Check console.");
 
-    if (loanType === "INSTANT_LOAN") {
-      router.push("/eligibility-instant-loan");
-    } else {
-      router.push("/eligibility");
-    }
+    // if (loanType === "INSTANT_LOAN") {
+    //   router.push("/eligibility-instant-loan");
+    // } else {
+    //   router.push("/eligibility");
+    // }
   };
 
   const renderStepIndicator = () => {
