@@ -3,10 +3,10 @@
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { formatBDT } from "@/utils";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
+import { useDebounce } from "use-debounce";
 import { TEligibilityCheckDataShow } from "../EligibilityTypes";
 import icon_success from "/public/icon-success.svg";
 
@@ -25,14 +25,15 @@ function EligibilityInstantLoanDataShow({
   );
   const [showConfetti, setShowConfetti] = useState(true);
   const [tenure, setTenure] = useState(1);
+  const [debouncedTenure] = useDebounce(tenure, 500);
 
   useEffect(() => {
     // Don't send query data until component has mounted and user interacted
-    if (amount && tenure) {
-      onSendData({ amount, tenure });
+    if (amount && debouncedTenure) {
+      onSendData({ amount, tenure: debouncedTenure });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount, tenure]);
+  }, [amount, debouncedTenure]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -105,6 +106,34 @@ function EligibilityInstantLoanDataShow({
             />
           </div>
         </div>
+        <div>
+          {eligibilityData.map((data) => (
+            <div
+              key={data.bankName}
+              className="flex flex-col items-center justify-between lg:flex-row"
+            >
+              <div className="w-full lg:w-[250px]">
+                <Image
+                  src={data?.coverImage}
+                  alt={`${data.bankName} Logo`}
+                  width={200}
+                  height={100}
+                  className="mr-3 rounded-xl"
+                  priority
+                />
+              </div>
+              <div className="w-full lg:w-9/12">
+                <h2 className="text-2xl font-bold">{data.bankName}</h2>
+                <div className="flex flex-col justify-between">
+                  <div className="w-4/12"></div>
+                  <div className="w-4/12"></div>
+                  <div className="w-4/12"></div>
+                </div>
+              </div>
+              <div className="w-full lg:w-2/12">Apply now</div>
+            </div>
+          ))}
+        </div>
 
         {eligibilityData.map((data) => (
           <div key={data.bankName}>
@@ -123,10 +152,6 @@ function EligibilityInstantLoanDataShow({
                     />
                   </div>
                   <h2 className="text-lg font-bold">{data.bankName}</h2>
-                </div>
-                <div className="flex items-center rounded-lg bg-green-600 px-4 py-2 text-white">
-                  <span className="mr-1">Apply Now</span>
-                  <ArrowRight className="h-4 w-4" />
                 </div>
               </div>
 
