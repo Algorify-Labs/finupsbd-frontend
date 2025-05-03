@@ -20,20 +20,20 @@ function EligibilityInstantLoanDataShow({
   onSendData,
 }: PageProps) {
   const { data: eligibilityData, pagination } = submissionData;
-  const [amount, setAmount] = useState(
-    eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000,
-  );
-  const [showConfetti, setShowConfetti] = useState(true);
+  const [amount, setAmount] = useState(eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000,);
   const [tenure, setTenure] = useState(1);
+
+  const [showConfetti, setShowConfetti] = useState(true);
+
   const [debouncedTenure] = useDebounce(tenure, 500);
 
   useEffect(() => {
     // Don't send query data until component has mounted and user interacted
-    if (amount && debouncedTenure) {
-      onSendData({ amount, tenure: debouncedTenure });
+    if (amount && tenure) {
+      onSendData({ amount, tenure });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount, debouncedTenure]);
+  }, [amount, tenure]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -32,10 +32,10 @@ const EligibilityPage = () => {
   const loanType = searchParams.get("loanType");
   const compareValue = searchParams.get("compare");
 
-  const compareData = {
-    loanType,
-    compareValue,
-  };
+  // const compareData = {
+  //   loanType,
+  //   compareValue,
+  // };
 
   const handleQueryData = (data: QueryData) => {
     setQueryData(data);
