@@ -55,7 +55,7 @@ function EligibilityCheckModal({
       sharePortion: 0,
       haveAnyLoan: "NO",
       haveAnyCreditCard: "NO",
-      cardLimit: 0,
+      cardLimitBDT: 0,
       haveAnyRentalIncome: "NO",
       rentalIncome: 0,
       name: "reza",
@@ -140,7 +140,7 @@ function EligibilityCheckModal({
     } else {
       formatedData.haveAnyCreditCard = false;
       delete formatedData.numberOfCreditCards;
-      delete formatedData.cardLimit;
+      delete formatedData.cardLimitBDT;
     }
 
     if (formatedData.haveAnyRentalIncome === "YES") {

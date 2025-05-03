@@ -260,21 +260,21 @@ export const StepTwo = ({ form }: { form: UseFormReturn<FullFormSchema> }) => {
           <div>
             <TextInput
               form={form}
-              name="cardLimit"
+              name="cardLimitBDT"
               label="Card Limit (BDT)"
               type="text"
               placeholder="Enter limit amount"
               onChange={(e) => {
                 const inputValue = Number(e.target.value);
                 if (!isNaN(inputValue)) {
-                  form.setValue("cardLimit", inputValue, {
+                  form.setValue("cardLimitBDT", inputValue, {
                     shouldValidate: true,
                     shouldDirty: true,
                   });
                 } else {
-                  form.setValue("cardLimit", 0);
+                  form.setValue("cardLimitBDT", 0);
                 }
-                form.trigger("cardLimit");
+                form.trigger("cardLimitBDT");
               }}
               maxLength={10}
               icon={<TbCurrencyTaka size={20} />}
