@@ -90,7 +90,7 @@ export const stepTwoSchema = z.object({
     z.boolean(),
   ]),
   numberOfCreditCards: z.number().optional(),
-  cardLimit: z
+  cardLimitBDT: z
     .number({
       required_error: "Card limit is required",
       invalid_type_error: "Amount must be a number",
@@ -242,11 +242,11 @@ export const fullFormSchema = z
         });
       }
 
-      if (data.cardLimit === undefined || data.cardLimit < 100000) {
+      if (data.cardLimitBDT === undefined || data.cardLimitBDT < 100000) {
         ctx.addIssue({
           code: "custom",
           message: "Amount must be at least 1,00,000/- BDT",
-          path: ["cardLimit"],
+          path: ["cardLimitBDT"],
         });
       }
     }
