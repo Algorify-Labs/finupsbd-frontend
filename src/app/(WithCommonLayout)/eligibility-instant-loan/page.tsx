@@ -21,11 +21,10 @@ const InastantLoanPage = () => {
   const [submissionData, setSubmissionData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [queryData, setQueryData] = useState<QueryData>();
-
   const handleQueryData = (data: QueryData) => {
+    console.log("dd", data);
     setQueryData(data);
   };
-
   console.log({ queryData });
 
   useEffect(() => {

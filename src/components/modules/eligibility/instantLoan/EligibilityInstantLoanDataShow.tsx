@@ -28,12 +28,21 @@ function EligibilityInstantLoanDataShow({
   const [debouncedTenure] = useDebounce(tenure, 500);
 
   useEffect(() => {
-    // Don't send query data until component has mounted and user interacted
-    if (amount && debouncedTenure) {
-      onSendData({ amount, tenure: debouncedTenure });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount, debouncedTenure]);
+    const queryData = {
+      amount,
+      tenure,
+    };
+
+    onSendData(queryData);
+  }, [amount, tenure, onSendData]);
+
+  // useEffect(() => {
+  //   // Don't send query data until component has mounted and user interacted
+  //   if (amount && tenure) {
+  //     onSendData({ amount, tenure });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [amount, tenure]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
