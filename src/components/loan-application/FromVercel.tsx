@@ -145,74 +145,7 @@ const ApplicationFormVercel = () => {
     setValue,
     watch,
     getValues,
-  } = useForm<ApplicationFormValues>({
-    resolver: zodResolver(applicationFormSchema),
-    defaultValues: {
-      personalLoanId: "",
-      userInfo: {
-        fullName: "",
-        fatherName: "",
-        motherName: "",
-        spouseName: "",
-        dateOfBirth: "",
-        placeOfBirth: "",
-        gender: "MALE",
-        maritalStatus: "SINGLE",
-        nid: "",
-        mobileNumber: "",
-        emailAddress: "",
-        socialMediaLinks: [""],
-        propertyType: "RESIDENTIAL",
-        approximateValue: 0,
-      },
-      address: {
-        houseFlatNo: "",
-        streetRoad: "",
-        areaLocality: "",
-        city: "",
-        district: "",
-        postalCode: "",
-        lengthOfStayYears: 0,
-        ownershipStatus: "OWNED",
-      },
-      employmentFinancialInfo: {
-        employmentStatus: "SALARIED",
-        jobTitle: "",
-        employerName: "",
-        officeAddress: "",
-        department: "",
-        contactDetails: "",
-        businessName: "",
-        businessRegistrationNumber: "",
-        employmentTenureYears: 0,
-        monthlyGrossIncome: 0,
-        totalMonthlyExpenses: 0,
-        profession: "",
-        currentCreditScore: 0,
-      },
-      loanSpecifications: {
-        loanType: "PERSONAL",
-        loanAmountRequested: 0,
-        purposeOfLoan: "",
-        preferredLoanTenure: 0,
-        proposedEMIStartDate: "",
-        repaymentPreferences: "",
-      },
-      financialObligations: {
-        description: "",
-        amount: 0,
-      },
-      uploadedDocuments: [],
-      consentAndDeclaration: {
-        consent: false,
-        privacy: false,
-        nda: false,
-        accuracy: false,
-        signature: "",
-        date: "",
-      }
-    },
-  })
+  } = useForm<ApplicationFormValues>()
 
   // Calculate form progress
   useEffect(() => {
@@ -1113,6 +1046,8 @@ const ApplicationFormVercel = () => {
     }
   }
 
+
+  
   const renderPreview = () => {
     const data = getValues()
     return (

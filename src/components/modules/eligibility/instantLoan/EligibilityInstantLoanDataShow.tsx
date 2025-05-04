@@ -26,23 +26,22 @@ function EligibilityInstantLoanDataShow({
   const [showConfetti, setShowConfetti] = useState(true);
   const [tenure, setTenure] = useState(1);
   const [debouncedTenure] = useDebounce(tenure, 500);
+  // useEffect(() => {
+  //   const queryData = {
+  //     amount,
+  //     tenure,
+  //   };
+
+  //   onSendData(queryData);
+  // }, [amount, tenure]);
 
   useEffect(() => {
-    const queryData = {
-      amount,
-      tenure,
-    };
-
-    onSendData(queryData);
-  }, [amount, tenure, onSendData]);
-
-  // useEffect(() => {
-  //   // Don't send query data until component has mounted and user interacted
-  //   if (amount && tenure) {
-  //     onSendData({ amount, tenure });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [amount, tenure]);
+    // Don't send query data until component has mounted and user interacted
+    if (amount && tenure) {
+      onSendData({ amount, tenure });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amount, tenure]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
