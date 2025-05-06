@@ -7,11 +7,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useDebounce } from "use-debounce";
-import { TEligibilityCheckDataShow } from "../EligibilityTypes";
+import { LoanResponse, TEligibilityCheckDataShow } from "../EligibilityTypes";
 import icon_success from "/public/icon-success.svg";
 
 type PageProps = {
-  submissionData: TEligibilityCheckDataShow;
+  submissionData: LoanResponse[]; // Ensure submissionData is an array
   onSendData: (data: any) => void;
 };
 
@@ -19,15 +19,23 @@ function EligibilityInstantLoanDataShow({
   submissionData,
   onSendData,
 }: PageProps) {
-  const { data: eligibilityData, pagination } = submissionData;
-  const [amount, setAmount] = useState(eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000);
-  const [tenure, setTenure] = useState(1);
+
+  const [amount, setAmount] = useState<number | undefined>(undefined);
   const [showConfetti, setShowConfetti] = useState(true);
-  const [debouncedTenure] = useDebounce(tenure, 500);
+  const [tenure, setTenure] = useState(1);
+
+  console.log(submissionData, "eligibilityData");
 
 
 
+  useEffect(() => {
+    const queryData = {
+      amount,
+      tenure,
+    };
 
+    onSendData(queryData);
+  }, [amount, tenure]);
 
   useEffect(() => {
     // Don't send query data until component has mounted and user interacted
@@ -37,8 +45,6 @@ function EligibilityInstantLoanDataShow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount, tenure]);
 
-
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfetti(false);
@@ -46,8 +52,6 @@ function EligibilityInstantLoanDataShow({
     return () => clearTimeout(timer);
   }, []);
 
-
-  
   return (
     <>
       {showConfetti && <Confetti />}
@@ -70,7 +74,7 @@ function EligibilityInstantLoanDataShow({
             <div className="mb-2 flex justify-between">
               <span className="text-sm font-medium">Expected Amount</span>
               <span className="text-sm font-medium">
-                BDT {amount.toLocaleString()}
+                {/* BDT {amount?.toLocaleString()} */}
               </span>
             </div>
             {/* <Slider
@@ -80,14 +84,14 @@ function EligibilityInstantLoanDataShow({
               onValueChange={(value) => setAmount(value[0])}
               className="mb-2"
             /> */}
-            <Input
+            {/* <Input
               type="text"
-              value={`BDT ${amount.toLocaleString()}`}
+              value={`BDT ${amount?.toLocaleString()}`}
               onChange={(e) => {
                 const value = e.target.value.replace(/[^0-9]/g, "");
                 if (value) setAmount(Number.parseInt(value));
               }}
-            />
+            /> */}
           </div>
           <div>
             <div className="mb-2 flex justify-between">
@@ -112,27 +116,7 @@ function EligibilityInstantLoanDataShow({
             />
           </div>
         </div>
-        <div>
-          {eligibilityData.map((data) => (
-            <div
-              key={data.bankName}
-              className="flex flex-col items-center justify-between lg:flex-row"
-            >
-
-              <div className="w-full lg:w-9/12">
-                <h2 className="text-2xl font-bold">{data.bankName}</h2>
-                <div className="flex flex-col justify-between">
-                  <div className="w-4/12"></div>
-                  <div className="w-4/12"></div>
-                  <div className="w-4/12"></div>
-                </div>
-              </div>
-              <div className="w-full lg:w-2/12">Apply now</div>
-            </div>
-          ))}
-        </div>
-
-        {eligibilityData.map((data) => (
+        {submissionData.map((data: any) => (
           <div key={data.bankName}>
             {/* Loan Details */}
             <div className="mb-8 rounded-lg border p-4">

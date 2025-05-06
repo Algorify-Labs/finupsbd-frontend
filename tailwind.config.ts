@@ -58,6 +58,7 @@ export default {
         green: {
           "950": "#07301E",
           light: "#7BE963",
+          lighter: "#E7FDE2",
           dark: "#1D7808",
         },
         gray: {
@@ -70,7 +71,6 @@ export default {
           dark: "#101828",
         },
         orange: {
-          lighter: "#E7FDE2",
           light: "#FFF2EB",
           dark: "#FF5F00",
         },

@@ -12,20 +12,20 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select"
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from "@/components/ui/form"
 import { updateUserProfile, userInfo } from "@/services/UserData"
 import { Award } from "lucide-react"
@@ -37,17 +37,14 @@ import { useRouter } from "next/navigation"
 type UserProfileFormValues = z.infer<typeof userProfileSchema>
 
 export default function UserProfileUpdateForm() {
-  const {user} = useUserInfo()
+  const { user } = useUserInfo()
   const [profileImage, setProfileImage] = useState<string | null>(null)
   const [image, setImage] = useState<FileList | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
 
-  console.log(user)
 
-
-  
   // Initialize the form with proper default values
   const form = useForm<UserProfileFormValues>({
     resolver: zodResolver(userProfileSchema),
@@ -67,15 +64,15 @@ export default function UserProfileUpdateForm() {
       console.log("Form data submitted:", data)
 
       const formData = new FormData();
-      formData.append("data", JSON.stringify(data) );
+      formData.append("data", JSON.stringify(data));
 
       if (image && image.length > 0) {
         formData.append("file", image[0]);
       }
 
       const response = await updateUserProfile(formData)
-   
-       console.log(response) 
+
+      console.log(response, "response")
 
 
 
@@ -133,7 +130,7 @@ export default function UserProfileUpdateForm() {
             </div>
             <label htmlFor="profile-upload" className="cursor-pointer">
               <div className="mt-1">
-                <p className="text-sm text-muted-foreground">Upload Profile Photo</p>
+                <p className="text-sm text-muted-foreground text-red-500">Upload Profile Photo</p>
                 <p className="text-xs text-muted-foreground">Min 600×600, PNG or JPEG</p>
               </div>
               <input
@@ -145,9 +142,9 @@ export default function UserProfileUpdateForm() {
               />
             </label>
           </div>
-          <Button size="sm" variant="outline" className="mt-2 md:mt-0">
+          {/* <Button size="sm" variant="outline" className="mt-2 md:mt-0">
             Update
-          </Button>
+          </Button> */}
         </div>
         <div className="inline-flex gap-3">
           <Link href="/user/setting/update-email-mobile">
@@ -229,8 +226,8 @@ export default function UserProfileUpdateForm() {
                     Date of Birth <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Input 
-                      type="date" 
+                    <Input
+                      type="date"
                       value={field.value ? format(field.value, 'yyyy-MM-dd') : ''}
                       onChange={(e) => {
                         const date = e.target.value ? new Date(e.target.value) : undefined;
@@ -252,10 +249,10 @@ export default function UserProfileUpdateForm() {
               <FormItem>
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Textarea 
-                    placeholder="Enter your address" 
-                    className="min-h-[100px]" 
-                    {...field} 
+                  <Textarea
+                    placeholder="Enter your address"
+                    className="min-h-[100px]"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
@@ -279,6 +276,7 @@ export default function UserProfileUpdateForm() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="dhaka">Dhaka</SelectItem>
+                    <SelectItem value="gazipur">Gazipur</SelectItem>
                     <SelectItem value="chittagong">Chittagong</SelectItem>
                     <SelectItem value="khulna">Khulna</SelectItem>
                     <SelectItem value="rajshahi">Rajshahi</SelectItem>
@@ -291,16 +289,16 @@ export default function UserProfileUpdateForm() {
           />
 
           <div className="flex justify-end gap-3 pt-4">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => form.reset()}
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
-              className="bg-green-600 hover:bg-green-700" 
+            <Button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
               {isLoading ? "Saving..." : "Save Changes"}

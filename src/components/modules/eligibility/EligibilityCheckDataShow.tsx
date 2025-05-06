@@ -15,7 +15,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useDebounce } from "use-debounce";
 import { banks } from "./EligibilityConostant";
 import { EligibilityData, TEligibilityCheckDataShow } from "./EligibilityTypes";
 
@@ -27,25 +26,27 @@ type PageProps = {
 };
 
 function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
+  const { data: eligibilityData, pagination } = submissionData;
   const [showDetails, setShowDetails] = useState(false);
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
   const [amount, setLoanAmount] = useState(100000);
-  const [debouncedLoanAmount] = useDebounce(amount, 500);
   const [interestRate, setProfitRate] = useState(12);
   const [searchTerm, setSelectedBanks] = useState<string[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [compareList, setCompareList] = useState<number[]>([]);
-  const router = useRouter();
-  const { data: eligibilityData, pagination } = submissionData;
   const [page, setPage] = useState(pagination.page || 1);
   const { setCompareData, compareData } = useCompare();
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const router = useRouter();
+
+
+  console.log(submissionData, pagination, "submissionData");
 
   // Send filter/query data to parent
   useEffect(() => {
     const queryData = {
-      amount: debouncedLoanAmount,
+      amount,
       interestRate,
       searchTerm,
       sortOrder,
@@ -53,7 +54,7 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
       sortKey,
     };
     onSendData(queryData);
-  }, [debouncedLoanAmount, interestRate, searchTerm, sortOrder, sortKey, page]);
+  }, [interestRate, searchTerm, sortOrder, sortKey, page, amount]);
 
   // Toggle wishlist
   const handleWishlist = (id: number) => {
@@ -220,44 +221,40 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
             <div className="flex flex-wrap gap-2 rounded-lg border border-[#B4B7D0]/30 bg-white p-2 shadow-md lg:gap-4">
               <Button
                 variant="outline"
-                className={`cursor-pointer border-none shadow-none ${
-                  sortKey === "interestRate" && sortOrder === "asc"
+                className={`cursor-pointer border-none shadow-none ${sortKey === "interestRate" && sortOrder === "asc"
                     ? "!border-transparent bg-[#E7FDE2] text-primary"
                     : "hover:bg-[#E7FDE2] hover:text-primary"
-                }`}
+                  }`}
                 onClick={() => handleSort("interestRate", "asc")}
               >
                 Lowest Interest Rate
               </Button>
               <Button
                 variant="outline"
-                className={`cursor-pointer border-none shadow-none ${
-                  sortKey === "interestRate" && sortOrder === "desc"
+                className={`cursor-pointer border-none shadow-none ${sortKey === "interestRate" && sortOrder === "desc"
                     ? "border-transparent bg-[#E7FDE2] text-primary"
                     : "hover:bg-[#E7FDE2] hover:text-primary"
-                }`}
+                  }`}
                 onClick={() => handleSort("interestRate", "desc")}
               >
                 Highest Interest Rate
               </Button>
               <Button
                 variant="outline"
-                className={`cursor-pointer border-none shadow-none ${
-                  sortKey === "eligibleLoan" && sortOrder === "desc"
+                className={`cursor-pointer border-none shadow-none ${sortKey === "eligibleLoan" && sortOrder === "desc"
                     ? "border-transparent bg-[#E7FDE2] text-primary"
                     : "hover:bg-[#E7FDE2] hover:text-primary"
-                }`}
+                  }`}
                 onClick={() => handleSort("eligibleLoan", "desc")}
               >
                 Highest Loan Amount
               </Button>
               <Button
                 variant="outline"
-                className={`cursor-pointer border-none shadow-none ${
-                  sortKey === "eligibleLoan" && sortOrder === "asc"
+                className={`cursor-pointer border-none shadow-none ${sortKey === "eligibleLoan" && sortOrder === "asc"
                     ? "border-transparent bg-[#E7FDE2] text-primary"
                     : "hover:bg-[#E7FDE2] hover:text-primary"
-                }`}
+                  }`}
                 onClick={() => handleSort("eligibleLoan", "asc")}
               >
                 Lowest Loan Amount
@@ -514,11 +511,10 @@ function EligibilityCheckDataShow({ submissionData, onSendData }: PageProps) {
                         <Button
                           variant="outline"
                           onClick={() => handleCompare(Number(index))}
-                          className={`w-full border-primary text-primary hover:bg-primary hover:text-white ${
-                            compareList.includes(index)
+                          className={`w-full border-primary text-primary hover:bg-primary hover:text-white ${compareList.includes(index)
                               ? "bg-primary text-white"
                               : ""
-                          }`}
+                            }`}
                         >
                           {compareList.includes(index)
                             ? "Selected"

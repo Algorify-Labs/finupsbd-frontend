@@ -26,7 +26,11 @@ export const homeLoan = async (fromdata: globalThis.FormData) => {
         return await res.json();
     } catch (error) {
         console.error("Error registering user:", error);
-        return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred" };
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "An unknown error occurred",
+            error,
+        };
     }
 
 }
@@ -55,7 +59,11 @@ export const carLoan = async (fromdata: globalThis.FormData) => {
         return await res.json();
     } catch (error) {
         console.error("Error registering user:", error);
-        return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred" };
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "An unknown error occurred",
+            error,
+        };
     }
 
 }
@@ -83,7 +91,11 @@ export const craditCard = async (fromdata: globalThis.FormData) => {
         return await res.json();
     } catch (error) {
         console.error("Error registering user:", error);
-        return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred" };
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "An unknown error occurred",
+            error,
+        };
     }
 
 }

@@ -7,10 +7,10 @@ export const personalLoan = async (fromdata: globalThis.FormData) => {
     // fromdata.forEach((value, key) => (formDataObj[key] = value));
     // console.log(formDataObj);
 
-    const token = (await cookies()).get("accessToken")?.value; 
+    const token = (await cookies()).get("accessToken")?.value;
     if (!token) {
         throw new Error("No authentication token found in cookies");
-    }   
+    }
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/personal-loan`, {
             method: "POST",
@@ -25,7 +25,11 @@ export const personalLoan = async (fromdata: globalThis.FormData) => {
         return await res.json();
     } catch (error) {
         console.error("Error registering user:", error);
-        return { success: false, message: error instanceof Error ? error.message : "An unknown error occurred" };
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "An unknown error occurred",
+            error,
+        };
     }
 
 }

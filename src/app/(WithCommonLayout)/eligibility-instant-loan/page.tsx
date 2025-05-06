@@ -1,13 +1,14 @@
 "use client";
 
 import LoadingComponent from "@/components/loading/LoadingComponent";
+import { LoanResponse, TEligibilityCheckDataShow } from "@/components/modules/eligibility/EligibilityTypes";
 import EligibilityInstantLoanDataShow from "@/components/modules/eligibility/instantLoan/EligibilityInstantLoanDataShow";
 import { Button } from "@/components/ui/button";
 import { eligibilityCheckData } from "@/services/eligibilityCheck";
-
 import { useEffect, useState } from "react";
 
-export interface QueryData {
+
+export interface QueryDataProps {
   amount: number;
   tenure: number;
   interestRate: number;
@@ -17,16 +18,18 @@ export interface QueryData {
   sortKey: string;
 }
 
-const InastantLoanPage = () => {
-  const [submissionData, setSubmissionData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
- const [queryData, setQueryData] = useState<QueryData>({ tenure: 1, sortKey: "desc", page: 1, sortOrder: "desc", interestRate: 0, searchTerm: [], amount: 100000 });
 
-  const handleQueryData = (data: QueryData) => {
+const InastantLoanPage = () => {
+  const [submissionData, setSubmissionData] = useState<LoanResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+ const [queryData, setQueryData] = useState<QueryDataProps>({ tenure: 1, sortKey: "desc", page: 1, sortOrder: "desc", interestRate: 0, searchTerm: [], amount: 100000 });
+
+
+
+  const handleQueryData = (data: QueryDataProps) => {
     setQueryData(data);
   };
 
-  console.log({ queryData });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,9 +37,6 @@ const InastantLoanPage = () => {
         const data = sessionStorage.getItem("eligibilityData");
         if (data) {
           const parsedData = JSON.parse(data);
-          // Await the fetch response and parse it
-          console.log({ parsedData });
-
           const result = await eligibilityCheckData(parsedData, queryData);
           setSubmissionData(result?.data);
 
@@ -56,10 +56,11 @@ const InastantLoanPage = () => {
     return <LoadingComponent />;
   }
 
+
   function handleStartEligibilityCheck(): void {
-    // Redirect to the eligibility check page or trigger the eligibility check process
     window.location.href = "/";
   }
+
 
   return (
     <div>

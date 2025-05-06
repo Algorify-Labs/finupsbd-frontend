@@ -31,10 +31,11 @@ export const getAllUsers = async () => {
     return await res.json();
   } catch (error) {
     console.error("Error fetching user info:", error);
-    return { 
-      success: false, 
-      message: error instanceof Error ? error.message : "An unknown error occurred" 
-    };
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "An unknown error occurred",
+      error,
+  };
   }
 }
 
@@ -66,9 +67,10 @@ export const getSingleUsers = async (id: string) => {
     return await res.json();
   } catch (error) {
     console.error("Error fetching user info:", error);
-    return { 
-      success: false, 
-      message: error instanceof Error ? error.message : "An unknown error occurred" 
-    };
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "An unknown error occurred",
+      error,
+  };
   }
 }
