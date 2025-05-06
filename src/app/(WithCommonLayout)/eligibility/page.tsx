@@ -48,16 +48,6 @@ const EligibilityPage = () => {
         if (data) {
           const parsedData = JSON.parse(data);
           // Await the fetch response and parse it
-
-          if (compareValue) {
-            const result = await eligibilityCheckData(compareData, queryData);
-            console.log("555555555555555");
-            setSubmissionData(result?.data);
-          } else {
-            const result = await eligibilityCheckData(parsedData, queryData);
-            setSubmissionData(result?.data);
-          }
-
           // sessionStorage.removeItem("eligibilityData");
         }
       } catch (error) {
@@ -68,7 +58,8 @@ const EligibilityPage = () => {
     };
 
     fetchData();
-  }, [queryData, compareData, compareValue]);
+  }, [queryData, 
+    compareValue]);
 
   if (isLoading) {
     return <LoadingComponent />;

@@ -79,22 +79,6 @@ export const applicationFormSchema = z.object({
         signature: z.string().min(1, "Digital signature is required"),
         date: z.string().min(1, "Date is required"),
     }),
-    dataSecurityProtocols: z.object({
-        encryption: z.boolean().refine((val) => val === true, {
-            message: "You must acknowledge the encryption standards",
-        }),
-        twoFactor: z.boolean().refine((val) => val === true, {
-            message: "You must agree to two-factor authentication",
-        }),
-        rbac: z.boolean().refine((val) => val === true, {
-            message: "You must acknowledge the access control policy",
-        }),
-        retention: z.boolean().refine((val) => val === true, {
-            message: "You must agree to the data retention policy",
-        }),
-        withdraw: z.boolean().refine((val) => val === true, {
-            message: "You must acknowledge the right to withdraw information",
-        }),
-    })
+    
 
 })

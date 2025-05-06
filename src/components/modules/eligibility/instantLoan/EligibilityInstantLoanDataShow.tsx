@@ -20,12 +20,14 @@ function EligibilityInstantLoanDataShow({
   onSendData,
 }: PageProps) {
   const { data: eligibilityData, pagination } = submissionData;
-  const [amount, setAmount] = useState(eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000,);
+  const [amount, setAmount] = useState(eligibilityData[0]?.amount ? eligibilityData[0].eligibleLoan : 50000);
   const [tenure, setTenure] = useState(1);
-
   const [showConfetti, setShowConfetti] = useState(true);
-
   const [debouncedTenure] = useDebounce(tenure, 500);
+
+
+
+
 
   useEffect(() => {
     // Don't send query data until component has mounted and user interacted
@@ -35,6 +37,8 @@ function EligibilityInstantLoanDataShow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount, tenure]);
 
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfetti(false);
@@ -42,6 +46,8 @@ function EligibilityInstantLoanDataShow({
     return () => clearTimeout(timer);
   }, []);
 
+
+  
   return (
     <>
       {showConfetti && <Confetti />}
@@ -112,16 +118,7 @@ function EligibilityInstantLoanDataShow({
               key={data.bankName}
               className="flex flex-col items-center justify-between lg:flex-row"
             >
-              <div className="w-full lg:w-[250px]">
-                <Image
-                  src={data?.coverImage}
-                  alt={`${data.bankName} Logo`}
-                  width={200}
-                  height={100}
-                  className="mr-3 rounded-xl"
-                  priority
-                />
-              </div>
+
               <div className="w-full lg:w-9/12">
                 <h2 className="text-2xl font-bold">{data.bankName}</h2>
                 <div className="flex flex-col justify-between">
